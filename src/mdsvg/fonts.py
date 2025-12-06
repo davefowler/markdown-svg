@@ -44,7 +44,7 @@ import os
 import platform
 from dataclasses import dataclass, field
 from functools import lru_cache
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -60,8 +60,8 @@ class FontMeasurer:
     
     font_path: str
     font_number: int = 0  # For .ttc files with multiple fonts
-    _cmap: Optional[Dict] = field(default=None, init=False, repr=False)
-    _hmtx: Optional[object] = field(default=None, init=False, repr=False)
+    _cmap: Optional[Dict[int, str]] = field(default=None, init=False, repr=False)
+    _hmtx: Optional[Any] = field(default=None, init=False, repr=False)
     _units_per_em: int = field(default=1000, init=False, repr=False)
     _available: bool = field(default=False, init=False, repr=False)
     
@@ -103,10 +103,10 @@ class FontMeasurer:
                 "FontMeasurer not available. Install fonttools: pip install fonttools"
             )
         
-        total_width = 0
+        total_width: float = 0
         for char in text:
-            glyph_id = self._cmap.get(ord(char))
-            if glyph_id and glyph_id in self._hmtx.metrics:
+            glyph_id = self._cmap.get(ord(char)) if self._cmap else None
+            if glyph_id and self._hmtx and glyph_id in self._hmtx.metrics:
                 advance_width, _ = self._hmtx.metrics[glyph_id]
                 total_width += advance_width
             else:

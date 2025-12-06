@@ -27,6 +27,7 @@ from .types import (
     SpanType,
     Table,
     TableCell,
+    TableRow,
     UnorderedList,
 )
 from .utils import escape_svg_text, format_number
@@ -553,14 +554,14 @@ class SVGRenderer:
     def _render_table_row(
         self,
         elements: List[str],
-        row,
+        row: TableRow,
         start_x: float,
         y: float,
         col_width: float,
         row_height: float,
         padding: float,
         font_size: float,
-        alignments: tuple,
+        alignments: Tuple[Optional[str], ...],
         is_header: bool,
     ) -> None:
         """Render a single table row."""
