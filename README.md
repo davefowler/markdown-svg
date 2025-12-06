@@ -136,18 +136,76 @@ dark_style = style.with_updates(
 
 ## Text Width Estimation
 
-This library estimates text width using character-based heuristics rather than actual font metrics. This works well for common system fonts but may be less accurate for:
+By default, this library estimates text width using character-based heuristics. This works well for common system fonts but may be less accurate for unusual fonts.
 
-- Variable-width fonts with unusual character widths
-- Non-Latin scripts
-- Fonts with ligatures
+### Precise Measurement (Default)
 
-The estimation uses ~0.48em average character width for normal text and ~0.52em for bold text, which provides good results for system-ui and similar sans-serif fonts.
+Text measurement uses `fonttools` for accurate width calculation:
 
-For pixel-perfect accuracy, consider:
-1. Using a monospace font
-2. Adjusting the `char_width_ratio` style option
-3. Post-processing with actual font metrics
+```python
+from mdsvg import FontMeasurer, create_precise_wrapper
+
+# Use system font
+measurer = FontMeasurer.system_default()
+width = measurer.measure("Hello World", font_size=14)
+
+# Or use precise text wrapping
+wrap = create_precise_wrapper(max_width=300, font_size=14, measurer=measurer)
+lines = wrap("Long text that needs accurate wrapping...")
+```
+
+### Custom Fonts
+
+Use any TTF/OTF font file for measurement:
+
+```python
+from mdsvg import FontMeasurer
+
+# From your project's fonts directory
+measurer = FontMeasurer("./fonts/MyFont-Regular.ttf")
+
+# Or from system font directories
+measurer = FontMeasurer("/Library/Fonts/Arial.ttf")  # macOS
+measurer = FontMeasurer("C:/Windows/Fonts/arial.ttf")  # Windows
+```
+
+**Recommended font locations:**
+- Project directory: `./fonts/MyFont.ttf`
+- macOS user fonts: `~/Library/Fonts/`
+- Linux user fonts: `~/.local/share/fonts/`
+- Windows user fonts: `C:\Users\<user>\AppData\Local\Microsoft\Windows\Fonts\`
+
+### Google Fonts
+
+Download fonts from Google Fonts automatically:
+
+```python
+from mdsvg import download_google_font, FontMeasurer
+
+# Downloads and caches the font
+font_path = download_google_font("Inter")
+measurer = FontMeasurer(font_path)
+
+# With specific weight (400=regular, 700=bold)
+bold_path = download_google_font("Inter", weight=700)
+
+# Popular Google Fonts that work well:
+# - Inter (modern sans-serif)
+# - Roboto (Android default)
+# - Open Sans (highly readable)
+# - Lato (elegant sans-serif)
+# - Source Code Pro (monospace)
+```
+
+### Disabling Precise Measurement
+
+To use heuristic estimation instead (faster but less accurate):
+
+```python
+from mdsvg.renderer import SVGRenderer
+
+renderer = SVGRenderer(use_precise_measurement=False)
+```
 
 ## Full Style Options
 

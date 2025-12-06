@@ -19,6 +19,17 @@ Measure dimensions without rendering:
 """
 
 from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
+
+# Precise text measurement
+from .fonts import (
+    FontMeasurer,
+    calibrate_heuristic,
+    create_precise_wrapper,
+    download_google_font,
+    get_font_cache_dir,
+    get_system_font,
+    list_cached_fonts,
+)
 from .parser import MarkdownParser, parse
 from .renderer import SVGRenderer, measure, render, render_blocks
 from .style import DARK_THEME, GITHUB_THEME, LIGHT_THEME, Style
@@ -84,5 +95,13 @@ __all__ = [
     "estimate_text_width",
     "wrap_text",
     "measure_spans",
+    # Precise text measurement
+    "FontMeasurer",
+    "get_system_font",
+    "create_precise_wrapper",
+    "calibrate_heuristic",
+    "download_google_font",
+    "get_font_cache_dir",
+    "list_cached_fonts",
 ]
 

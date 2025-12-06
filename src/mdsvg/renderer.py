@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional, Sequence, Tuple
+from typing import Callable, List, Optional, Sequence, Tuple
 
 from .measure import Size, estimate_text_width, wrap_text
 from .style import Style
+
+# Precise text measurement
+from .fonts import FontMeasurer, get_default_measurer
 from .types import (
     AnyBlock,
     Block,
@@ -64,20 +67,62 @@ class SVGRenderer:
     """
     Renderer that converts Markdown AST to SVG.
     
+    By default, uses fonttools for precise text measurement if available.
+    Falls back to heuristic estimation otherwise.
+    
     Example:
         >>> renderer = SVGRenderer(style=Style())
         >>> blocks = parse("# Hello\\n\\nWorld")
         >>> svg = renderer.render(blocks, width=400)
     """
     
-    def __init__(self, style: Optional[Style] = None) -> None:
+    def __init__(
+        self,
+        style: Optional[Style] = None,
+        font_path: Optional[str] = None,
+        use_precise_measurement: bool = True,
+    ) -> None:
         """
         Initialize the renderer.
         
         Args:
             style: Style configuration. Uses default style if None.
+            font_path: Path to a TTF/OTF font file for precise measurement.
+                      If None, uses system default font.
+            use_precise_measurement: If True (default), uses fonttools for
+                      accurate text measurement when available. Set to False
+                      to always use heuristic estimation.
         """
         self.style = style or Style()
+        self._measurer: Optional[FontMeasurer] = None
+        
+        if use_precise_measurement:
+            if font_path:
+                self._measurer = FontMeasurer(font_path)
+                if not self._measurer.is_available:
+                    self._measurer = None
+            else:
+                self._measurer = get_default_measurer()
+    
+    def _measure_text(
+        self,
+        text: str,
+        font_size: float,
+        is_bold: bool = False,
+        is_mono: bool = False,
+    ) -> float:
+        """Measure text width using best available method."""
+        if self._measurer is not None and self._measurer.is_available:
+            return self._measurer.measure(text, font_size)
+        
+        return estimate_text_width(
+            text,
+            font_size,
+            is_bold=is_bold,
+            is_mono=is_mono,
+            char_width_ratio=self.style.char_width_ratio,
+            bold_char_width_ratio=self.style.bold_char_width_ratio,
+        )
     
     def render(
         self,
