@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-06
+## [0.5.0] - 2025-12-06
 
 ### Added
 
@@ -32,11 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Style.with_updates()` for creating modified style copies
 - Full type annotations throughout
 - Comprehensive test suite
-- Zero runtime dependencies
+- Precise text measurement via fonttools
+- Google Fonts download support
 
 ### Technical Details
 
-- Text width estimation using character-based heuristics
+- Accurate text width measurement using fonttools font metrics
 - Configurable character width ratios for different fonts
 - SVG output with embedded CSS classes for styling
 - Proper XML escaping for all text content
