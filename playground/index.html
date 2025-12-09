@@ -128,6 +128,40 @@
       height: 16px;
     }
     
+    button.primary.white {
+      background: var(--bg-primary);
+      border-color: var(--border);
+      color: var(--text-primary);
+    }
+    
+    button.primary.white:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--accent);
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
     label {
       display: flex;
       align-items: center;
@@ -360,6 +394,137 @@
       border-top: 1px solid rgba(239, 68, 68, 0.2);
     }
     
+    /* Gallery Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 900px;
+      max-height: 85vh;
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+    
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+    
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .modal-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+    
+    .modal-close:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+    
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    
+    .example-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    
+    .example-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .example-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    
+    .example-thumbnail {
+      width: 100%;
+      height: 120px;
+      background: #fff;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8px;
+    }
+    
+    .example-thumbnail svg {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .example-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    
+    .example-name {
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       main {
@@ -384,6 +549,10 @@
         width: 100%;
         justify-content: flex-start;
       }
+      
+      .examples-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
     }
   </style>
 </head>
@@ -394,12 +563,26 @@
     </div>
     
     <div class="controls">
-      <label>
-        Example:
-        <select id="example-select">
-          <option value="">Select an example...</option>
-        </select>
-      </label>
+      <button id="examples-btn" class="primary white" title="Browse examples">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Examples
+      </button>
+      
+      <button id="share-btn" class="primary white" title="Copy shareable URL">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        Share
+      </button>
       
       <button id="download-btn" class="primary" title="Download SVG">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -467,6 +650,28 @@
     </div>
   </main>
   
+  <div class="toast" id="toast"></div>
+  
+  <!-- Examples Gallery Modal -->
+  <div class="modal-overlay" id="examples-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Examples</h2>
+        <button class="modal-close" id="modal-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="examples-grid" id="examples-grid">
+          <!-- Examples will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <script>
     // Default style options
     const defaultStyle = {
@@ -508,36 +713,131 @@
     
     // Elements
     const svgContainer = document.getElementById('svg-container');
-    const exampleSelect = document.getElementById('example-select');
+    const examplesBtn = document.getElementById('examples-btn');
+    const examplesModal = document.getElementById('examples-modal');
+    const examplesGrid = document.getElementById('examples-grid');
+    const modalClose = document.getElementById('modal-close');
     const downloadBtn = document.getElementById('download-btn');
+    const shareBtn = document.getElementById('share-btn');
     const statusDot = document.getElementById('status-dot');
     const statusText = document.getElementById('status-text');
     const dimensionsEl = document.getElementById('dimensions');
+    const toast = document.getElementById('toast');
     
     let debounceTimer;
     let currentSvg = '';
+    let currentExample = '';
+    let examplesList = [];
     
-    // Load examples list
+    // Toast notification
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    
+    // URL state management
+    function encodeState() {
+      const state = {
+        s: styleEditor.getValue(),
+        m: markdownEditor.getValue(),
+      };
+      return btoa(encodeURIComponent(JSON.stringify(state)));
+    }
+    
+    function decodeState(encoded) {
+      try {
+        const json = decodeURIComponent(atob(encoded));
+        return JSON.parse(json);
+      } catch (e) {
+        console.error('Failed to decode state:', e);
+        return null;
+      }
+    }
+    
+    function loadStateFromUrl() {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return false;
+      
+      const state = decodeState(hash);
+      if (!state) return false;
+      
+      if (state.s) styleEditor.setValue(state.s);
+      if (state.m) markdownEditor.setValue(state.m);
+      
+      return true;
+    }
+    
+    function copyShareUrl() {
+      const encoded = encodeState();
+      const url = `${window.location.origin}${window.location.pathname}#${encoded}`;
+      
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Link copied to clipboard!');
+      }).catch(() => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('Link copied to clipboard!');
+      });
+    }
+    
+    // Modal functions
+    function openModal() {
+      examplesModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      examplesModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    
+    // Load examples list and build gallery
     async function loadExamples() {
       try {
         const res = await fetch('/api/examples');
-        const examples = await res.json();
+        examplesList = await res.json();
         
-        examples.forEach(ex => {
-          const option = document.createElement('option');
-          option.value = ex.filename;
-          option.textContent = ex.name;
-          exampleSelect.appendChild(option);
-        });
+        // Build gallery grid
+        examplesGrid.innerHTML = '';
         
-        // Load first example by default
-        if (examples.length > 0) {
-          exampleSelect.value = examples[0].filename;
-          loadExample(examples[0].filename);
+        for (const ex of examplesList) {
+          const card = document.createElement('div');
+          card.className = 'example-card';
+          card.dataset.filename = ex.filename;
+          
+          // Get SVG thumbnail filename (without .md extension)
+          const svgFilename = ex.filename.replace('.md', '.svg');
+          
+          card.innerHTML = `
+            <div class="example-thumbnail">
+              <img src="/svg/${svgFilename}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=\\'color: var(--text-secondary); font-size: 11px;\\'>Preview unavailable</span>'"/>
+            </div>
+            <div class="example-name">${ex.name}</div>
+          `;
+          
+          card.addEventListener('click', () => {
+            loadExample(ex.filename);
+            closeModal();
+          });
+          
+          examplesGrid.appendChild(card);
         }
       } catch (e) {
         console.error('Failed to load examples:', e);
       }
+    }
+    
+    // Update active state in gallery
+    function updateActiveExample() {
+      document.querySelectorAll('.example-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.filename === currentExample);
+      });
     }
     
     // Load a specific example
@@ -548,6 +848,8 @@
         const res = await fetch(`/api/example/${filename}`);
         const data = await res.json();
         markdownEditor.setValue(data.content);
+        currentExample = filename;
+        updateActiveExample();
       } catch (e) {
         console.error('Failed to load example:', e);
       }
@@ -730,13 +1032,38 @@
     // Event listeners
     markdownEditor.on('change', debouncedRender);
     styleEditor.on('change', debouncedRender);
-    exampleSelect.addEventListener('change', (e) => loadExample(e.target.value));
     downloadBtn.addEventListener('click', downloadSvg);
+    shareBtn.addEventListener('click', copyShareUrl);
+    
+    // Modal event listeners
+    examplesBtn.addEventListener('click', openModal);
+    modalClose.addEventListener('click', closeModal);
+    examplesModal.addEventListener('click', (e) => {
+      if (e.target === examplesModal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && examplesModal.classList.contains('open')) {
+        closeModal();
+      }
+    });
     
     // Initialize
-    loadExamples();
-    initDivider();
-    initHDivider();
+    async function init() {
+      await loadExamples();
+      
+      // Try to load state from URL first
+      const loadedFromUrl = loadStateFromUrl();
+      
+      // If no URL state, load the first example
+      if (!loadedFromUrl && examplesList.length > 0) {
+        loadExample(examplesList[0].filename);
+      }
+      
+      initDivider();
+      initHDivider();
+    }
+    
+    init();
   </script>
 </body>
 </html>
