@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1276.37" viewBox="0 0 600 1276.37">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d; }
+    .md-link { fill: #2563eb; }
+    .md-blockquote { fill: #6b7280; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Code Examples</tspan></text>
+  <text x="20" y="186" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Inline Code</tspan></text>
+  <text x="20" y="234.4" font-size="14" class="md-text">Use <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">render()</tspan> to convert markdown to SVG. The <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">width</tspan> parameter controls the output width.</text>
+  <text x="20" y="309.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Code Blocks</tspan></text>
+  <text x="20" y="391.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Python</tspan></text>
+  <rect x="20" y="421.95" width="560" height="306.24" fill="#f3f4f6" rx="4"/>
+  <text x="32" y="446.55" class="md-mono" font-size="12.6" fill="#1a1a1a">from mdsvg import render, Style, DARK_THEME</text>
+  <text x="32" y="481.83" class="md-mono" font-size="12.6" fill="#1a1a1a"># Create custom style</text>
+  <text x="32" y="499.47" class="md-mono" font-size="12.6" fill="#1a1a1a">style = Style(</text>
+  <text x="32" y="517.11" class="md-mono" font-size="12.6" fill="#1a1a1a"> font_family=&quot;Georgia, serif&quot;,</text>
+  <text x="32" y="534.75" class="md-mono" font-size="12.6" fill="#1a1a1a"> base_font_size=16,</text>
+  <text x="32" y="552.39" class="md-mono" font-size="12.6" fill="#1a1a1a"> text_color=&quot;#333333&quot;</text>
+  <text x="32" y="570.03" class="md-mono" font-size="12.6" fill="#1a1a1a">)</text>
+  <text x="32" y="605.31" class="md-mono" font-size="12.6" fill="#1a1a1a"># Render markdown to SVG</text>
+  <text x="32" y="622.95" class="md-mono" font-size="12.6" fill="#1a1a1a">markdown = &quot;# Hello World&quot;</text>
+  <text x="32" y="640.59" class="md-mono" font-size="12.6" fill="#1a1a1a">svg = render(markdown, width=600, style=style)</text>
+  <text x="32" y="675.87" class="md-mono" font-size="12.6" fill="#1a1a1a"># Save to file</text>
+  <text x="32" y="693.51" class="md-mono" font-size="12.6" fill="#1a1a1a">with open(&quot;output.svg&quot;, &quot;w&quot;) as f:</text>
+  <text x="32" y="711.15" class="md-mono" font-size="12.6" fill="#1a1a1a"> f.write(svg)</text>
+  <text x="20" y="787.44" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">JavaScript</tspan></text>
+  <rect x="20" y="818.34" width="560" height="200.4" fill="#f3f4f6" rx="4"/>
+  <text x="32" y="842.94" class="md-mono" font-size="12.6" fill="#1a1a1a">const express = require(&#x27;express&#x27;);</text>
+  <text x="32" y="860.58" class="md-mono" font-size="12.6" fill="#1a1a1a">const app = express();</text>
+  <text x="32" y="895.86" class="md-mono" font-size="12.6" fill="#1a1a1a">app.get(&#x27;/&#x27;, (req, res) =&gt; {</text>
+  <text x="32" y="913.5" class="md-mono" font-size="12.6" fill="#1a1a1a"> res.send(&#x27;Hello World!&#x27;);</text>
+  <text x="32" y="931.14" class="md-mono" font-size="12.6" fill="#1a1a1a">});</text>
+  <text x="32" y="966.42" class="md-mono" font-size="12.6" fill="#1a1a1a">app.listen(3000, () =&gt; {</text>
+  <text x="32" y="984.06" class="md-mono" font-size="12.6" fill="#1a1a1a"> console.log(&#x27;Server running on port 3000&#x27;);</text>
+  <text x="32" y="1001.7" class="md-mono" font-size="12.6" fill="#1a1a1a">});</text>
+  <text x="20" y="1077.99" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">SQL</tspan></text>
+  <rect x="20" y="1108.89" width="560" height="147.48" fill="#f3f4f6" rx="4"/>
+  <text x="32" y="1133.49" class="md-mono" font-size="12.6" fill="#1a1a1a">SELECT users.name, COUNT(orders.id) as order_count</text>
+  <text x="32" y="1151.13" class="md-mono" font-size="12.6" fill="#1a1a1a">FROM users</text>
+  <text x="32" y="1168.77" class="md-mono" font-size="12.6" fill="#1a1a1a">LEFT JOIN orders ON users.id = orders.user_id</text>
+  <text x="32" y="1186.41" class="md-mono" font-size="12.6" fill="#1a1a1a">WHERE users.created_at &gt; &#x27;2024-01-01&#x27;</text>
+  <text x="32" y="1204.05" class="md-mono" font-size="12.6" fill="#1a1a1a">GROUP BY users.id</text>
+  <text x="32" y="1221.69" class="md-mono" font-size="12.6" fill="#1a1a1a">ORDER BY order_count DESC</text>
+  <text x="32" y="1239.33" class="md-mono" font-size="12.6" fill="#1a1a1a">LIMIT 10;</text>
+</svg>

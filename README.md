@@ -227,6 +227,27 @@ renderer = SVGRenderer(use_precise_measurement=False)
 | `list_indent` | 24.0 | List indentation (px) |
 | `char_width_ratio` | 0.48 | Average character width ratio |
 
+## Playground
+
+Try markdown-svg in your browser with the interactive playground:
+
+```bash
+# Clone the repo and run the playground
+git clone https://github.com/davefowler/markdown-svg
+cd markdown-svg
+make play
+```
+
+Then open http://localhost:8765
+
+Features:
+- Live preview as you type
+- Customize styling via JSON
+- Load example markdown files
+- Download rendered SVGs
+
+See [playground/README.md](playground/README.md) for details and API documentation.
+
 ## Examples
 
 See the [examples/](examples/) directory for more usage examples:
@@ -235,24 +256,22 @@ See the [examples/](examples/) directory for more usage examples:
 - `custom_style.py` - Custom styling and themes
 - `measure_and_render.py` - Measuring before rendering
 
+The [playground/examples/](playground/examples/) directory contains markdown files showcasing various features.
+
 ## Development
 
 ```bash
-# Clone the repository
+# Clone and install
 git clone https://github.com/davefowler/markdown-svg.git
 cd markdown-svg
+make dev          # Install with dev dependencies
 
-# Install development dependencies
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Type checking
-mypy src/
-
-# Linting
-ruff check src/
+# Common commands
+make play         # Run the playground
+make test         # Run tests
+make lint         # Run linter
+make typecheck    # Run type checker
+make help         # Show all commands
 ```
 
 ## License

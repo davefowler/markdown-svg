@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1826.5" viewBox="0 0 600 1826.5">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f9fafb; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6; }
+    .md-link { fill: #60a5fa; }
+    .md-blockquote { fill: #9ca3af; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">The Kitchen Sink</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text">Everything markdown-svg can render, all in one place.</text>
+  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Text Formatting</tspan></text>
+  <text x="20" y="267.4" font-size="14" class="md-text">Regular text, <tspan style="font-weight: bold">bold</tspan> , <tspan style="font-style: italic">italic</tspan> , <tspan style="font-weight: bold; font-style: italic">bold italic</tspan> , and <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">inline code</tspan> .</text>
+  <text x="20" y="300.4" font-size="14" class="md-text">Links work too: <a href="https://example.com"><tspan style="fill: #60a5fa; text-decoration: underline">Example Site</tspan></a></text>
+  <text x="20" y="375.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Lists</tspan></text>
+  <text x="20" y="457.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Unordered</tspan></text>
+  <circle cx="28" cy="498.45" r="3" fill="#e5e7eb"/>
+  <text x="44" y="501.95" font-size="14" class="md-text">Item one</text>
+  <circle cx="28" cy="523.45" r="3" fill="#e5e7eb"/>
+  <text x="44" y="526.95" font-size="14" class="md-text">Item two</text>
+  <circle cx="28" cy="548.45" r="3" fill="#e5e7eb"/>
+  <text x="44" y="551.95" font-size="14" class="md-text">Item three</text>
+  <text x="20" y="618.2" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Ordered</tspan></text>
+  <text x="36" y="663.1" class="md-text" font-size="14" text-anchor="end">1.</text>
+  <text x="44" y="663.1" font-size="14" class="md-text">First</text>
+  <text x="36" y="688.1" class="md-text" font-size="14" text-anchor="end">2.</text>
+  <text x="44" y="688.1" font-size="14" class="md-text">Second</text>
+  <text x="36" y="713.1" class="md-text" font-size="14" text-anchor="end">3.</text>
+  <text x="44" y="713.1" font-size="14" class="md-text">Third</text>
+  <text x="20" y="788.1" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Blockquote</tspan></text>
+  <rect x="20" y="822.5" width="3" height="21" fill="#4b5563"/>
+  <text x="36" y="836.5" font-size="14" class="md-text">&quot;Any sufficiently advanced technology is indistinguishable from magic.&quot; — Arthur C. Clarke</text>
+  <text x="20" y="911.5" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Code Block</tspan></text>
+  <rect x="20" y="945.9" width="560" height="112.2" fill="#374151" rx="4"/>
+  <text x="32" y="970.5" class="md-mono" font-size="12.6" fill="#e5e7eb">def greet(name: str) -&gt; str:</text>
+  <text x="32" y="988.14" class="md-mono" font-size="12.6" fill="#e5e7eb"> &quot;&quot;&quot;Return a greeting message.&quot;&quot;&quot;</text>
+  <text x="32" y="1005.78" class="md-mono" font-size="12.6" fill="#e5e7eb"> return f&quot;Hello, {name}!&quot;</text>
+  <text x="32" y="1041.06" class="md-mono" font-size="12.6" fill="#e5e7eb">print(greet(&quot;World&quot;))</text>
+  <text x="20" y="1126.1" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Table</tspan></text>
+  <rect x="20" y="1160.5" width="560" height="37" fill="#374151"/>
+  <text x="28" y="1182.5" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Syntax</text>
+  <text x="214.67" y="1182.5" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Description</text>
+  <text x="401.33" y="1182.5" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Example</text>
+  <text x="28" y="1219.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#</text>
+  <text x="214.67" y="1219.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Heading</text>
+  <text x="401.33" y="1219.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start"># Title</text>
+  <text x="28" y="1256.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">**</text>
+  <text x="214.67" y="1256.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Bold</text>
+  <text x="401.33" y="1256.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">**text**</text>
+  <text x="28" y="1293.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">*</text>
+  <text x="214.67" y="1293.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Italic</text>
+  <text x="401.33" y="1293.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">*text*</text>
+  <text x="28" y="1330.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">` ``</text>
+  <text x="214.67" y="1330.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Code</text>
+  <text x="401.33" y="1330.5" class="md-text" font-size="14" font-weight="normal" text-anchor="start">` code `</text>
+  <rect x="20" y="1160.5" width="560" height="185" fill="none" stroke="#4b5563"/>
+  <line x1="206.67" y1="1160.5" x2="206.67" y2="1345.5" stroke="#4b5563"/>
+  <line x1="393.33" y1="1160.5" x2="393.33" y2="1345.5" stroke="#4b5563"/>
+  <line x1="20" y1="1197.5" x2="580" y2="1197.5" stroke="#4b5563"/>
+  <line x1="20" y1="1234.5" x2="580" y2="1234.5" stroke="#4b5563"/>
+  <line x1="20" y1="1271.5" x2="580" y2="1271.5" stroke="#4b5563"/>
+  <line x1="20" y1="1308.5" x2="580" y2="1308.5" stroke="#4b5563"/>
+  <rect x="20" y="1369.5" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="1450.5" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">All Heading Levels</tspan></text>
+  <text x="20" y="1532.15" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Level 3</tspan></text>
+  <text x="20" y="1603.3" font-size="16.1" class="md-heading"><tspan style="font-weight: bold">Level 4</tspan></text>
+  <text x="20" y="1666.4" font-size="14" class="md-heading"><tspan style="font-weight: bold">Level 5</tspan></text>
+  <text x="20" y="1723.9" font-size="12.6" class="md-heading"><tspan style="font-weight: bold">Level 6</tspan></text>
+  <rect x="20" y="1760.5" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="1799.5" font-size="14" class="md-text"><tspan style="font-style: italic">That&#x27;s everything! Try editing the markdown to see live changes.</tspan></text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1060" viewBox="0 0 600 1060">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f9fafb; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6; }
+    .md-link { fill: #60a5fa; }
+    .md-blockquote { fill: #9ca3af; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Text Formatting</tspan></text>
+  <text x="20" y="186" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Basic Formatting</tspan></text>
+  <text x="20" y="234.4" font-size="14" class="md-text">This is <tspan style="font-weight: bold">bold text</tspan> for emphasis.</text>
+  <text x="20" y="267.4" font-size="14" class="md-text">This is <tspan style="font-style: italic">italic text</tspan> for subtle emphasis.</text>
+  <text x="20" y="300.4" font-size="14" class="md-text">This is <tspan style="font-weight: bold; font-style: italic">bold and italic</tspan> combined.</text>
+  <text x="20" y="333.4" font-size="14" class="md-text">This is ~~strikethrough~~ text.</text>
+  <text x="20" y="408.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Links</tspan></text>
+  <text x="20" y="456.8" font-size="14" class="md-text">Visit <a href="https://github.com"><tspan style="fill: #60a5fa; text-decoration: underline">GitHub</tspan></a> for code hosting.</text>
+  <text x="20" y="489.8" font-size="14" class="md-text">Check out the <a href="https://github.com/davefowler/markdown-svg"><tspan style="fill: #60a5fa; text-decoration: underline">markdown-svg documentation</tspan></a> for more details.</text>
+  <text x="20" y="564.8" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Inline Code</tspan></text>
+  <text x="20" y="613.2" font-size="14" class="md-text">Use the <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">render()</tspan> function to generate SVGs.</text>
+  <text x="20" y="646.2" font-size="14" class="md-text">The <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">Style</tspan> class accepts parameters like <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">font_family</tspan> and <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">text_color</tspan> .</text>
+  <text x="20" y="721.2" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Combined Formatting</tspan></text>
+  <text x="20" y="769.6" font-size="14" class="md-text">You can <tspan style="font-weight: bold">combine *different* formatting</tspan> in creative ways.</text>
+  <text x="20" y="802.6" font-size="14" class="md-text">Here&#x27;s a <tspan style="font-weight: bold">[bold link](https://example.com)</tspan> and an <tspan style="font-style: italic">[italic link](https://example.com)</tspan> .</text>
+  <rect x="20" y="833.6" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="914.6" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Horizontal Rules</tspan></text>
+  <text x="20" y="963" font-size="14" class="md-text">Use horizontal rules to separate sections.</text>
+  <rect x="20" y="994" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="1033" font-size="14" class="md-text">They create visual breaks in your content.</text>
+</svg>

@@ -77,6 +77,7 @@ class SVGRenderer:
         self,
         style: Optional[Style] = None,
         font_path: Optional[str] = None,
+        mono_font_path: Optional[str] = None,
         use_precise_measurement: bool = True,
     ) -> None:
         """
@@ -86,12 +87,16 @@ class SVGRenderer:
             style: Style configuration. Uses default style if None.
             font_path: Path to a TTF/OTF font file for precise measurement.
                       If None, uses system default font.
+            mono_font_path: Path to a monospace TTF/OTF font file for measuring
+                      inline code. If None, uses style.mono_char_width_ratio.
             use_precise_measurement: If True (default), uses fonttools for
                       accurate text measurement when available. Set to False
                       to always use heuristic estimation.
         """
         self.style = style or Style()
         self._measurer: Optional[FontMeasurer] = None
+        self._mono_measurer: Optional[FontMeasurer] = None
+        self._mono_char_width: Optional[float] = None  # Cached mono character width per unit
 
         if use_precise_measurement:
             if font_path:
@@ -101,23 +106,61 @@ class SVGRenderer:
             else:
                 self._measurer = get_default_measurer()
 
+            # Set up mono font measurement
+            if mono_font_path:
+                self._mono_measurer = FontMeasurer(mono_font_path)
+                if self._mono_measurer.is_available:
+                    # Measure a reference character to get exact width per unit
+                    # All chars in monospace have same width, so just measure one
+                    self._mono_char_width = self._mono_measurer.measure("M", 1.0)
+                else:
+                    self._mono_measurer = None
+
     def _measure_text(
         self,
         text: str,
         font_size: float,
         is_bold: bool = False,
+        is_italic: bool = False,
         is_mono: bool = False,
     ) -> float:
         """Measure text width using best available method."""
+        # Monospace: all characters have identical width, so just multiply
+        if is_mono:
+            if self._mono_char_width is not None:
+                # Use measured width from actual mono font
+                return len(text) * self._mono_char_width * font_size
+            else:
+                # Fall back to configured ratio
+                return len(text) * font_size * self.style.mono_char_width_ratio
+
         if self._measurer is not None and self._measurer.is_available:
-            return self._measurer.measure(text, font_size)
+            width = self._measurer.measure(text, font_size)
+            # Apply scaling for bold/italic since FontMeasurer only has regular font
+            # Bold text is typically 10-15% wider, italic ~4% wider
+            if is_bold and is_italic:
+                # Bold italic combines both effects
+                bold_ratio = self.style.bold_char_width_ratio / self.style.char_width_ratio
+                italic_ratio = self.style.italic_char_width_ratio / self.style.char_width_ratio
+                width *= bold_ratio * italic_ratio / 1.0  # Combine effects
+            elif is_bold:
+                width *= self.style.bold_char_width_ratio / self.style.char_width_ratio
+            elif is_italic:
+                width *= self.style.italic_char_width_ratio / self.style.char_width_ratio
+            return width
+
+        # Use heuristic when FontMeasurer is not available
+        # For italic, use a slightly higher ratio
+        effective_ratio = self.style.char_width_ratio
+        if is_italic:
+            effective_ratio = self.style.italic_char_width_ratio
 
         return estimate_text_width(
             text,
             font_size,
             is_bold=is_bold,
             is_mono=is_mono,
-            char_width_ratio=self.style.char_width_ratio,
+            char_width_ratio=effective_ratio,
             bold_char_width_ratio=self.style.bold_char_width_ratio,
         )
 
@@ -628,7 +671,7 @@ class SVGRenderer:
         css_class: str,
         font_weight: str = "normal",
     ) -> Tuple[List[str], float]:
-        """Render a sequence of spans as wrapped text."""
+        """Render a sequence of spans as wrapped text using tspan for proper spacing."""
         if not spans:
             return [], 0
 
@@ -644,23 +687,23 @@ class SVGRenderer:
         current_y = ctx.y + font_size  # Baseline
 
         for line_runs in lines:
-            # Render each run in the line
-            current_x = ctx.x
+            if not line_runs:
+                current_y += line_height
+                continue
+
+            # Build a single <text> element with <tspan> children for proper spacing
+            # This lets the browser handle text positioning correctly
+            tspan_parts: List[str] = []
+            has_link = False
 
             for run in line_runs:
                 if not run.text:
                     continue
 
                 escaped = escape_svg_text(run.text)
-                attrs = [
-                    f'x="{format_number(current_x)}"',
-                    f'y="{format_number(current_y)}"',
-                    f'font-size="{format_number(font_size)}"',
-                ]
 
-                # Apply run-specific styling
+                # Build tspan styling
                 style_parts: List[str] = []
-                classes = [css_class]
 
                 if run.is_bold:
                     style_parts.append("font-weight: bold")
@@ -671,37 +714,41 @@ class SVGRenderer:
                     style_parts.append("font-style: italic")
 
                 if run.is_code:
-                    classes = ["md-code"]
+                    style_parts.append(f"font-family: {self.style.mono_font_family}")
+                    style_parts.append(f"fill: {self.style.code_color}")
 
                 if run.is_link:
-                    classes.append("md-link")
+                    has_link = True
+                    style_parts.append(f"fill: {self.style.link_color}")
                     if self.style.link_underline:
                         style_parts.append("text-decoration: underline")
 
-                attrs.append(f'class="{" ".join(classes)}"')
-
+                # Create tspan element
                 if style_parts:
-                    attrs.append(f'style="{"; ".join(style_parts)}"')
-
-                # Wrap in anchor if it's a link
-                if run.is_link and run.url:
-                    elements.append(
-                        f'  <a href="{escape_svg_text(run.url)}">'
-                        f'<text {" ".join(attrs)}>{escaped}</text></a>'
-                    )
+                    style_attr = f' style="{"; ".join(style_parts)}"'
                 else:
-                    elements.append(f'  <text {" ".join(attrs)}>{escaped}</text>')
+                    style_attr = ""
 
-                # Advance x position
-                run_width = estimate_text_width(
-                    run.text,
-                    font_size,
-                    is_bold=run.is_bold,
-                    is_mono=run.is_code,
-                    char_width_ratio=self.style.char_width_ratio,
-                    bold_char_width_ratio=self.style.bold_char_width_ratio,
-                )
-                current_x += run_width
+                if run.is_link and run.url:
+                    # Wrap link text in an anchor
+                    tspan_parts.append(
+                        f'<a href="{escape_svg_text(run.url)}">'
+                        f'<tspan{style_attr}>{escaped}</tspan></a>'
+                    )
+                elif style_parts:
+                    tspan_parts.append(f'<tspan{style_attr}>{escaped}</tspan>')
+                else:
+                    # Plain text without tspan wrapper
+                    tspan_parts.append(escaped)
+
+            # Build the complete text element
+            text_content = "".join(tspan_parts)
+            text_element = (
+                f'  <text x="{format_number(ctx.x)}" y="{format_number(current_y)}" '
+                f'font-size="{format_number(font_size)}" class="{css_class}">'
+                f'{text_content}</text>'
+            )
+            elements.append(text_element)
 
             current_y += line_height
 
@@ -756,9 +803,8 @@ class SVGRenderer:
                 if i > 0 or (lines[-1] and not lines[-1][-1].text.endswith(" ")):
                     word = " " + word if lines[-1] else word
 
-                word_width = estimate_text_width(
-                    word, font_size, run.is_bold, run.is_code,
-                    self.style.char_width_ratio, self.style.bold_char_width_ratio
+                word_width = self._measure_text(
+                    word, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
                 )
 
                 if current_width + word_width <= max_width or not lines[-1]:
@@ -773,9 +819,8 @@ class SVGRenderer:
                     # Start new line
                     word_clean = word.lstrip(" ")
                     lines.append([run.with_text(word_clean)])
-                    current_width = estimate_text_width(
-                        word_clean, font_size, run.is_bold, run.is_code,
-                        self.style.char_width_ratio, self.style.bold_char_width_ratio
+                    current_width = self._measure_text(
+                        word_clean, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
                     )
 
         return lines

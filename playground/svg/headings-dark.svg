@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="690" viewBox="0 0 600 690">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f9fafb; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6; }
+    .md-link { fill: #60a5fa; }
+    .md-blockquote { fill: #9ca3af; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Heading Level 1</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text">The largest heading, perfect for titles.</text>
+  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Heading Level 2</tspan></text>
+  <text x="20" y="267.4" font-size="14" class="md-text">Great for major sections.</text>
+  <text x="20" y="333.65" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Heading Level 3</tspan></text>
+  <text x="20" y="378.55" font-size="14" class="md-text">Useful for subsections.</text>
+  <text x="20" y="437.8" font-size="16.1" class="md-heading"><tspan style="font-weight: bold">Heading Level 4</tspan></text>
+  <text x="20" y="479.9" font-size="14" class="md-text">Getting smaller now.</text>
+  <text x="20" y="533.9" font-size="14" class="md-heading"><tspan style="font-weight: bold">Heading Level 5</tspan></text>
+  <text x="20" y="573.9" font-size="14" class="md-text">Even smaller.</text>
+  <text x="20" y="624.4" font-size="12.6" class="md-heading"><tspan style="font-weight: bold">Heading Level 6</tspan></text>
+  <text x="20" y="663" font-size="14" class="md-text">The smallest heading level.</text>
+</svg>

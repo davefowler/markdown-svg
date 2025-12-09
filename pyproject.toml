@@ -26,6 +26,10 @@ dependencies = ["fonttools>=4.0"]
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov>=4.0", "mypy>=1.0", "ruff>=0.1.0"]
 highlight = ["pygments"]
+playground = []  # No extra deps needed - uses built-in http.server
+
+[project.scripts]
+mdsvg-playground = "mdsvg.playground:main"
 
 [project.urls]
 Homepage = "https://github.com/davefowler/markdown-svg"
@@ -39,6 +43,13 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mdsvg"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/playground",
+    "/tests",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

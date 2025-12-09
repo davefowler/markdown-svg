@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="609.08" viewBox="0 0 600 609.08">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d; }
+    .md-link { fill: #2563eb; }
+    .md-blockquote { fill: #6b7280; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Hello World</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text">This is a paragraph with <tspan style="font-weight: bold">bold</tspan> and <tspan style="font-style: italic">italic</tspan> text.</text>
+  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Features</tspan></text>
+  <circle cx="28" cy="263.9" r="3" fill="#1a1a1a"/>
+  <text x="44" y="267.4" font-size="14" class="md-text">Easy to use</text>
+  <circle cx="28" cy="288.9" r="3" fill="#1a1a1a"/>
+  <text x="44" y="292.4" font-size="14" class="md-text">Automatic text wrapping</text>
+  <circle cx="28" cy="313.9" r="3" fill="#1a1a1a"/>
+  <text x="44" y="317.4" font-size="14" class="md-text">Beautiful SVG output</text>
+  <text x="20" y="392.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Code Example</tspan></text>
+  <rect x="20" y="426.8" width="560" height="59.28" fill="#f3f4f6" rx="4"/>
+  <text x="32" y="451.4" class="md-mono" font-size="12.6" fill="#1a1a1a">from mdsvg import render</text>
+  <text x="32" y="469.04" class="md-mono" font-size="12.6" fill="#1a1a1a">svg = render(&quot;# Hello&quot;)</text>
+  <rect x="20" y="498.08" width="3" height="21" fill="#d1d5db"/>
+  <text x="36" y="512.08" font-size="14" class="md-text">This is a blockquote that can span multiple lines and will be styled appropriately.</text>
+  <rect x="20" y="543.08" width="560" height="1" fill="#e5e7eb"/>
+  <text x="20" y="582.08" font-size="14" class="md-text">That&#x27;s it! Simple and straightforward.</text>
+</svg>

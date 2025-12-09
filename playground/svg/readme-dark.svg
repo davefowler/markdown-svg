@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1391.6" viewBox="0 0 600 1391.6">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f9fafb; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6; }
+    .md-link { fill: #60a5fa; }
+    .md-blockquote { fill: #9ca3af; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">markdown-svg</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text">Convert Markdown to beautiful SVG images with automatic text wrapping.</text>
+  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Installation</tspan></text>
+  <rect x="20" y="253.4" width="560" height="41.64" fill="#374151" rx="4"/>
+  <text x="32" y="278" class="md-mono" font-size="12.6" fill="#e5e7eb">pip install markdown-svg</text>
+  <text x="20" y="363.04" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Quick Start</tspan></text>
+  <rect x="20" y="397.44" width="560" height="129.84" fill="#374151" rx="4"/>
+  <text x="32" y="422.04" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render</text>
+  <text x="32" y="457.32" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Hello World\n\nThis is **bold** text.&quot;)</text>
+  <text x="32" y="492.6" class="md-mono" font-size="12.6" fill="#e5e7eb">with open(&quot;output.svg&quot;, &quot;w&quot;) as f:</text>
+  <text x="32" y="510.24" class="md-mono" font-size="12.6" fill="#e5e7eb"> f.write(svg)</text>
+  <text x="20" y="595.28" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Features</tspan></text>
+  <circle cx="28" cy="640.18" r="3" fill="#e5e7eb"/>
+  <text x="44" y="643.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Simple API</tspan> — One function to render markdown to SVG</text>
+  <circle cx="28" cy="665.18" r="3" fill="#e5e7eb"/>
+  <text x="44" y="668.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Auto-wrapping</tspan> — Text automatically wraps to fit the specified width</text>
+  <circle cx="28" cy="690.18" r="3" fill="#e5e7eb"/>
+  <text x="44" y="693.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Rich Formatting</tspan> — Supports headings, lists, code, tables, and more</text>
+  <circle cx="28" cy="715.18" r="3" fill="#e5e7eb"/>
+  <text x="44" y="718.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Customizable</tspan> — Full control over fonts, colors, and spacing</text>
+  <circle cx="28" cy="740.18" r="3" fill="#e5e7eb"/>
+  <text x="44" y="743.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Themes</tspan> — Built-in light, dark, and GitHub themes</text>
+  <text x="20" y="818.68" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Themes</tspan></text>
+  <rect x="20" y="853.08" width="560" height="37" fill="#374151"/>
+  <text x="28" y="875.08" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Theme</text>
+  <text x="308" y="875.08" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Description</text>
+  <text x="28" y="912.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">LIGHT_THEME</text>
+  <text x="308" y="912.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Clean light background (default)</text>
+  <text x="28" y="949.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">DARK_THEME</text>
+  <text x="308" y="949.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Easy on the eyes dark mode</text>
+  <text x="28" y="986.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">GITHUB_THEME</text>
+  <text x="308" y="986.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Matches GitHub&#x27;s markdown styling</text>
+  <rect x="20" y="853.08" width="560" height="148" fill="none" stroke="#4b5563"/>
+  <line x1="300" y1="853.08" x2="300" y2="1001.08" stroke="#4b5563"/>
+  <line x1="20" y1="890.08" x2="580" y2="890.08" stroke="#4b5563"/>
+  <line x1="20" y1="927.08" x2="580" y2="927.08" stroke="#4b5563"/>
+  <line x1="20" y1="964.08" x2="580" y2="964.08" stroke="#4b5563"/>
+  <text x="20" y="1069.08" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Example Usage</tspan></text>
+  <rect x="20" y="1103.48" width="560" height="165.12" fill="#374151" rx="4"/>
+  <text x="32" y="1128.08" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render, DARK_THEME</text>
+  <text x="32" y="1163.36" class="md-mono" font-size="12.6" fill="#e5e7eb"># Render with dark theme</text>
+  <text x="32" y="1181" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(</text>
+  <text x="32" y="1198.64" class="md-mono" font-size="12.6" fill="#e5e7eb"> &quot;# Dark Mode\n\nLooks great!&quot;,</text>
+  <text x="32" y="1216.28" class="md-mono" font-size="12.6" fill="#e5e7eb"> width=400,</text>
+  <text x="32" y="1233.92" class="md-mono" font-size="12.6" fill="#e5e7eb"> style=DARK_THEME</text>
+  <text x="32" y="1251.56" class="md-mono" font-size="12.6" fill="#e5e7eb">)</text>
+  <rect x="20" y="1280.6" width="3" height="21" fill="#4b5563"/>
+  <text x="36" y="1294.6" font-size="14" class="md-text"><tspan style="font-weight: bold">Note:</tspan> The playground on the right shows a live preview of your markdown rendered as SVG.</text>
+  <rect x="20" y="1325.6" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="1364.6" font-size="14" class="md-text">Made with ❤️ by the markdown-svg team</text>
+</svg>

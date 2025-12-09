@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1037.2" viewBox="0 0 600 1037.2">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f9fafb; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6; }
+    .md-link { fill: #60a5fa; }
+    .md-blockquote { fill: #9ca3af; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Tables Demo</tspan></text>
+  <text x="20" y="186" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Simple Table</tspan></text>
+  <rect x="20" y="220.4" width="560" height="37" fill="#374151"/>
+  <text x="28" y="242.4" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Name</text>
+  <text x="214.67" y="242.4" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Age</text>
+  <text x="401.33" y="242.4" class="md-text" font-size="14" font-weight="bold" text-anchor="start">City</text>
+  <text x="28" y="279.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Alice</text>
+  <text x="214.67" y="279.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">28</text>
+  <text x="401.33" y="279.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">NYC</text>
+  <text x="28" y="316.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Bob</text>
+  <text x="214.67" y="316.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">34</text>
+  <text x="401.33" y="316.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">LA</text>
+  <text x="28" y="353.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Carol</text>
+  <text x="214.67" y="353.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">31</text>
+  <text x="401.33" y="353.4" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Chicago</text>
+  <rect x="20" y="220.4" width="560" height="148" fill="none" stroke="#4b5563"/>
+  <line x1="206.67" y1="220.4" x2="206.67" y2="368.4" stroke="#4b5563"/>
+  <line x1="393.33" y1="220.4" x2="393.33" y2="368.4" stroke="#4b5563"/>
+  <line x1="20" y1="257.4" x2="580" y2="257.4" stroke="#4b5563"/>
+  <line x1="20" y1="294.4" x2="580" y2="294.4" stroke="#4b5563"/>
+  <line x1="20" y1="331.4" x2="580" y2="331.4" stroke="#4b5563"/>
+  <text x="20" y="436.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Feature Comparison</tspan></text>
+  <rect x="20" y="470.8" width="560" height="37" fill="#374151"/>
+  <text x="28" y="492.8" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Feature</text>
+  <text x="168" y="492.8" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Basic</text>
+  <text x="308" y="492.8" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Pro</text>
+  <text x="448" y="492.8" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Enterprise</text>
+  <text x="28" y="529.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users</text>
+  <text x="168" y="529.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">5</text>
+  <text x="308" y="529.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">50</text>
+  <text x="448" y="529.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Unlimited</text>
+  <text x="28" y="566.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Storage</text>
+  <text x="168" y="566.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">10GB</text>
+  <text x="308" y="566.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">100GB</text>
+  <text x="448" y="566.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">1TB</text>
+  <text x="28" y="603.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Support</text>
+  <text x="168" y="603.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Email</text>
+  <text x="308" y="603.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Priority</text>
+  <text x="448" y="603.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Dedicated</text>
+  <text x="28" y="640.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">API Access</text>
+  <text x="168" y="640.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">No</text>
+  <text x="308" y="640.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Yes</text>
+  <text x="448" y="640.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Yes</text>
+  <text x="28" y="677.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Custom Branding</text>
+  <text x="168" y="677.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">No</text>
+  <text x="308" y="677.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">No</text>
+  <text x="448" y="677.8" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Yes</text>
+  <rect x="20" y="470.8" width="560" height="222" fill="none" stroke="#4b5563"/>
+  <line x1="160" y1="470.8" x2="160" y2="692.8" stroke="#4b5563"/>
+  <line x1="300" y1="470.8" x2="300" y2="692.8" stroke="#4b5563"/>
+  <line x1="440" y1="470.8" x2="440" y2="692.8" stroke="#4b5563"/>
+  <line x1="20" y1="507.8" x2="580" y2="507.8" stroke="#4b5563"/>
+  <line x1="20" y1="544.8" x2="580" y2="544.8" stroke="#4b5563"/>
+  <line x1="20" y1="581.8" x2="580" y2="581.8" stroke="#4b5563"/>
+  <line x1="20" y1="618.8" x2="580" y2="618.8" stroke="#4b5563"/>
+  <line x1="20" y1="655.8" x2="580" y2="655.8" stroke="#4b5563"/>
+  <text x="20" y="760.8" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Data Table</tspan></text>
+  <rect x="20" y="795.2" width="560" height="37" fill="#374151"/>
+  <text x="28" y="817.2" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Country</text>
+  <text x="168" y="817.2" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Population</text>
+  <text x="308" y="817.2" class="md-text" font-size="14" font-weight="bold" text-anchor="start">GDP (Trillions)</text>
+  <text x="448" y="817.2" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Continent</text>
+  <text x="28" y="854.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">USA</text>
+  <text x="168" y="854.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">331M</text>
+  <text x="308" y="854.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">$21.4</text>
+  <text x="448" y="854.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">N. America</text>
+  <text x="28" y="891.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">China</text>
+  <text x="168" y="891.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">1.4B</text>
+  <text x="308" y="891.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">$14.3</text>
+  <text x="448" y="891.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Asia</text>
+  <text x="28" y="928.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Japan</text>
+  <text x="168" y="928.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">126M</text>
+  <text x="308" y="928.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">$5.1</text>
+  <text x="448" y="928.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Asia</text>
+  <text x="28" y="965.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Germany</text>
+  <text x="168" y="965.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">83M</text>
+  <text x="308" y="965.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">$3.8</text>
+  <text x="448" y="965.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Europe</text>
+  <text x="28" y="1002.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">UK</text>
+  <text x="168" y="1002.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">67M</text>
+  <text x="308" y="1002.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">$2.8</text>
+  <text x="448" y="1002.2" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Europe</text>
+  <rect x="20" y="795.2" width="560" height="222" fill="none" stroke="#4b5563"/>
+  <line x1="160" y1="795.2" x2="160" y2="1017.2" stroke="#4b5563"/>
+  <line x1="300" y1="795.2" x2="300" y2="1017.2" stroke="#4b5563"/>
+  <line x1="440" y1="795.2" x2="440" y2="1017.2" stroke="#4b5563"/>
+  <line x1="20" y1="832.2" x2="580" y2="832.2" stroke="#4b5563"/>
+  <line x1="20" y1="869.2" x2="580" y2="869.2" stroke="#4b5563"/>
+  <line x1="20" y1="906.2" x2="580" y2="906.2" stroke="#4b5563"/>
+  <line x1="20" y1="943.2" x2="580" y2="943.2" stroke="#4b5563"/>
+  <line x1="20" y1="980.2" x2="580" y2="980.2" stroke="#4b5563"/>
+</svg>

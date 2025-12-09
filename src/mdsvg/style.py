@@ -50,6 +50,7 @@ class Style:
         hr_height: Height of horizontal rules in pixels.
         char_width_ratio: Average character width as ratio of font size.
         bold_char_width_ratio: Character width ratio for bold text.
+        mono_char_width_ratio: Character width ratio for monospace text.
     """
 
     # Fonts
@@ -99,7 +100,9 @@ class Style:
 
     # Text measurement
     char_width_ratio: float = 0.48  # Average char width as ratio of font size
-    bold_char_width_ratio: float = 0.52  # Slightly wider for bold
+    bold_char_width_ratio: float = 0.58  # Wider for bold (~20% wider than regular)
+    italic_char_width_ratio: float = 0.52  # Wider for italic (~8% wider than regular)
+    mono_char_width_ratio: float = 0.6  # Mono char width = font_size × ratio (all chars identical)
 
     def with_updates(self, **kwargs: Any) -> Style:
         """
