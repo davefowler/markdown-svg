@@ -6,7 +6,7 @@ Everything markdown-svg can render, all in one place.
 
 Regular text, **bold**, *italic*, ***bold italic***, and `inline code`.
 
-Links work too: [Example Site](https://example.com)
+Links work too: [Link to markdown-svg github](https://github.com/davefowler/markdown-svg)
 
 ## Lists
 
@@ -44,6 +44,12 @@ print(greet("World"))
 | `**` | Bold | `**text**` |
 | `*` | Italic | `*text*` |
 | `` ` `` | Code | `` `code` `` |
+
+---
+
+## Images
+
+![Sample image](https://picsum.photos/seed/demo/400/200)
 
 ---
 

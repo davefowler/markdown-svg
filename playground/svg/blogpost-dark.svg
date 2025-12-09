@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1858.17" viewBox="0 0 600 1858.17">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="2330.56" viewBox="0 0 600 2330.56">
   <style>
     .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
     .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
@@ -7,70 +7,74 @@
     .md-link { fill: #60a5fa; }
     .md-blockquote { fill: #9ca3af; }
   </style>
-  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Building Better Developer Tools in 2025</tspan></text>
-  <text x="20" y="144" font-size="14" class="md-text"><tspan style="font-style: italic">Published on December 9, 2025 · 5 min read</tspan></text>
-  <text x="20" y="177" font-size="14" class="md-text">The landscape of developer tooling has changed dramatically. Here&#x27;s what I&#x27;ve learned building</text>
-  <text x="20" y="198" font-size="14" class="md-text">tools that developers actually want to use.</text>
-  <text x="20" y="273" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">The Problem with Most Dev Tools</tspan></text>
-  <text x="20" y="321.4" font-size="14" class="md-text">Most developer tools fail for one simple reason: <tspan style="font-weight: bold">they&#x27;re built by developers, for</tspan></text>
-  <text x="20" y="342.4" font-size="14" class="md-text"><tspan style="font-weight: bold">developers, without talking to developers</tspan> .</text>
-  <rect x="20" y="361.4" width="3" height="21" fill="#4b5563"/>
-  <text x="36" y="375.4" font-size="14" class="md-text">&quot;The best tools are invisible. They get out of your way and let you focus on what matters.&quot;</text>
-  <text x="20" y="408.4" font-size="14" class="md-text">I&#x27;ve seen this pattern repeat countless times:</text>
-  <text x="36" y="441.4" class="md-text" font-size="14" text-anchor="end">1.</text>
-  <text x="44" y="441.4" font-size="14" class="md-text">Developer has a problem</text>
-  <text x="36" y="466.4" class="md-text" font-size="14" text-anchor="end">2.</text>
-  <text x="44" y="466.4" font-size="14" class="md-text">Developer builds a tool to solve it</text>
-  <text x="36" y="491.4" class="md-text" font-size="14" text-anchor="end">3.</text>
-  <text x="44" y="491.4" font-size="14" class="md-text">Tool works great for that one developer</text>
-  <text x="36" y="516.4" class="md-text" font-size="14" text-anchor="end">4.</text>
-  <text x="44" y="516.4" font-size="14" class="md-text">Everyone else finds it confusing</text>
-  <text x="20" y="591.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">What Actually Works</tspan></text>
-  <text x="20" y="639.8" font-size="14" class="md-text">After years of trial and error, here&#x27;s what I&#x27;ve found makes a tool successful:</text>
-  <text x="20" y="706.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Start with the Simplest API</tspan></text>
-  <text x="20" y="750.95" font-size="14" class="md-text">Your tool should be usable in <tspan style="font-weight: bold">one line of code</tspan> . Everything else is optional.</text>
-  <rect x="20" y="769.95" width="560" height="165.12" fill="#374151" rx="4"/>
-  <text x="32" y="794.55" class="md-mono" font-size="12.6" fill="#e5e7eb"># This is the dream</text>
-  <text x="32" y="812.19" class="md-mono" font-size="12.6" fill="#e5e7eb">result = my_tool(&quot;input&quot;)</text>
-  <text x="32" y="847.47" class="md-mono" font-size="12.6" fill="#e5e7eb"># Not this</text>
-  <text x="32" y="865.11" class="md-mono" font-size="12.6" fill="#e5e7eb">config = Config(option1=True, option2=False)</text>
-  <text x="32" y="882.75" class="md-mono" font-size="12.6" fill="#e5e7eb">client = Client(config)</text>
-  <text x="32" y="900.39" class="md-mono" font-size="12.6" fill="#e5e7eb">session = client.create_session()</text>
-  <text x="32" y="918.03" class="md-mono" font-size="12.6" fill="#e5e7eb">result = session.process(&quot;input&quot;)</text>
-  <text x="20" y="994.32" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Sensible Defaults</tspan></text>
-  <text x="20" y="1039.22" font-size="14" class="md-text">90% of users should never need to configure anything. The defaults should <tspan style="font-style: italic">just work</tspan> .</text>
-  <rect x="20" y="1058.22" width="560" height="37" fill="#374151"/>
-  <text x="28" y="1080.22" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Approach</text>
-  <text x="308" y="1080.22" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Result</text>
-  <text x="28" y="1117.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Require configuration</text>
-  <text x="308" y="1117.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users give up</text>
-  <text x="28" y="1154.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Smart defaults</text>
-  <text x="308" y="1154.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users succeed</text>
-  <text x="28" y="1191.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Both options</text>
-  <text x="308" y="1191.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users love you</text>
-  <rect x="20" y="1058.22" width="560" height="148" fill="none" stroke="#4b5563"/>
-  <line x1="300" y1="1058.22" x2="300" y2="1206.22" stroke="#4b5563"/>
-  <line x1="20" y1="1095.22" x2="580" y2="1095.22" stroke="#4b5563"/>
-  <line x1="20" y1="1132.22" x2="580" y2="1132.22" stroke="#4b5563"/>
-  <line x1="20" y1="1169.22" x2="580" y2="1169.22" stroke="#4b5563"/>
-  <text x="20" y="1265.47" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Error Messages That Help</tspan></text>
-  <text x="20" y="1310.37" font-size="14" class="md-text">Bad: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">Error: Invalid input</tspan></text>
-  <text x="20" y="1343.37" font-size="14" class="md-text">Good: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">Error: Expected a string, got integer. Try: my_tool(&quot;hello&quot;)</tspan></text>
-  <text x="20" y="1364.37" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">instead of my_tool(123)</tspan></text>
-  <text x="20" y="1439.37" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">The Tools I&#x27;m Excited About</tspan></text>
-  <circle cx="28" cy="1484.27" r="3" fill="#e5e7eb"/>
-  <text x="44" y="1487.77" font-size="14" class="md-text"><tspan style="font-weight: bold">Ruff</tspan> — Finally, a Python linter that&#x27;s actually fast</text>
-  <circle cx="28" cy="1509.27" r="3" fill="#e5e7eb"/>
-  <text x="44" y="1512.77" font-size="14" class="md-text"><tspan style="font-weight: bold">uv</tspan> — pip, but it doesn&#x27;t make you wait</text>
-  <circle cx="28" cy="1534.27" r="3" fill="#e5e7eb"/>
-  <text x="44" y="1537.77" font-size="14" class="md-text"><tspan style="font-weight: bold">Cursor</tspan> — AI that understands your codebase</text>
-  <circle cx="28" cy="1559.27" r="3" fill="#e5e7eb"/>
-  <text x="44" y="1562.77" font-size="14" class="md-text"><tspan style="font-weight: bold">markdown-svg</tspan> — Turn markdown into beautiful SVGs <tspan style="font-style: italic">(shameless plug)</tspan></text>
-  <text x="20" y="1637.77" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Conclusion</tspan></text>
-  <text x="20" y="1686.17" font-size="14" class="md-text">Building developer tools is hard. But when you get it right, you can save thousands of developers</text>
-  <text x="20" y="1707.17" font-size="14" class="md-text">hours of frustration.</text>
-  <text x="20" y="1740.17" font-size="14" class="md-text">The secret? <tspan style="font-weight: bold">Listen to your users</tspan> , keep things simple, and never stop iterating.</text>
-  <rect x="20" y="1771.17" width="560" height="1" fill="#4b5563"/>
-  <text x="20" y="1810.17" font-size="14" class="md-text"><tspan style="font-style: italic">Thanks for reading! Follow me on [Twitter](https://twitter.com) for more thoughts on</tspan></text>
-  <text x="20" y="1831.17" font-size="14" class="md-text"><tspan style="font-style: italic">developer experience.</tspan></text>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">A Quick Guide to Markdown</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text"><tspan style="font-style: italic">Now you can render Markdown directly to SVG! For those who don&#x27;t know or need a</tspan></text>
+  <text x="20" y="165" font-size="14" class="md-text"><tspan style="font-style: italic">refresher, here&#x27;s an overview with examples.</tspan></text>
+  <rect x="20" y="196" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="277" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">What is Markdown?</tspan></text>
+  <text x="20" y="325.4" font-size="14" class="md-text">Markdown is a lightweight markup language that lets you write formatted text using plain text</text>
+  <text x="20" y="346.4" font-size="14" class="md-text">syntax. It&#x27;s used everywhere: GitHub, Reddit, Notion, and now... <tspan style="font-weight: bold">SVG images</tspan> !</text>
+  <text x="20" y="421.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Text Formatting</tspan></text>
+  <text x="20" y="469.8" font-size="14" class="md-text">Make text <tspan style="font-weight: bold">bold</tspan> with double asterisks, <tspan style="font-style: italic">italic</tspan> with single asterisks, or <tspan style="font-weight: bold; font-style: italic">both</tspan> with triple. You can</text>
+  <text x="20" y="490.8" font-size="14" class="md-text">also use <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">inline code</tspan> with backticks.</text>
+  <text x="20" y="523.8" font-size="14" class="md-text">Need to ~~strike through~~ something? Use double tildes.</text>
+  <text x="20" y="598.8" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Headings</tspan></text>
+  <text x="20" y="647.2" font-size="14" class="md-text">Headings use hash symbols. One <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">#</tspan> for h1, two <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">##</tspan> for h2, and so on down to <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">######</tspan> for h6.</text>
+  <text x="20" y="668.2" font-size="14" class="md-text">Simple!</text>
+  <text x="20" y="743.2" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Lists</tspan></text>
+  <text x="20" y="791.6" font-size="14" class="md-text"><tspan style="font-weight: bold">Unordered lists</tspan> use dashes, asterisks, or plus signs:</text>
+  <circle cx="28" cy="821.1" r="3" fill="#e5e7eb"/>
+  <text x="44" y="824.6" font-size="14" class="md-text">First item</text>
+  <circle cx="28" cy="846.1" r="3" fill="#e5e7eb"/>
+  <text x="44" y="849.6" font-size="14" class="md-text">Second item</text>
+  <circle cx="28" cy="871.1" r="3" fill="#e5e7eb"/>
+  <text x="44" y="874.6" font-size="14" class="md-text">Third item</text>
+  <text x="20" y="907.6" font-size="14" class="md-text"><tspan style="font-weight: bold">Ordered lists</tspan> use numbers:</text>
+  <text x="36" y="940.6" class="md-text" font-size="14" text-anchor="end">1.</text>
+  <text x="44" y="940.6" font-size="14" class="md-text">Do this first</text>
+  <text x="36" y="965.6" class="md-text" font-size="14" text-anchor="end">2.</text>
+  <text x="44" y="965.6" font-size="14" class="md-text">Then do this</text>
+  <text x="36" y="990.6" class="md-text" font-size="14" text-anchor="end">3.</text>
+  <text x="44" y="990.6" font-size="14" class="md-text">Finally, do this</text>
+  <text x="20" y="1065.6" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Links and Images</tspan></text>
+  <text x="20" y="1114" font-size="14" class="md-text">Links look like this: <a href="https://github.com"><tspan style="fill: #60a5fa; text-decoration: underline">Visit GitHub</tspan></a></text>
+  <text x="20" y="1147" font-size="14" class="md-text">Images are similar but with an exclamation mark:</text>
+  <image x="20" y="1166" width="200" height="150" href="https://picsum.photos/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>A sample image</title>
+  <text x="20" y="1384" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Code Blocks</tspan></text>
+  <text x="20" y="1432.4" font-size="14" class="md-text">For multi-line code, use triple backticks:</text>
+  <rect x="20" y="1451.4" width="560" height="94.56" fill="#374151" rx="4"/>
+  <text x="32" y="1476" class="md-mono" font-size="12.6" fill="#e5e7eb">def hello(name):</text>
+  <text x="32" y="1493.64" class="md-mono" font-size="12.6" fill="#e5e7eb"> return f&quot;Hello, {name}!&quot;</text>
+  <text x="32" y="1528.92" class="md-mono" font-size="12.6" fill="#e5e7eb">print(hello(&quot;World&quot;))</text>
+  <text x="20" y="1613.96" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Blockquotes</tspan></text>
+  <rect x="20" y="1648.36" width="3" height="21" fill="#4b5563"/>
+  <text x="36" y="1662.36" font-size="14" class="md-text">&quot;The best way to predict the future is to invent it.&quot; — Alan Kay</text>
+  <text x="20" y="1695.36" font-size="14" class="md-text">Use <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">&gt;</tspan> at the start of a line to create quotes.</text>
+  <text x="20" y="1770.36" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Tables</tspan></text>
+  <rect x="20" y="1804.76" width="560" height="37" fill="#374151"/>
+  <text x="28" y="1826.76" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Feature</text>
+  <text x="308" y="1826.76" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Supported</text>
+  <text x="28" y="1863.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Headings</text>
+  <text x="308" y="1863.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">✓</text>
+  <text x="28" y="1900.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Lists</text>
+  <text x="308" y="1900.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">✓</text>
+  <text x="28" y="1937.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Code</text>
+  <text x="308" y="1937.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">✓</text>
+  <text x="28" y="1974.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Tables</text>
+  <text x="308" y="1974.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">✓</text>
+  <text x="28" y="2011.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Images</text>
+  <text x="308" y="2011.76" class="md-text" font-size="14" font-weight="normal" text-anchor="start">✓</text>
+  <rect x="20" y="1804.76" width="560" height="222" fill="none" stroke="#4b5563"/>
+  <line x1="300" y1="1804.76" x2="300" y2="2026.76" stroke="#4b5563"/>
+  <line x1="20" y1="1841.76" x2="580" y2="1841.76" stroke="#4b5563"/>
+  <line x1="20" y1="1878.76" x2="580" y2="1878.76" stroke="#4b5563"/>
+  <line x1="20" y1="1915.76" x2="580" y2="1915.76" stroke="#4b5563"/>
+  <line x1="20" y1="1952.76" x2="580" y2="1952.76" stroke="#4b5563"/>
+  <line x1="20" y1="1989.76" x2="580" y2="1989.76" stroke="#4b5563"/>
+  <text x="20" y="2094.76" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Horizontal Rules</tspan></text>
+  <text x="20" y="2143.16" font-size="14" class="md-text">Use three dashes, asterisks, or underscores:</text>
+  <rect x="20" y="2174.16" width="560" height="1" fill="#4b5563"/>
+  <text x="20" y="2255.16" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">That&#x27;s It!</tspan></text>
+  <text x="20" y="2303.56" font-size="14" class="md-text">Markdown is simple by design. Now go create beautiful SVG documents with it!</text>
 </svg>
