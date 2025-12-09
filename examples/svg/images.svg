@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="2854" viewBox="0 0 600 2854">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d; }
+    .md-link { fill: #2563eb; }
+    .md-blockquote { fill: #6b7280; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Image Examples</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text">Markdown-svg supports images using standard markdown syntax.</text>
+  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Basic Image</tspan></text>
+  <image x="20" y="253.4" width="560" height="315" href="https://picsum.photos/seed/mountain/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>Mountain landscape</title>
+  <text x="20" y="636.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Image with Alt Text</tspan></text>
+  <text x="20" y="684.8" font-size="14" class="md-text">Alt text is important for accessibility:</text>
+  <image x="20" y="703.8" width="560" height="315" href="https://picsum.photos/seed/sunset/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>A beautiful sunset over the ocean</title>
+  <text x="20" y="1086.8" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Multiple Images</tspan></text>
+  <text x="20" y="1135.2" font-size="14" class="md-text">You can include several images in a document:</text>
+  <image x="20" y="1154.2" width="560" height="315" href="https://picsum.photos/seed/forest/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>Forest path</title>
+  <image x="20" y="1481.2" width="560" height="315" href="https://picsum.photos/seed/city/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>City skyline</title>
+  <image x="20" y="1808.2" width="560" height="315" href="https://picsum.photos/seed/desert/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>Desert dunes</title>
+  <text x="20" y="2191.2" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Images with Text</tspan></text>
+  <text x="20" y="2239.6" font-size="14" class="md-text">Images work naturally alongside other content:</text>
+  <text x="20" y="2272.6" font-size="14" class="md-text">The image below shows a peaceful lake scene. Notice how the text wraps normally before</text>
+  <text x="20" y="2293.6" font-size="14" class="md-text">and after the image.</text>
+  <image x="20" y="2312.6" width="560" height="315" href="https://picsum.photos/seed/lake/400/200" preserveAspectRatio="xMidYMid meet"/>
+  <title>Peaceful lake</title>
+  <text x="20" y="2653.6" font-size="14" class="md-text">This text appears after the image, continuing the document flow.</text>
+  <text x="20" y="2728.6" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Notes</tspan></text>
+  <circle cx="28" cy="2773.5" r="3" fill="#1a1a1a"/>
+  <text x="44" y="2777" font-size="14" class="md-text">Images are rendered as SVG <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">&lt;image&gt;</tspan> elements</text>
+  <circle cx="28" cy="2798.5" r="3" fill="#1a1a1a"/>
+  <text x="44" y="2802" font-size="14" class="md-text">External URLs must be accessible to the SVG viewer</text>
+  <circle cx="28" cy="2823.5" r="3" fill="#1a1a1a"/>
+  <text x="44" y="2827" font-size="14" class="md-text">Default: full-width with 16:9 aspect ratio (configurable via style)</text>
+</svg>

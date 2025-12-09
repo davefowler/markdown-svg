@@ -36,5 +36,5 @@ This text appears after the image, continuing the document flow.
 
 - Images are rendered as SVG `<image>` elements
 - External URLs must be accessible to the SVG viewer
-- Default size is 200×150px (maintains aspect ratio)
+- Default: full-width with 16:9 aspect ratio (configurable via style)
 

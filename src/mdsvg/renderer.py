@@ -125,16 +125,17 @@ class SVGRenderer:
         is_mono: bool = False,
     ) -> float:
         """Measure text width using best available method."""
+        width: float
+
         # Monospace: all characters have identical width, so just multiply
         if is_mono:
             if self._mono_char_width is not None:
                 # Use measured width from actual mono font
-                return len(text) * self._mono_char_width * font_size
+                width = len(text) * self._mono_char_width * font_size
             else:
                 # Fall back to configured ratio
-                return len(text) * font_size * self.style.mono_char_width_ratio
-
-        if self._measurer is not None and self._measurer.is_available:
+                width = len(text) * font_size * self.style.mono_char_width_ratio
+        elif self._measurer is not None and self._measurer.is_available:
             width = self._measurer.measure(text, font_size)
             # Apply scaling for bold/italic since FontMeasurer only has regular font
             # Bold text is typically 10-15% wider, italic ~4% wider
@@ -147,22 +148,23 @@ class SVGRenderer:
                 width *= self.style.bold_char_width_ratio / self.style.char_width_ratio
             elif is_italic:
                 width *= self.style.italic_char_width_ratio / self.style.char_width_ratio
-            return width
+        else:
+            # Use heuristic when FontMeasurer is not available
+            effective_ratio = self.style.char_width_ratio
+            if is_italic:
+                effective_ratio = self.style.italic_char_width_ratio
 
-        # Use heuristic when FontMeasurer is not available
-        # For italic, use a slightly higher ratio
-        effective_ratio = self.style.char_width_ratio
-        if is_italic:
-            effective_ratio = self.style.italic_char_width_ratio
+            width = estimate_text_width(
+                text,
+                font_size,
+                is_bold=is_bold,
+                is_mono=is_mono,
+                char_width_ratio=effective_ratio,
+                bold_char_width_ratio=self.style.bold_char_width_ratio,
+            )
 
-        return estimate_text_width(
-            text,
-            font_size,
-            is_bold=is_bold,
-            is_mono=is_mono,
-            char_width_ratio=effective_ratio,
-            bold_char_width_ratio=self.style.bold_char_width_ratio,
-        )
+        # Apply safety margin for browser rendering differences
+        return width * self.style.text_width_scale
 
     def render(
         self,
@@ -641,10 +643,30 @@ class SVGRenderer:
         img: ImageBlock,
         ctx: RenderContext,
     ) -> Tuple[List[str], float]:
-        """Render an image block."""
-        # Default size for images - could be enhanced to detect actual size
-        img_width = min(ctx.width, 200)
-        img_height = 150
+        """Render an image block.
+        
+        Image sizing follows these rules:
+        - If style.image_width is set, use that (capped by container width)
+        - Otherwise, use full container width (like CSS width: 100%)
+        - If style.image_height is set, use that
+        - Otherwise, calculate from width using style.image_aspect_ratio
+        
+        The preserveAspectRatio attribute ensures the actual image
+        scales proportionally within the allocated space.
+        """
+        # Determine image width
+        if self.style.image_width is not None:
+            img_width = min(ctx.width, self.style.image_width)
+        else:
+            # Default: full width (like CSS width: 100%)
+            img_width = ctx.width
+
+        # Determine image height
+        if self.style.image_height is not None:
+            img_height = self.style.image_height
+        else:
+            # Calculate from aspect ratio
+            img_height = img_width / self.style.image_aspect_ratio
 
         element = (
             f'  <image x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '

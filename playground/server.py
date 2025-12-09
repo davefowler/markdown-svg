@@ -26,7 +26,8 @@ from mdsvg import Style, render
 
 
 PLAYGROUND_DIR = Path(__file__).parent
-EXAMPLES_DIR = PLAYGROUND_DIR / "examples"
+ROOT_DIR = PLAYGROUND_DIR.parent
+EXAMPLES_DIR = ROOT_DIR / "examples"
 
 # Style options that can be passed from the frontend
 STYLE_OPTIONS = {
@@ -169,6 +170,11 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
 
 def run_server(host: str = "localhost", port: int = 8765) -> None:
     """Run the playground server."""
+    # Generate example SVGs for the gallery thumbnails
+    from playground.generate_svgs import main as generate_svgs
+    print("Generating example SVGs...")
+    generate_svgs()
+    
     server_address = (host, port)
     httpd = HTTPServer(server_address, PlaygroundHandler)
     

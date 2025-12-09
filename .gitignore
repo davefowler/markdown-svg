@@ -75,6 +75,9 @@ venv.bak/
 examples/output/*.svg
 !examples/output/.gitkeep
 
+# Generated playground SVGs (regenerate with: python playground/generate_svgs.py)
+playground/svg/*.svg
+
 # Type checking
 .mypy_cache/
 .dmypy.json

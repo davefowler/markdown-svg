@@ -14,8 +14,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from mdsvg import DARK_THEME, GITHUB_THEME, LIGHT_THEME, render
 
 
-EXAMPLES_DIR = Path(__file__).parent / "examples"
-SVG_OUTPUT_DIR = Path(__file__).parent / "svg"
+EXAMPLES_DIR = Path(__file__).parent.parent / "examples"
+SVG_OUTPUT_DIR = EXAMPLES_DIR / "svg"
 ROOT_README = Path(__file__).parent.parent / "README.md"
 
 

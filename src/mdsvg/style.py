@@ -98,11 +98,17 @@ class Style:
     hr_color: str = "#e5e7eb"
     hr_height: float = 1.0
 
+    # Images
+    image_width: Optional[float] = None  # None = full width (100% of container)
+    image_height: Optional[float] = None  # None = auto (based on aspect ratio hint)
+    image_aspect_ratio: float = 16 / 9  # Default aspect ratio when height is auto
+
     # Text measurement
     char_width_ratio: float = 0.48  # Average char width as ratio of font size
     bold_char_width_ratio: float = 0.58  # Wider for bold (~20% wider than regular)
     italic_char_width_ratio: float = 0.52  # Wider for italic (~8% wider than regular)
     mono_char_width_ratio: float = 0.6  # Mono char width = font_size × ratio (all chars identical)
+    text_width_scale: float = 1.05  # Safety margin for browser rendering differences
 
     def with_updates(self, **kwargs: Any) -> Style:
         """
