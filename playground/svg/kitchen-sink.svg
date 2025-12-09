@@ -11,7 +11,7 @@
   <text x="20" y="144" font-size="14" class="md-text">Everything markdown-svg can render, all in one place.</text>
   <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Text Formatting</tspan></text>
   <text x="20" y="267.4" font-size="14" class="md-text">Regular text, <tspan style="font-weight: bold">bold</tspan> , <tspan style="font-style: italic">italic</tspan> , <tspan style="font-weight: bold; font-style: italic">bold italic</tspan> , and <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">inline code</tspan> .</text>
-  <text x="20" y="300.4" font-size="14" class="md-text">Links work too: <a href="https://example.com"><tspan style="fill: #2563eb; text-decoration: underline">Example Site</tspan></a></text>
+  <text x="20" y="300.4" font-size="14" class="md-text">Links work too: <a href="https://github.com/davefowler/markdown-svg"><tspan style="fill: #2563eb; text-decoration: underline">Link to markdown-svg github</tspan></a></text>
   <text x="20" y="375.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Lists</tspan></text>
   <text x="20" y="457.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Unordered</tspan></text>
   <circle cx="28" cy="498.45" r="3" fill="#1a1a1a"/>
