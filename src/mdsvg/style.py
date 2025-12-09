@@ -51,13 +51,13 @@ class Style:
         char_width_ratio: Average character width as ratio of font size.
         bold_char_width_ratio: Character width ratio for bold text.
     """
-    
+
     # Fonts
     font_family: str = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
     mono_font_family: str = "ui-monospace, 'SF Mono', Menlo, Consolas, monospace"
     base_font_size: float = 14.0
     line_height: float = 1.5
-    
+
     # Colors
     text_color: str = "#1a1a1a"
     heading_color: Optional[str] = None  # Falls back to text_color
@@ -67,7 +67,7 @@ class Style:
     code_background: str = "#f3f4f6"
     blockquote_color: str = "#6b7280"
     blockquote_border_color: str = "#d1d5db"
-    
+
     # Heading scales (multipliers of base_font_size)
     h1_scale: float = 2.0
     h2_scale: float = 1.6
@@ -78,7 +78,7 @@ class Style:
     heading_font_weight: str = "bold"
     heading_margin_top: float = 1.5  # em
     heading_margin_bottom: float = 0.5  # em
-    
+
     # Spacing
     paragraph_spacing: float = 12.0
     list_indent: float = 24.0
@@ -87,20 +87,20 @@ class Style:
     code_block_border_radius: float = 4.0
     blockquote_padding: float = 16.0
     blockquote_border_width: float = 3.0
-    
+
     # Table
     table_border_color: str = "#e5e7eb"
     table_header_background: str = "#f9fafb"
     table_cell_padding: float = 8.0
-    
+
     # Horizontal rule
     hr_color: str = "#e5e7eb"
     hr_height: float = 1.0
-    
+
     # Text measurement
     char_width_ratio: float = 0.48  # Average char width as ratio of font size
     bold_char_width_ratio: float = 0.52  # Slightly wider for bold
-    
+
     def with_updates(self, **kwargs: Any) -> Style:
         """
         Create a new Style with updated values.
@@ -119,7 +119,7 @@ class Style:
             ... )
         """
         return replace(self, **kwargs)
-    
+
     def get_heading_scale(self, level: int) -> float:
         """
         Get the font size scale for a heading level.
@@ -139,7 +139,7 @@ class Style:
             6: self.h6_scale,
         }
         return scales.get(level, 1.0)
-    
+
     def get_heading_color(self) -> str:
         """Get the color for headings, falling back to text_color."""
         return self.heading_color or self.text_color

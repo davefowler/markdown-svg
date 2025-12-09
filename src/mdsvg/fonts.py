@@ -57,17 +57,17 @@ class FontMeasurer:
         >>> measurer.measure("Hello World", 14)
         72.4
     """
-    
+
     font_path: str
     font_number: int = 0  # For .ttc files with multiple fonts
     _cmap: Optional[Dict[int, str]] = field(default=None, init=False, repr=False)
     _hmtx: Optional[Any] = field(default=None, init=False, repr=False)
     _units_per_em: int = field(default=1000, init=False, repr=False)
     _available: bool = field(default=False, init=False, repr=False)
-    
+
     def __post_init__(self) -> None:
         self._init_font()
-    
+
     def _init_font(self) -> None:
         """Load font metrics from the font file."""
         try:
@@ -80,7 +80,7 @@ class FontMeasurer:
         except Exception:
             # Font file not found or invalid
             self._available = False
-    
+
     def measure(self, text: str, font_size: float) -> float:
         """
         Measure the width of text in pixels.
@@ -97,12 +97,12 @@ class FontMeasurer:
         """
         if not text:
             return 0.0
-        
+
         if not self._available:
             raise RuntimeError(
                 "FontMeasurer not available. Install fonttools: pip install fonttools"
             )
-        
+
         total_width: float = 0
         for char in text:
             glyph_id = self._cmap.get(ord(char)) if self._cmap else None
@@ -112,14 +112,14 @@ class FontMeasurer:
             else:
                 # Fallback for unknown glyphs (space-like width)
                 total_width += self._units_per_em * 0.25
-        
+
         return (total_width / self._units_per_em) * font_size
-    
+
     @property
     def is_available(self) -> bool:
         """Check if font measurement is available."""
         return self._available
-    
+
     @classmethod
     def system_default(cls) -> Optional[FontMeasurer]:
         """
@@ -147,7 +147,7 @@ def get_system_font() -> Optional[str]:
         Path to a font file, or None if not found.
     """
     system = platform.system()
-    
+
     if system == "Darwin":  # macOS
         candidates = [
             "/System/Library/Fonts/SFNS.ttf",
@@ -170,11 +170,11 @@ def get_system_font() -> Optional[str]:
             "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
             "/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",
         ]
-    
+
     for path in candidates:
         if os.path.exists(path):
             return path
-    
+
     return None
 
 
@@ -202,25 +202,25 @@ def create_precise_wrapper(
     """
     if measurer is None:
         measurer = get_default_measurer()
-    
+
     if measurer is None or not measurer.is_available:
         from .measure import wrap_text
         return lambda text: wrap_text(text, max_width, font_size)
-    
+
     def wrap_precise(text: str) -> List[str]:
         if not text:
             return [""]
-        
+
         words = text.split(" ")
         lines: List[str] = []
         current_line: List[str] = []
         current_width = 0.0
         space_width = measurer.measure(" ", font_size)
-        
+
         for word in words:
             word_width = measurer.measure(word, font_size)
             test_width = current_width + (space_width if current_line else 0) + word_width
-            
+
             if test_width <= max_width or not current_line:
                 current_line.append(word)
                 current_width = test_width
@@ -228,12 +228,12 @@ def create_precise_wrapper(
                 lines.append(" ".join(current_line))
                 current_line = [word]
                 current_width = word_width
-        
+
         if current_line:
             lines.append(" ".join(current_line))
-        
+
         return lines if lines else [""]
-    
+
     return wrap_precise
 
 
@@ -255,14 +255,14 @@ def calibrate_heuristic(
     """
     if measurer is None:
         measurer = get_default_measurer()
-    
+
     if measurer is None or not measurer.is_available:
         return (0.48, 0.52)
-    
+
     sample = "The quick brown fox jumps over the lazy dog. 0123456789"
     actual_width = measurer.measure(sample, font_size)
     ratio = actual_width / (font_size * len(sample))
-    
+
     return (ratio, ratio * 1.08)
 
 
@@ -277,14 +277,14 @@ def get_font_cache_dir() -> str:
     """
     # Use platform-appropriate cache directory
     system = platform.system()
-    
+
     if system == "Darwin":
         cache_base = os.path.expanduser("~/Library/Caches")
     elif system == "Windows":
         cache_base = os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))
     else:
         cache_base = os.environ.get("XDG_CACHE_HOME", os.path.expanduser("~/.cache"))
-    
+
     cache_dir = os.path.join(cache_base, "mdsvg", "fonts")
     os.makedirs(cache_dir, exist_ok=True)
     return cache_dir
@@ -320,25 +320,25 @@ def download_google_font(
         >>> # With specific weight
         >>> bold_path = download_google_font("Inter", weight=700)
     """
-    import urllib.request
-    import urllib.error
     import re
-    
+    import urllib.error
+    import urllib.request
+
     if cache_dir is None:
         cache_dir = get_font_cache_dir()
-    
+
     # Normalize font name for filename
     safe_name = re.sub(r"[^a-zA-Z0-9]", "", font_name)
     font_filename = f"{safe_name}-{weight}.ttf"
     font_path = os.path.join(cache_dir, font_filename)
-    
+
     # Return cached font if exists
     if os.path.exists(font_path):
         return font_path
-    
+
     # Google Fonts CSS API URL
     css_url = f"https://fonts.googleapis.com/css2?family={font_name.replace(' ', '+')}:wght@{weight}"
-    
+
     try:
         # Fetch CSS to get the actual font URL
         # Use a browser-like User-Agent to get TTF instead of WOFF2
@@ -348,7 +348,7 @@ def download_google_font(
         )
         with urllib.request.urlopen(request, timeout=30) as response:
             css = response.read().decode("utf-8")
-        
+
         # Extract font URL from CSS
         # Looking for: src: url(https://fonts.gstatic.com/...) format('truetype')
         match = re.search(r"src:\s*url\(([^)]+\.ttf)\)", css)
@@ -361,19 +361,19 @@ def download_google_font(
                     f"Download TTF manually from https://fonts.google.com/specimen/{font_name.replace(' ', '+')}"
                 )
             raise RuntimeError(f"Could not find font URL for '{font_name}'")
-        
+
         font_url = match.group(1)
-        
+
         # Download the font file
         with urllib.request.urlopen(font_url, timeout=60) as response:
             font_data = response.read()
-        
+
         # Save to cache
         with open(font_path, "wb") as f:
             f.write(font_data)
-        
+
         return font_path
-        
+
     except urllib.error.HTTPError as e:
         if e.code == 400:
             raise RuntimeError(
@@ -397,10 +397,10 @@ def list_cached_fonts(cache_dir: Optional[str] = None) -> List[str]:
     """
     if cache_dir is None:
         cache_dir = get_font_cache_dir()
-    
+
     if not os.path.exists(cache_dir):
         return []
-    
+
     return [
         os.path.join(cache_dir, f)
         for f in os.listdir(cache_dir)

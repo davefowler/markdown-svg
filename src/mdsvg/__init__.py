@@ -18,8 +18,6 @@ Measure dimensions without rendering:
     >>> print(f"Height: {size.height}px")
 """
 
-from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
-
 # Precise text measurement
 from .fonts import (
     FontMeasurer,
@@ -30,6 +28,7 @@ from .fonts import (
     get_system_font,
     list_cached_fonts,
 )
+from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
 from .parser import MarkdownParser, parse
 from .renderer import SVGRenderer, measure, render, render_blocks
 from .style import DARK_THEME, GITHUB_THEME, LIGHT_THEME, Style

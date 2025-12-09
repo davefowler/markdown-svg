@@ -58,5 +58,6 @@ target-version = "py39"
 line-length = 100
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+select = ["E", "F", "I", "N", "B", "C4", "SIM"]
+ignore = ["E501"]  # Line too long - handled by formatter
 

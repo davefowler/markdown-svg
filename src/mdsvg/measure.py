@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Sequence
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from .style import Style
@@ -56,25 +57,25 @@ def estimate_char_width(
     if is_mono:
         # Monospace fonts have consistent width
         return font_size * 0.6
-    
+
     base_ratio = bold_char_width_ratio if is_bold else char_width_ratio
-    
+
     # Narrow characters
     if char in "iIlj1|!.,;:'`":
         return font_size * base_ratio * 0.5
-    
+
     # Wide characters
     if char in "mwMW@":
         return font_size * base_ratio * 1.5
-    
+
     # Medium-wide characters
     if char in "ABCDEFGHJKNOPQRSTUVXYZ0234567890":
         return font_size * base_ratio * 1.2
-    
+
     # Spaces
     if char == " ":
         return font_size * base_ratio * 0.8
-    
+
     return font_size * base_ratio
 
 
@@ -132,21 +133,21 @@ def wrap_text(
     """
     if not text:
         return [""]
-    
+
     words = text.split(" ")
     lines: List[str] = []
     current_line: List[str] = []
     current_width = 0.0
-    
+
     space_width = estimate_char_width(
         " ", font_size, is_bold, is_mono, char_width_ratio, bold_char_width_ratio
     )
-    
+
     for word in words:
         word_width = estimate_text_width(
             word, font_size, is_bold, is_mono, char_width_ratio, bold_char_width_ratio
         )
-        
+
         # If word is longer than max_width, force break it
         if word_width > max_width and not current_line:
             # Break the long word
@@ -161,10 +162,10 @@ def wrap_text(
                 char_width_ratio, bold_char_width_ratio
             )
             continue
-        
+
         # Check if word fits on current line
         new_width = current_width + (space_width if current_line else 0) + word_width
-        
+
         if new_width <= max_width:
             current_line.append(word)
             current_width = new_width
@@ -174,11 +175,11 @@ def wrap_text(
                 lines.append(" ".join(current_line))
             current_line = [word]
             current_width = word_width
-    
+
     # Don't forget the last line
     if current_line:
         lines.append(" ".join(current_line))
-    
+
     return lines if lines else [""]
 
 
@@ -195,12 +196,12 @@ def _break_long_word(
     chunks: List[str] = []
     current_chunk = ""
     current_width = 0.0
-    
+
     for char in word:
         char_width = estimate_char_width(
             char, font_size, is_bold, is_mono, char_width_ratio, bold_char_width_ratio
         )
-        
+
         if current_width + char_width > max_width and current_chunk:
             chunks.append(current_chunk)
             current_chunk = char
@@ -208,10 +209,10 @@ def _break_long_word(
         else:
             current_chunk += char
             current_width += char_width
-    
+
     if current_chunk:
         chunks.append(current_chunk)
-    
+
     return chunks if chunks else [word]
 
 
@@ -232,16 +233,16 @@ def measure_spans(
         TextMetrics with dimensions and line information.
     """
     from .types import SpanType
-    
+
     # Build a single text string and track style changes
     full_text = "".join(span.text for span in spans)
-    
+
     # For simplicity, use the average characteristics
     has_bold = any(
         span.span_type in (SpanType.BOLD, SpanType.BOLD_ITALIC)
         for span in spans
     )
-    
+
     lines = wrap_text(
         full_text,
         max_width,
@@ -250,9 +251,9 @@ def measure_spans(
         char_width_ratio=style.char_width_ratio,
         bold_char_width_ratio=style.bold_char_width_ratio,
     )
-    
+
     line_height = style.base_font_size * style.line_height
-    
+
     # Calculate width (max line width)
     max_line_width = 0.0
     for line in lines:
@@ -264,7 +265,7 @@ def measure_spans(
             bold_char_width_ratio=style.bold_char_width_ratio,
         )
         max_line_width = max(max_line_width, line_width)
-    
+
     return TextMetrics(
         width=min(max_line_width, max_width),
         height=len(lines) * line_height,
