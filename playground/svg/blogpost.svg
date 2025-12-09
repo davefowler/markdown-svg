@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1858.17" viewBox="0 0 600 1858.17">
+  <style>
+    .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; }
+    .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .md-heading { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #1a1a1a; font-weight: bold; }
+    .md-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d; }
+    .md-link { fill: #2563eb; }
+    .md-blockquote { fill: #6b7280; }
+  </style>
+  <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">Building Better Developer Tools in 2025</tspan></text>
+  <text x="20" y="144" font-size="14" class="md-text"><tspan style="font-style: italic">Published on December 9, 2025 · 5 min read</tspan></text>
+  <text x="20" y="177" font-size="14" class="md-text">The landscape of developer tooling has changed dramatically. Here&#x27;s what I&#x27;ve learned building</text>
+  <text x="20" y="198" font-size="14" class="md-text">tools that developers actually want to use.</text>
+  <text x="20" y="273" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">The Problem with Most Dev Tools</tspan></text>
+  <text x="20" y="321.4" font-size="14" class="md-text">Most developer tools fail for one simple reason: <tspan style="font-weight: bold">they&#x27;re built by developers, for</tspan></text>
+  <text x="20" y="342.4" font-size="14" class="md-text"><tspan style="font-weight: bold">developers, without talking to developers</tspan> .</text>
+  <rect x="20" y="361.4" width="3" height="21" fill="#d1d5db"/>
+  <text x="36" y="375.4" font-size="14" class="md-text">&quot;The best tools are invisible. They get out of your way and let you focus on what matters.&quot;</text>
+  <text x="20" y="408.4" font-size="14" class="md-text">I&#x27;ve seen this pattern repeat countless times:</text>
+  <text x="36" y="441.4" class="md-text" font-size="14" text-anchor="end">1.</text>
+  <text x="44" y="441.4" font-size="14" class="md-text">Developer has a problem</text>
+  <text x="36" y="466.4" class="md-text" font-size="14" text-anchor="end">2.</text>
+  <text x="44" y="466.4" font-size="14" class="md-text">Developer builds a tool to solve it</text>
+  <text x="36" y="491.4" class="md-text" font-size="14" text-anchor="end">3.</text>
+  <text x="44" y="491.4" font-size="14" class="md-text">Tool works great for that one developer</text>
+  <text x="36" y="516.4" class="md-text" font-size="14" text-anchor="end">4.</text>
+  <text x="44" y="516.4" font-size="14" class="md-text">Everyone else finds it confusing</text>
+  <text x="20" y="591.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">What Actually Works</tspan></text>
+  <text x="20" y="639.8" font-size="14" class="md-text">After years of trial and error, here&#x27;s what I&#x27;ve found makes a tool successful:</text>
+  <text x="20" y="706.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Start with the Simplest API</tspan></text>
+  <text x="20" y="750.95" font-size="14" class="md-text">Your tool should be usable in <tspan style="font-weight: bold">one line of code</tspan> . Everything else is optional.</text>
+  <rect x="20" y="769.95" width="560" height="165.12" fill="#f3f4f6" rx="4"/>
+  <text x="32" y="794.55" class="md-mono" font-size="12.6" fill="#1a1a1a"># This is the dream</text>
+  <text x="32" y="812.19" class="md-mono" font-size="12.6" fill="#1a1a1a">result = my_tool(&quot;input&quot;)</text>
+  <text x="32" y="847.47" class="md-mono" font-size="12.6" fill="#1a1a1a"># Not this</text>
+  <text x="32" y="865.11" class="md-mono" font-size="12.6" fill="#1a1a1a">config = Config(option1=True, option2=False)</text>
+  <text x="32" y="882.75" class="md-mono" font-size="12.6" fill="#1a1a1a">client = Client(config)</text>
+  <text x="32" y="900.39" class="md-mono" font-size="12.6" fill="#1a1a1a">session = client.create_session()</text>
+  <text x="32" y="918.03" class="md-mono" font-size="12.6" fill="#1a1a1a">result = session.process(&quot;input&quot;)</text>
+  <text x="20" y="994.32" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Sensible Defaults</tspan></text>
+  <text x="20" y="1039.22" font-size="14" class="md-text">90% of users should never need to configure anything. The defaults should <tspan style="font-style: italic">just work</tspan> .</text>
+  <rect x="20" y="1058.22" width="560" height="37" fill="#f9fafb"/>
+  <text x="28" y="1080.22" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Approach</text>
+  <text x="308" y="1080.22" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Result</text>
+  <text x="28" y="1117.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Require configuration</text>
+  <text x="308" y="1117.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users give up</text>
+  <text x="28" y="1154.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Smart defaults</text>
+  <text x="308" y="1154.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users succeed</text>
+  <text x="28" y="1191.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Both options</text>
+  <text x="308" y="1191.22" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Users love you</text>
+  <rect x="20" y="1058.22" width="560" height="148" fill="none" stroke="#e5e7eb"/>
+  <line x1="300" y1="1058.22" x2="300" y2="1206.22" stroke="#e5e7eb"/>
+  <line x1="20" y1="1095.22" x2="580" y2="1095.22" stroke="#e5e7eb"/>
+  <line x1="20" y1="1132.22" x2="580" y2="1132.22" stroke="#e5e7eb"/>
+  <line x1="20" y1="1169.22" x2="580" y2="1169.22" stroke="#e5e7eb"/>
+  <text x="20" y="1265.47" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Error Messages That Help</tspan></text>
+  <text x="20" y="1310.37" font-size="14" class="md-text">Bad: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">Error: Invalid input</tspan></text>
+  <text x="20" y="1343.37" font-size="14" class="md-text">Good: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">Error: Expected a string, got integer. Try: my_tool(&quot;hello&quot;)</tspan></text>
+  <text x="20" y="1364.37" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #be185d">instead of my_tool(123)</tspan></text>
+  <text x="20" y="1439.37" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">The Tools I&#x27;m Excited About</tspan></text>
+  <circle cx="28" cy="1484.27" r="3" fill="#1a1a1a"/>
+  <text x="44" y="1487.77" font-size="14" class="md-text"><tspan style="font-weight: bold">Ruff</tspan> — Finally, a Python linter that&#x27;s actually fast</text>
+  <circle cx="28" cy="1509.27" r="3" fill="#1a1a1a"/>
+  <text x="44" y="1512.77" font-size="14" class="md-text"><tspan style="font-weight: bold">uv</tspan> — pip, but it doesn&#x27;t make you wait</text>
+  <circle cx="28" cy="1534.27" r="3" fill="#1a1a1a"/>
+  <text x="44" y="1537.77" font-size="14" class="md-text"><tspan style="font-weight: bold">Cursor</tspan> — AI that understands your codebase</text>
+  <circle cx="28" cy="1559.27" r="3" fill="#1a1a1a"/>
+  <text x="44" y="1562.77" font-size="14" class="md-text"><tspan style="font-weight: bold">markdown-svg</tspan> — Turn markdown into beautiful SVGs <tspan style="font-style: italic">(shameless plug)</tspan></text>
+  <text x="20" y="1637.77" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Conclusion</tspan></text>
+  <text x="20" y="1686.17" font-size="14" class="md-text">Building developer tools is hard. But when you get it right, you can save thousands of developers</text>
+  <text x="20" y="1707.17" font-size="14" class="md-text">hours of frustration.</text>
+  <text x="20" y="1740.17" font-size="14" class="md-text">The secret? <tspan style="font-weight: bold">Listen to your users</tspan> , keep things simple, and never stop iterating.</text>
+  <rect x="20" y="1771.17" width="560" height="1" fill="#e5e7eb"/>
+  <text x="20" y="1810.17" font-size="14" class="md-text"><tspan style="font-style: italic">Thanks for reading! Follow me on [Twitter](https://twitter.com) for more thoughts on</tspan></text>
+  <text x="20" y="1831.17" font-size="14" class="md-text"><tspan style="font-style: italic">developer experience.</tspan></text>
+</svg>

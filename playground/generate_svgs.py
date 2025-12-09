@@ -16,10 +16,22 @@ from mdsvg import DARK_THEME, GITHUB_THEME, LIGHT_THEME, render
 
 EXAMPLES_DIR = Path(__file__).parent / "examples"
 SVG_OUTPUT_DIR = Path(__file__).parent / "svg"
+ROOT_README = Path(__file__).parent.parent / "README.md"
+
+
+def sync_readme() -> None:
+    """Copy root README.md to examples folder to keep it in sync."""
+    readme_example = EXAMPLES_DIR / "readme.md"
+    if ROOT_README.exists():
+        readme_example.write_text(ROOT_README.read_text())
+        print(f"Synced: README.md → examples/readme.md")
 
 
 def main() -> None:
     """Generate SVG files for all examples."""
+    # Sync root README.md to examples
+    sync_readme()
+    
     # Create output directory
     SVG_OUTPUT_DIR.mkdir(exist_ok=True)
     

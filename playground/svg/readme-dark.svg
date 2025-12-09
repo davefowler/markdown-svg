@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1391.6" viewBox="0 0 600 1391.6">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="6576.27" viewBox="0 0 600 6576.27">
   <style>
     .md-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #e5e7eb; }
     .md-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
@@ -8,53 +8,277 @@
     .md-blockquote { fill: #9ca3af; }
   </style>
   <text x="20" y="90" font-size="28" class="md-heading"><tspan style="font-weight: bold">markdown-svg</tspan></text>
-  <text x="20" y="144" font-size="14" class="md-text">Convert Markdown to beautiful SVG images with automatic text wrapping.</text>
-  <text x="20" y="219" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Installation</tspan></text>
-  <rect x="20" y="253.4" width="560" height="41.64" fill="#374151" rx="4"/>
-  <text x="32" y="278" class="md-mono" font-size="12.6" fill="#e5e7eb">pip install markdown-svg</text>
-  <text x="20" y="363.04" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Quick Start</tspan></text>
-  <rect x="20" y="397.44" width="560" height="129.84" fill="#374151" rx="4"/>
-  <text x="32" y="422.04" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render</text>
-  <text x="32" y="457.32" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Hello World\n\nThis is **bold** text.&quot;)</text>
-  <text x="32" y="492.6" class="md-mono" font-size="12.6" fill="#e5e7eb">with open(&quot;output.svg&quot;, &quot;w&quot;) as f:</text>
-  <text x="32" y="510.24" class="md-mono" font-size="12.6" fill="#e5e7eb"> f.write(svg)</text>
-  <text x="20" y="595.28" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Features</tspan></text>
-  <circle cx="28" cy="640.18" r="3" fill="#e5e7eb"/>
-  <text x="44" y="643.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Simple API</tspan> — One function to render markdown to SVG</text>
-  <circle cx="28" cy="665.18" r="3" fill="#e5e7eb"/>
-  <text x="44" y="668.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Auto-wrapping</tspan> — Text automatically wraps to fit the specified width</text>
-  <circle cx="28" cy="690.18" r="3" fill="#e5e7eb"/>
-  <text x="44" y="693.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Rich Formatting</tspan> — Supports headings, lists, code, tables, and more</text>
-  <circle cx="28" cy="715.18" r="3" fill="#e5e7eb"/>
-  <text x="44" y="718.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Customizable</tspan> — Full control over fonts, colors, and spacing</text>
-  <circle cx="28" cy="740.18" r="3" fill="#e5e7eb"/>
-  <text x="44" y="743.68" font-size="14" class="md-text"><tspan style="font-weight: bold">Themes</tspan> — Built-in light, dark, and GitHub themes</text>
-  <text x="20" y="818.68" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Themes</tspan></text>
-  <rect x="20" y="853.08" width="560" height="37" fill="#374151"/>
-  <text x="28" y="875.08" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Theme</text>
-  <text x="308" y="875.08" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Description</text>
-  <text x="28" y="912.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">LIGHT_THEME</text>
-  <text x="308" y="912.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Clean light background (default)</text>
-  <text x="28" y="949.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">DARK_THEME</text>
-  <text x="308" y="949.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Easy on the eyes dark mode</text>
-  <text x="28" y="986.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">GITHUB_THEME</text>
-  <text x="308" y="986.08" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Matches GitHub&#x27;s markdown styling</text>
-  <rect x="20" y="853.08" width="560" height="148" fill="none" stroke="#4b5563"/>
-  <line x1="300" y1="853.08" x2="300" y2="1001.08" stroke="#4b5563"/>
-  <line x1="20" y1="890.08" x2="580" y2="890.08" stroke="#4b5563"/>
-  <line x1="20" y1="927.08" x2="580" y2="927.08" stroke="#4b5563"/>
-  <line x1="20" y1="964.08" x2="580" y2="964.08" stroke="#4b5563"/>
-  <text x="20" y="1069.08" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Example Usage</tspan></text>
-  <rect x="20" y="1103.48" width="560" height="165.12" fill="#374151" rx="4"/>
-  <text x="32" y="1128.08" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render, DARK_THEME</text>
-  <text x="32" y="1163.36" class="md-mono" font-size="12.6" fill="#e5e7eb"># Render with dark theme</text>
-  <text x="32" y="1181" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(</text>
-  <text x="32" y="1198.64" class="md-mono" font-size="12.6" fill="#e5e7eb"> &quot;# Dark Mode\n\nLooks great!&quot;,</text>
-  <text x="32" y="1216.28" class="md-mono" font-size="12.6" fill="#e5e7eb"> width=400,</text>
-  <text x="32" y="1233.92" class="md-mono" font-size="12.6" fill="#e5e7eb"> style=DARK_THEME</text>
-  <text x="32" y="1251.56" class="md-mono" font-size="12.6" fill="#e5e7eb">)</text>
-  <rect x="20" y="1280.6" width="3" height="21" fill="#4b5563"/>
-  <text x="36" y="1294.6" font-size="14" class="md-text"><tspan style="font-weight: bold">Note:</tspan> The playground on the right shows a live preview of your markdown rendered as SVG.</text>
-  <rect x="20" y="1325.6" width="560" height="1" fill="#4b5563"/>
-  <text x="20" y="1364.6" font-size="14" class="md-text">Made with ❤️ by the markdown-svg team</text>
+  <rect x="20" y="130" width="3" height="21" fill="#4b5563"/>
+  <text x="36" y="144" font-size="14" class="md-text">The missing markdown-to-SVG library for Python</text>
+  <text x="20" y="177" font-size="14" class="md-text">Convert Markdown to SVG with automatic text wrapping. Zero dependencies.</text>
+  <text x="20" y="252" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Why This Library?</tspan></text>
+  <text x="20" y="300.4" font-size="14" class="md-text">SVG has no native text flow or wrapping. If you need to embed formatted text in SVG (for</text>
+  <text x="20" y="321.4" font-size="14" class="md-text">dashboards, diagrams, exports, or anywhere else), you&#x27;ve had to manually position every line.</text>
+  <text x="20" y="342.4" font-size="14" class="md-text">Until now.</text>
+  <text x="20" y="375.4" font-size="14" class="md-text"><tspan style="font-weight: bold">markdown-svg</tspan> parses your Markdown and renders it as properly wrapped, styled SVG.</text>
+  <text x="20" y="450.4" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Installation</tspan></text>
+  <rect x="20" y="484.8" width="560" height="41.64" fill="#374151" rx="4"/>
+  <text x="32" y="509.4" class="md-mono" font-size="12.6" fill="#e5e7eb">pip install markdown-svg</text>
+  <text x="20" y="594.44" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Quick Start</tspan></text>
+  <rect x="20" y="628.84" width="560" height="306.24" fill="#374151" rx="4"/>
+  <text x="32" y="653.44" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render</text>
+  <text x="32" y="688.72" class="md-mono" font-size="12.6" fill="#e5e7eb"># Render markdown to SVG</text>
+  <text x="32" y="706.36" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;&quot;&quot;</text>
+  <text x="32" y="724" class="md-mono" font-size="12.6" fill="#e5e7eb"># Hello World</text>
+  <text x="32" y="759.28" class="md-mono" font-size="12.6" fill="#e5e7eb">This is a paragraph with **bold** and *italic* text.</text>
+  <text x="32" y="794.56" class="md-mono" font-size="12.6" fill="#e5e7eb">- Item one</text>
+  <text x="32" y="812.2" class="md-mono" font-size="12.6" fill="#e5e7eb">- Item two</text>
+  <text x="32" y="829.84" class="md-mono" font-size="12.6" fill="#e5e7eb">- Item three</text>
+  <text x="32" y="847.48" class="md-mono" font-size="12.6" fill="#e5e7eb">&quot;&quot;&quot;)</text>
+  <text x="32" y="882.76" class="md-mono" font-size="12.6" fill="#e5e7eb"># Save to file</text>
+  <text x="32" y="900.4" class="md-mono" font-size="12.6" fill="#e5e7eb">with open(&quot;output.svg&quot;, &quot;w&quot;) as f:</text>
+  <text x="32" y="918.04" class="md-mono" font-size="12.6" fill="#e5e7eb"> f.write(svg)</text>
+  <text x="20" y="1003.08" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Features</tspan></text>
+  <circle cx="28" cy="1047.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1051.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Headings</tspan> (h1-h6)</text>
+  <circle cx="28" cy="1072.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1076.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Paragraphs</tspan> with automatic word wrapping</text>
+  <circle cx="28" cy="1097.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1101.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Inline formatting</tspan> : bold, italic, bold+italic, inline code</text>
+  <circle cx="28" cy="1122.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1126.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Links</tspan> (rendered as styled text, clickable in SVG viewers)</text>
+  <circle cx="28" cy="1147.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1151.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Lists</tspan> : unordered (bullets) and ordered (numbers)</text>
+  <circle cx="28" cy="1172.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1176.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Code blocks</tspan> with syntax highlighting background</text>
+  <circle cx="28" cy="1197.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1201.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Blockquotes</tspan> with styled left border</text>
+  <circle cx="28" cy="1222.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1226.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Horizontal rules</tspan></text>
+  <circle cx="28" cy="1247.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1251.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Tables</tspan> with headers and alignment</text>
+  <circle cx="28" cy="1272.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1276.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Images</tspan> (as <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">&lt;image&gt;</tspan> elements)</text>
+  <circle cx="28" cy="1297.98" r="3" fill="#e5e7eb"/>
+  <text x="44" y="1301.48" font-size="14" class="md-text"><tspan style="font-weight: bold">Zero dependencies</tspan> - pure Python</text>
+  <text x="20" y="1376.48" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">API</tspan></text>
+  <text x="20" y="1458.13" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Basic Rendering</tspan></text>
+  <rect x="20" y="1489.03" width="560" height="218.04" fill="#374151" rx="4"/>
+  <text x="32" y="1513.63" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render, measure</text>
+  <text x="32" y="1548.91" class="md-mono" font-size="12.6" fill="#e5e7eb"># Render with default settings</text>
+  <text x="32" y="1566.55" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Hello World&quot;)</text>
+  <text x="32" y="1601.83" class="md-mono" font-size="12.6" fill="#e5e7eb"># Customize width and padding</text>
+  <text x="32" y="1619.47" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Hello World&quot;, width=600, padding=30)</text>
+  <text x="32" y="1654.75" class="md-mono" font-size="12.6" fill="#e5e7eb"># Measure dimensions without rendering</text>
+  <text x="32" y="1672.39" class="md-mono" font-size="12.6" fill="#e5e7eb">size = measure(&quot;# Hello\n\nLong paragraph...&quot;, width=400)</text>
+  <text x="32" y="1690.03" class="md-mono" font-size="12.6" fill="#e5e7eb">print(f&quot;Height needed: {size.height}px&quot;)</text>
+  <text x="20" y="1766.32" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Custom Styling</tspan></text>
+  <rect x="20" y="1797.22" width="560" height="412.08" fill="#374151" rx="4"/>
+  <text x="32" y="1821.82" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render, Style</text>
+  <text x="32" y="1857.1" class="md-mono" font-size="12.6" fill="#e5e7eb">style = Style(</text>
+  <text x="32" y="1874.74" class="md-mono" font-size="12.6" fill="#e5e7eb"> # Fonts</text>
+  <text x="32" y="1892.38" class="md-mono" font-size="12.6" fill="#e5e7eb"> font_family=&quot;Georgia, serif&quot;,</text>
+  <text x="32" y="1910.02" class="md-mono" font-size="12.6" fill="#e5e7eb"> mono_font_family=&quot;&#x27;Courier New&#x27;, monospace&quot;,</text>
+  <text x="32" y="1927.66" class="md-mono" font-size="12.6" fill="#e5e7eb"> base_font_size=16.0,</text>
+  <text x="32" y="1945.3" class="md-mono" font-size="12.6" fill="#e5e7eb"> line_height=1.6,</text>
+  <text x="32" y="1962.94" class="md-mono" font-size="12.6" fill="#e5e7eb"> </text>
+  <text x="32" y="1980.58" class="md-mono" font-size="12.6" fill="#e5e7eb"> # Colors</text>
+  <text x="32" y="1998.22" class="md-mono" font-size="12.6" fill="#e5e7eb"> text_color=&quot;#333333&quot;,</text>
+  <text x="32" y="2015.86" class="md-mono" font-size="12.6" fill="#e5e7eb"> heading_color=&quot;#111111&quot;,</text>
+  <text x="32" y="2033.5" class="md-mono" font-size="12.6" fill="#e5e7eb"> link_color=&quot;#0066cc&quot;,</text>
+  <text x="32" y="2051.14" class="md-mono" font-size="12.6" fill="#e5e7eb"> code_color=&quot;#c7254e&quot;,</text>
+  <text x="32" y="2068.78" class="md-mono" font-size="12.6" fill="#e5e7eb"> code_background=&quot;#f9f2f4&quot;,</text>
+  <text x="32" y="2086.42" class="md-mono" font-size="12.6" fill="#e5e7eb"> </text>
+  <text x="32" y="2104.06" class="md-mono" font-size="12.6" fill="#e5e7eb"> # Heading scales</text>
+  <text x="32" y="2121.7" class="md-mono" font-size="12.6" fill="#e5e7eb"> h1_scale=2.25,</text>
+  <text x="32" y="2139.34" class="md-mono" font-size="12.6" fill="#e5e7eb"> h2_scale=1.75,</text>
+  <text x="32" y="2156.98" class="md-mono" font-size="12.6" fill="#e5e7eb">)</text>
+  <text x="32" y="2192.26" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Styled Heading&quot;, style=style)</text>
+  <text x="20" y="2268.55" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Built-in Themes</tspan></text>
+  <rect x="20" y="2299.45" width="560" height="147.48" fill="#374151" rx="4"/>
+  <text x="32" y="2324.05" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import render, DARK_THEME, GITHUB_THEME, LIGHT_THEME</text>
+  <text x="32" y="2359.33" class="md-mono" font-size="12.6" fill="#e5e7eb"># Use dark theme</text>
+  <text x="32" y="2376.97" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# Dark Mode&quot;, style=DARK_THEME)</text>
+  <text x="32" y="2412.25" class="md-mono" font-size="12.6" fill="#e5e7eb"># Use GitHub-style theme </text>
+  <text x="32" y="2429.89" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render(&quot;# GitHub Style&quot;, style=GITHUB_THEME)</text>
+  <text x="20" y="2506.18" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Working with the AST</tspan></text>
+  <rect x="20" y="2537.08" width="560" height="165.12" fill="#374151" rx="4"/>
+  <text x="32" y="2561.68" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import parse, render_blocks</text>
+  <text x="32" y="2596.96" class="md-mono" font-size="12.6" fill="#e5e7eb"># Parse to AST (for inspection or modification)</text>
+  <text x="32" y="2614.6" class="md-mono" font-size="12.6" fill="#e5e7eb">blocks = parse(&quot;# Hello\n\nWorld&quot;)</text>
+  <text x="32" y="2632.24" class="md-mono" font-size="12.6" fill="#e5e7eb"># Returns: [Heading(level=1, ...), Paragraph(...)]</text>
+  <text x="32" y="2667.52" class="md-mono" font-size="12.6" fill="#e5e7eb"># Render pre-parsed blocks</text>
+  <text x="32" y="2685.16" class="md-mono" font-size="12.6" fill="#e5e7eb">svg = render_blocks(blocks, width=400)</text>
+  <text x="20" y="2761.45" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Modifying Styles</tspan></text>
+  <rect x="20" y="2792.35" width="560" height="165.12" fill="#374151" rx="4"/>
+  <text x="32" y="2816.95" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import Style</text>
+  <text x="32" y="2852.23" class="md-mono" font-size="12.6" fill="#e5e7eb"># Create a base style and modify it</text>
+  <text x="32" y="2869.87" class="md-mono" font-size="12.6" fill="#e5e7eb">style = Style()</text>
+  <text x="32" y="2887.51" class="md-mono" font-size="12.6" fill="#e5e7eb">dark_style = style.with_updates(</text>
+  <text x="32" y="2905.15" class="md-mono" font-size="12.6" fill="#e5e7eb"> text_color=&quot;#e0e0e0&quot;,</text>
+  <text x="32" y="2922.79" class="md-mono" font-size="12.6" fill="#e5e7eb"> code_background=&quot;#2d2d2d&quot;,</text>
+  <text x="32" y="2940.43" class="md-mono" font-size="12.6" fill="#e5e7eb">)</text>
+  <text x="20" y="3025.47" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Text Width Estimation</tspan></text>
+  <text x="20" y="3073.87" font-size="14" class="md-text">By default, this library estimates text width using character-based heuristics. This works well for</text>
+  <text x="20" y="3094.87" font-size="14" class="md-text">common system fonts but may be less accurate for unusual fonts.</text>
+  <text x="20" y="3161.12" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Precise Measurement (Default)</tspan></text>
+  <text x="20" y="3206.02" font-size="14" class="md-text">Text measurement uses <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">fonttools</tspan> for accurate width calculation:</text>
+  <rect x="20" y="3225.02" width="560" height="182.76" fill="#374151" rx="4"/>
+  <text x="32" y="3249.62" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import FontMeasurer, create_precise_wrapper</text>
+  <text x="32" y="3284.9" class="md-mono" font-size="12.6" fill="#e5e7eb"># Use system font</text>
+  <text x="32" y="3302.54" class="md-mono" font-size="12.6" fill="#e5e7eb">measurer = FontMeasurer.system_default()</text>
+  <text x="32" y="3320.18" class="md-mono" font-size="12.6" fill="#e5e7eb">width = measurer.measure(&quot;Hello World&quot;, font_size=14)</text>
+  <text x="32" y="3355.46" class="md-mono" font-size="12.6" fill="#e5e7eb"># Or use precise text wrapping</text>
+  <text x="32" y="3373.1" class="md-mono" font-size="12.6" fill="#e5e7eb">wrap = create_precise_wrapper(max_width=300, font_size=14, measurer=measurer)</text>
+  <text x="32" y="3390.74" class="md-mono" font-size="12.6" fill="#e5e7eb">lines = wrap(&quot;Long text that needs accurate wrapping...&quot;)</text>
+  <text x="20" y="3467.03" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Custom Fonts</tspan></text>
+  <text x="20" y="3511.93" font-size="14" class="md-text">Use any TTF/OTF font file for measurement:</text>
+  <rect x="20" y="3530.93" width="560" height="165.12" fill="#374151" rx="4"/>
+  <text x="32" y="3555.53" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import FontMeasurer</text>
+  <text x="32" y="3590.81" class="md-mono" font-size="12.6" fill="#e5e7eb"># From your project&#x27;s fonts directory</text>
+  <text x="32" y="3608.45" class="md-mono" font-size="12.6" fill="#e5e7eb">measurer = FontMeasurer(&quot;./fonts/MyFont-Regular.ttf&quot;)</text>
+  <text x="32" y="3643.73" class="md-mono" font-size="12.6" fill="#e5e7eb"># Or from system font directories</text>
+  <text x="32" y="3661.37" class="md-mono" font-size="12.6" fill="#e5e7eb">measurer = FontMeasurer(&quot;/Library/Fonts/Arial.ttf&quot;) # macOS</text>
+  <text x="32" y="3679.01" class="md-mono" font-size="12.6" fill="#e5e7eb">measurer = FontMeasurer(&quot;C:/Windows/Fonts/arial.ttf&quot;) # Windows</text>
+  <text x="20" y="3722.05" font-size="14" class="md-text"><tspan style="font-weight: bold">Recommended font locations:</tspan></text>
+  <circle cx="28" cy="3751.55" r="3" fill="#e5e7eb"/>
+  <text x="44" y="3755.05" font-size="14" class="md-text">Project directory: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">./fonts/MyFont.ttf</tspan></text>
+  <circle cx="28" cy="3776.55" r="3" fill="#e5e7eb"/>
+  <text x="44" y="3780.05" font-size="14" class="md-text">macOS user fonts: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">~/Library/Fonts/</tspan></text>
+  <circle cx="28" cy="3801.55" r="3" fill="#e5e7eb"/>
+  <text x="44" y="3805.05" font-size="14" class="md-text">Linux user fonts: <tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">~/.local/share/fonts/</tspan></text>
+  <circle cx="28" cy="3826.55" r="3" fill="#e5e7eb"/>
+  <text x="44" y="3830.05" font-size="14" class="md-text">Windows user fonts: </text>
+  <text x="44" y="3851.05" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">C:\Users\&lt;user&gt;\AppData\Local\Microsoft\Windows\Fonts\</tspan></text>
+  <text x="20" y="3917.3" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Google Fonts</tspan></text>
+  <text x="20" y="3962.2" font-size="14" class="md-text">Download fonts from Google Fonts automatically:</text>
+  <rect x="20" y="3981.2" width="560" height="288.6" fill="#374151" rx="4"/>
+  <text x="32" y="4005.8" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg import download_google_font, FontMeasurer</text>
+  <text x="32" y="4041.08" class="md-mono" font-size="12.6" fill="#e5e7eb"># Downloads and caches the font</text>
+  <text x="32" y="4058.72" class="md-mono" font-size="12.6" fill="#e5e7eb">font_path = download_google_font(&quot;Inter&quot;)</text>
+  <text x="32" y="4076.36" class="md-mono" font-size="12.6" fill="#e5e7eb">measurer = FontMeasurer(font_path)</text>
+  <text x="32" y="4111.64" class="md-mono" font-size="12.6" fill="#e5e7eb"># With specific weight (400=regular, 700=bold)</text>
+  <text x="32" y="4129.28" class="md-mono" font-size="12.6" fill="#e5e7eb">bold_path = download_google_font(&quot;Inter&quot;, weight=700)</text>
+  <text x="32" y="4164.56" class="md-mono" font-size="12.6" fill="#e5e7eb"># Popular Google Fonts that work well:</text>
+  <text x="32" y="4182.2" class="md-mono" font-size="12.6" fill="#e5e7eb"># - Inter (modern sans-serif)</text>
+  <text x="32" y="4199.84" class="md-mono" font-size="12.6" fill="#e5e7eb"># - Roboto (Android default)</text>
+  <text x="32" y="4217.48" class="md-mono" font-size="12.6" fill="#e5e7eb"># - Open Sans (highly readable)</text>
+  <text x="32" y="4235.12" class="md-mono" font-size="12.6" fill="#e5e7eb"># - Lato (elegant sans-serif)</text>
+  <text x="32" y="4252.76" class="md-mono" font-size="12.6" fill="#e5e7eb"># - Source Code Pro (monospace)</text>
+  <text x="20" y="4329.05" font-size="18.9" class="md-heading"><tspan style="font-weight: bold">Disabling Precise Measurement</tspan></text>
+  <text x="20" y="4373.95" font-size="14" class="md-text">To use heuristic estimation instead (faster but less accurate):</text>
+  <rect x="20" y="4392.95" width="560" height="76.92" fill="#374151" rx="4"/>
+  <text x="32" y="4417.55" class="md-mono" font-size="12.6" fill="#e5e7eb">from mdsvg.renderer import SVGRenderer</text>
+  <text x="32" y="4452.83" class="md-mono" font-size="12.6" fill="#e5e7eb">renderer = SVGRenderer(use_precise_measurement=False)</text>
+  <text x="20" y="4537.87" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Full Style Options</tspan></text>
+  <rect x="20" y="4572.27" width="560" height="37" fill="#374151"/>
+  <text x="28" y="4594.27" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Option</text>
+  <text x="214.67" y="4594.27" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Default</text>
+  <text x="401.33" y="4594.27" class="md-text" font-size="14" font-weight="bold" text-anchor="start">Description</text>
+  <text x="28" y="4631.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">font_family</text>
+  <text x="214.67" y="4631.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">system-ui, sans-serif</text>
+  <text x="401.33" y="4631.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Primary font stack</text>
+  <text x="28" y="4668.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">mono_font_family</text>
+  <text x="214.67" y="4668.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">ui-monospace, monospace</text>
+  <text x="401.33" y="4668.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Font for code</text>
+  <text x="28" y="4705.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">base_font_size</text>
+  <text x="214.67" y="4705.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">14.0</text>
+  <text x="401.33" y="4705.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Base font size in pixels</text>
+  <text x="28" y="4742.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">line_height</text>
+  <text x="214.67" y="4742.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">1.5</text>
+  <text x="401.33" y="4742.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Line height multiplier</text>
+  <text x="28" y="4779.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">text_color</text>
+  <text x="214.67" y="4779.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#1a1a1a</text>
+  <text x="401.33" y="4779.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Default text color</text>
+  <text x="28" y="4816.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">heading_color</text>
+  <text x="214.67" y="4816.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">None</text>
+  <text x="401.33" y="4816.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Heading color (falls back to text_color)</text>
+  <text x="28" y="4853.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">link_color</text>
+  <text x="214.67" y="4853.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#2563eb</text>
+  <text x="401.33" y="4853.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Link color</text>
+  <text x="28" y="4890.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">link_underline</text>
+  <text x="214.67" y="4890.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">True</text>
+  <text x="401.33" y="4890.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Whether to underline links</text>
+  <text x="28" y="4927.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">code_color</text>
+  <text x="214.67" y="4927.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#be185d</text>
+  <text x="401.33" y="4927.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Inline code text color</text>
+  <text x="28" y="4964.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">code_background</text>
+  <text x="214.67" y="4964.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#f3f4f6</text>
+  <text x="401.33" y="4964.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Code background color</text>
+  <text x="28" y="5001.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">blockquote_color</text>
+  <text x="214.67" y="5001.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">#6b7280</text>
+  <text x="401.33" y="5001.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Blockquote text color</text>
+  <text x="28" y="5038.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">h1_scale - h6_scale</text>
+  <text x="214.67" y="5038.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">2.0 - 0.9</text>
+  <text x="401.33" y="5038.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Heading size multipliers</text>
+  <text x="28" y="5075.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">paragraph_spacing</text>
+  <text x="214.67" y="5075.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">12.0</text>
+  <text x="401.33" y="5075.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Space between paragraphs (px)</text>
+  <text x="28" y="5112.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">list_indent</text>
+  <text x="214.67" y="5112.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">24.0</text>
+  <text x="401.33" y="5112.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">List indentation (px)</text>
+  <text x="28" y="5149.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">char_width_ratio</text>
+  <text x="214.67" y="5149.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">0.48</text>
+  <text x="401.33" y="5149.27" class="md-text" font-size="14" font-weight="normal" text-anchor="start">Average character width ratio</text>
+  <rect x="20" y="4572.27" width="560" height="592" fill="none" stroke="#4b5563"/>
+  <line x1="206.67" y1="4572.27" x2="206.67" y2="5164.27" stroke="#4b5563"/>
+  <line x1="393.33" y1="4572.27" x2="393.33" y2="5164.27" stroke="#4b5563"/>
+  <line x1="20" y1="4609.27" x2="580" y2="4609.27" stroke="#4b5563"/>
+  <line x1="20" y1="4646.27" x2="580" y2="4646.27" stroke="#4b5563"/>
+  <line x1="20" y1="4683.27" x2="580" y2="4683.27" stroke="#4b5563"/>
+  <line x1="20" y1="4720.27" x2="580" y2="4720.27" stroke="#4b5563"/>
+  <line x1="20" y1="4757.27" x2="580" y2="4757.27" stroke="#4b5563"/>
+  <line x1="20" y1="4794.27" x2="580" y2="4794.27" stroke="#4b5563"/>
+  <line x1="20" y1="4831.27" x2="580" y2="4831.27" stroke="#4b5563"/>
+  <line x1="20" y1="4868.27" x2="580" y2="4868.27" stroke="#4b5563"/>
+  <line x1="20" y1="4905.27" x2="580" y2="4905.27" stroke="#4b5563"/>
+  <line x1="20" y1="4942.27" x2="580" y2="4942.27" stroke="#4b5563"/>
+  <line x1="20" y1="4979.27" x2="580" y2="4979.27" stroke="#4b5563"/>
+  <line x1="20" y1="5016.27" x2="580" y2="5016.27" stroke="#4b5563"/>
+  <line x1="20" y1="5053.27" x2="580" y2="5053.27" stroke="#4b5563"/>
+  <line x1="20" y1="5090.27" x2="580" y2="5090.27" stroke="#4b5563"/>
+  <line x1="20" y1="5127.27" x2="580" y2="5127.27" stroke="#4b5563"/>
+  <text x="20" y="5232.27" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Playground</tspan></text>
+  <text x="20" y="5280.67" font-size="14" class="md-text">Try markdown-svg in your browser with the interactive playground:</text>
+  <rect x="20" y="5299.67" width="560" height="94.56" fill="#374151" rx="4"/>
+  <text x="32" y="5324.27" class="md-mono" font-size="12.6" fill="#e5e7eb"># Clone the repo and run the playground</text>
+  <text x="32" y="5341.91" class="md-mono" font-size="12.6" fill="#e5e7eb">git clone https://github.com/davefowler/markdown-svg</text>
+  <text x="32" y="5359.55" class="md-mono" font-size="12.6" fill="#e5e7eb">cd markdown-svg</text>
+  <text x="32" y="5377.19" class="md-mono" font-size="12.6" fill="#e5e7eb">make play</text>
+  <text x="20" y="5420.23" font-size="14" class="md-text">Then open http://localhost:8765</text>
+  <text x="20" y="5453.23" font-size="14" class="md-text">Features:</text>
+  <circle cx="28" cy="5482.73" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5486.23" font-size="14" class="md-text">Live preview as you type</text>
+  <circle cx="28" cy="5507.73" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5511.23" font-size="14" class="md-text">Customize styling via JSON</text>
+  <circle cx="28" cy="5532.73" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5536.23" font-size="14" class="md-text">Load example markdown files</text>
+  <circle cx="28" cy="5557.73" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5561.23" font-size="14" class="md-text">Download rendered SVGs</text>
+  <text x="20" y="5594.23" font-size="14" class="md-text">See <a href="playground/README.md"><tspan style="fill: #60a5fa; text-decoration: underline">playground/README.md</tspan></a> for details and API documentation.</text>
+  <text x="20" y="5669.23" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Examples</tspan></text>
+  <text x="20" y="5717.63" font-size="14" class="md-text">See the <a href="examples/"><tspan style="fill: #60a5fa; text-decoration: underline">examples/</tspan></a> directory for more usage examples:</text>
+  <circle cx="28" cy="5747.13" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5750.63" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">basic.py</tspan> - Simple rendering</text>
+  <circle cx="28" cy="5772.13" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5775.63" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">custom_style.py</tspan> - Custom styling and themes</text>
+  <circle cx="28" cy="5797.13" r="3" fill="#e5e7eb"/>
+  <text x="44" y="5800.63" font-size="14" class="md-text"><tspan style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; fill: #f472b6">measure_and_render.py</tspan> - Measuring before rendering</text>
+  <text x="20" y="5833.63" font-size="14" class="md-text">The <a href="playground/examples/"><tspan style="fill: #60a5fa; text-decoration: underline">playground/examples/</tspan></a> directory contains markdown files showcasing various features.</text>
+  <text x="20" y="5908.63" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Development</tspan></text>
+  <rect x="20" y="5943.03" width="560" height="218.04" fill="#374151" rx="4"/>
+  <text x="32" y="5967.63" class="md-mono" font-size="12.6" fill="#e5e7eb"># Clone and install</text>
+  <text x="32" y="5985.27" class="md-mono" font-size="12.6" fill="#e5e7eb">git clone https://github.com/davefowler/markdown-svg.git</text>
+  <text x="32" y="6002.91" class="md-mono" font-size="12.6" fill="#e5e7eb">cd markdown-svg</text>
+  <text x="32" y="6020.55" class="md-mono" font-size="12.6" fill="#e5e7eb">make dev # Install with dev dependencies</text>
+  <text x="32" y="6055.83" class="md-mono" font-size="12.6" fill="#e5e7eb"># Common commands</text>
+  <text x="32" y="6073.47" class="md-mono" font-size="12.6" fill="#e5e7eb">make play # Run the playground</text>
+  <text x="32" y="6091.11" class="md-mono" font-size="12.6" fill="#e5e7eb">make test # Run tests</text>
+  <text x="32" y="6108.75" class="md-mono" font-size="12.6" fill="#e5e7eb">make lint # Run linter</text>
+  <text x="32" y="6126.39" class="md-mono" font-size="12.6" fill="#e5e7eb">make typecheck # Run type checker</text>
+  <text x="32" y="6144.03" class="md-mono" font-size="12.6" fill="#e5e7eb">make help # Show all commands</text>
+  <text x="20" y="6229.07" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">License</tspan></text>
+  <text x="20" y="6277.47" font-size="14" class="md-text">MIT License - see <a href="LICENSE"><tspan style="fill: #60a5fa; text-decoration: underline">LICENSE</tspan></a> for details.</text>
+  <text x="20" y="6352.47" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Contributing</tspan></text>
+  <text x="20" y="6400.87" font-size="14" class="md-text">Contributions are welcome! Please feel free to submit a Pull Request.</text>
+  <text x="20" y="6475.87" font-size="22.4" class="md-heading"><tspan style="font-weight: bold">Related Projects</tspan></text>
+  <circle cx="28" cy="6520.77" r="3" fill="#e5e7eb"/>
+  <text x="44" y="6524.27" font-size="14" class="md-text">This is the only Python library (that we know of) for rendering Markdown directly to SVG</text>
+  <circle cx="28" cy="6545.77" r="3" fill="#e5e7eb"/>
+  <text x="44" y="6549.27" font-size="14" class="md-text">For HTML output, see <a href="https://pypi.org/project/Markdown/"><tspan style="fill: #60a5fa; text-decoration: underline">markdown</tspan></a> , <a href="https://pypi.org/project/mistune/"><tspan style="fill: #60a5fa; text-decoration: underline">mistune</tspan></a> , or <a href="https://pypi.org/project/markdown-it-py/"><tspan style="fill: #60a5fa; text-decoration: underline">markdown-it-py</tspan></a></text>
 </svg>
