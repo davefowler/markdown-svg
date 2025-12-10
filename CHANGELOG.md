@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.3] - 2025-12-10
+
+### Added
+
+- Style presets for different rendering contexts: `DOCUMENT_PRESET`, `COMPACT_PRESET`, `MINIMAL_PRESET`
+- `StylePresets` class for organized access to presets
+- `merge_styles()` helper function for combining presets with themes
+- Compact preset uses tighter margins (0.3em vs 1.5em for headings) for dashboards and UI components
+- Minimal preset for very tight spaces like tooltips
+
+### Changed
+
+- Default style remains unchanged (document-style generous whitespace)
+- Users needing compact UI rendering can now use `COMPACT_PRESET` instead of manually configuring margins
+
 ## [0.6.2] - 2025-12-09
 
 ### Fixed

@@ -191,3 +191,97 @@ GITHUB_THEME = Style(
     blockquote_color="#59636e",
     blockquote_border_color="#d1d9e0",
 )
+
+
+# Style presets for different use cases
+# These control spacing/margins rather than colors/fonts
+
+
+class StylePresets:
+    """
+    Pre-configured style presets optimized for different rendering contexts.
+
+    Presets adjust spacing and margins while preserving color and font settings.
+    Combine with themes for full customization:
+
+        >>> from mdsvg import render, COMPACT_PRESET, DARK_THEME
+        >>> style = COMPACT_PRESET.with_updates(**vars(DARK_THEME))
+
+    Or use the merge_styles helper:
+
+        >>> from mdsvg import merge_styles, COMPACT_PRESET, DARK_THEME
+        >>> style = merge_styles(COMPACT_PRESET, DARK_THEME)
+    """
+
+    # Document preset: generous whitespace for long-form reading (original defaults)
+    DOCUMENT = Style(
+        heading_margin_top=1.5,  # 1.5em above headings
+        heading_margin_bottom=0.5,  # 0.5em below headings
+        paragraph_spacing=12.0,  # 12px between paragraphs
+        list_item_spacing=4.0,  # 4px between list items
+    )
+
+    # Compact preset: tighter spacing for dashboards, cards, and UI components
+    COMPACT = Style(
+        heading_margin_top=0.3,  # Reduced from 1.5em
+        heading_margin_bottom=0.3,  # Reduced from 0.5em
+        paragraph_spacing=8.0,  # Reduced from 12px
+        list_item_spacing=3.0,  # Slightly tighter list spacing
+    )
+
+    # Minimal preset: very tight spacing for tooltips and constrained spaces
+    MINIMAL = Style(
+        heading_margin_top=0.1,  # Minimal top margin
+        heading_margin_bottom=0.1,  # Minimal bottom margin
+        paragraph_spacing=4.0,  # Tight paragraph spacing
+        list_item_spacing=2.0,  # Tight list spacing
+    )
+
+
+# Export presets as top-level constants for easy access
+DOCUMENT_PRESET = StylePresets.DOCUMENT
+COMPACT_PRESET = StylePresets.COMPACT
+MINIMAL_PRESET = StylePresets.MINIMAL
+
+
+def merge_styles(*styles: Style) -> Style:
+    """
+    Merge multiple Style objects, with later styles overriding earlier ones.
+
+    This is useful for combining presets (spacing) with themes (colors):
+
+        >>> from mdsvg import merge_styles, COMPACT_PRESET, DARK_THEME
+        >>> style = merge_styles(COMPACT_PRESET, DARK_THEME)
+
+    Only non-default values from each style are applied:
+
+        >>> base = Style(text_color="red")
+        >>> overlay = Style(link_color="blue")
+        >>> merged = merge_styles(base, overlay)
+        >>> merged.text_color
+        'red'
+        >>> merged.link_color
+        'blue'
+
+    Args:
+        *styles: Style objects to merge, in order of priority (later wins).
+
+    Returns:
+        A new Style with merged values.
+    """
+    if not styles:
+        return Style()
+
+    # Start with default style
+    default = Style()
+    result_kwargs: dict[str, Any] = {}
+
+    for style in styles:
+        # Get all fields that differ from default
+        for field_name in style.__dataclass_fields__:
+            style_value = getattr(style, field_name)
+            default_value = getattr(default, field_name)
+            if style_value != default_value:
+                result_kwargs[field_name] = style_value
+
+    return Style(**result_kwargs)

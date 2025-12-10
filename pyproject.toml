@@ -1,6 +1,6 @@
 [project]
 name = "markdown-svg"
-version = "0.6.2"
+version = "0.6.3"
 description = "Convert Markdown to SVG with automatic text wrapping"
 readme = "README.md"
 license = { text = "MIT" }

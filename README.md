@@ -112,6 +112,39 @@ svg = render("# Dark Mode", style=DARK_THEME)
 svg = render("# GitHub Style", style=GITHUB_THEME)
 ```
 
+### Style Presets
+
+Style presets optimize spacing for different contexts. Themes control colors, presets control margins:
+
+```python
+from mdsvg import render, COMPACT_PRESET, MINIMAL_PRESET, DOCUMENT_PRESET
+
+# Default behavior (generous whitespace for documents/articles)
+svg = render("# Title", style=DOCUMENT_PRESET)
+
+# Compact spacing for dashboards, cards, and UI components
+svg = render("# Title", style=COMPACT_PRESET)
+
+# Minimal spacing for tooltips and tight spaces
+svg = render("# Title", style=MINIMAL_PRESET)
+```
+
+Combine presets with themes using `merge_styles()`:
+
+```python
+from mdsvg import render, merge_styles, COMPACT_PRESET, DARK_THEME
+
+# Compact spacing + dark colors
+style = merge_styles(COMPACT_PRESET, DARK_THEME)
+svg = render("# Dashboard Title", style=style)
+```
+
+| Preset | heading_margin_top | heading_margin_bottom | paragraph_spacing |
+|--------|-------------------|----------------------|-------------------|
+| `DOCUMENT_PRESET` | 1.5em | 0.5em | 12px |
+| `COMPACT_PRESET` | 0.3em | 0.3em | 8px |
+| `MINIMAL_PRESET` | 0.1em | 0.1em | 4px |
+
 ### Working with the AST
 
 ```python

@@ -38,7 +38,17 @@ from .images import (
 from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
 from .parser import MarkdownParser, parse
 from .renderer import SVGRenderer, measure, render, render_blocks
-from .style import DARK_THEME, GITHUB_THEME, LIGHT_THEME, Style
+from .style import (
+    COMPACT_PRESET,
+    DARK_THEME,
+    DOCUMENT_PRESET,
+    GITHUB_THEME,
+    LIGHT_THEME,
+    MINIMAL_PRESET,
+    Style,
+    StylePresets,
+    merge_styles,
+)
 from .types import (
     AnyBlock,
     Block,
@@ -60,7 +70,7 @@ from .types import (
     UnorderedList,
 )
 
-__version__ = "0.5.0"
+__version__ = "0.6.3"
 
 __all__ = [
     # Main API
@@ -76,6 +86,12 @@ __all__ = [
     "LIGHT_THEME",
     "DARK_THEME",
     "GITHUB_THEME",
+    # Style Presets
+    "StylePresets",
+    "DOCUMENT_PRESET",
+    "COMPACT_PRESET",
+    "MINIMAL_PRESET",
+    "merge_styles",
     # Types
     "Size",
     "TextMetrics",
