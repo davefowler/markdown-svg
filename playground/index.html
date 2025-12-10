@@ -573,6 +573,15 @@
         Examples
       </button>
       
+      <button id="clear-btn" class="primary white" title="Clear editor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <path d="M3 6h18"/>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+        </svg>
+        Clear
+      </button>
+      
       <button id="share-btn" class="primary white" title="Copy shareable URL">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="18" cy="5" r="3"/>
@@ -1039,11 +1048,20 @@
       });
     }
     
+    // Clear editor
+    function clearEditor() {
+      markdownEditor.setValue('');
+      styleEditor.setValue(JSON.stringify(defaultStyle, null, 2));
+      currentExample = '';
+      updateActiveExample();
+    }
+    
     // Event listeners
     markdownEditor.on('change', debouncedRender);
     styleEditor.on('change', debouncedRender);
     downloadBtn.addEventListener('click', downloadSvg);
     shareBtn.addEventListener('click', copyShareUrl);
+    document.getElementById('clear-btn').addEventListener('click', clearEditor);
     
     // Modal event listeners
     examplesBtn.addEventListener('click', openModal);
@@ -1064,9 +1082,9 @@
       // Try to load state from URL first
       const loadedFromUrl = loadStateFromUrl();
       
-      // If no URL state, load the first example
-      if (!loadedFromUrl && examplesList.length > 0) {
-        loadExample(examplesList[0].filename);
+      // If no URL state, load kitchen-sink as default
+      if (!loadedFromUrl) {
+        loadExample('kitchen-sink.md');
       }
       
       initDivider();
