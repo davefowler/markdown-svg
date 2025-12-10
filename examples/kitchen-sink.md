@@ -59,10 +59,14 @@ Images render at full width by default with a configurable aspect ratio (16:9 de
 
 ---
 
-### All Heading Levels
-#### Level 4
-##### Level 5
-###### Level 6
+## All Heading Levels
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
 
 ---
 

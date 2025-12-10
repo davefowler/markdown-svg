@@ -231,14 +231,16 @@ renderer = SVGRenderer(use_precise_measurement=False)
 
 Try markdown-svg in your browser with the interactive playground:
 
+**🚀 [Live Demo](https://markdown-svg-production.up.railway.app/)** — no installation required!
+
+Or run locally:
+
 ```bash
-# Clone the repo and run the playground
 git clone https://github.com/davefowler/markdown-svg
 cd markdown-svg
 make play
+# Open http://localhost:8765
 ```
-
-Then open http://localhost:8765
 
 Features:
 - Live preview as you type
