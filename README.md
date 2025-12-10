@@ -235,7 +235,7 @@ renderer = SVGRenderer(use_precise_measurement=False)
 
 Try markdown-svg in your browser with the interactive playground:
 
-**🚀 [Live Demo](https://markdown-svg-production.up.railway.app/)** — no installation required!
+**🚀 [Live Demo and Playground](https://markdown-svg-production.up.railway.app/)** — no installation required!
 
 Or run locally:
 
