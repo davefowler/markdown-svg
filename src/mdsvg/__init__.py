@@ -28,6 +28,13 @@ from .fonts import (
     get_system_font,
     list_cached_fonts,
 )
+from .images import (
+    ImageSize,
+    ImageUrlMapper,
+    create_base_url_mapper,
+    create_prefix_mapper,
+    get_image_size,
+)
 from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
 from .parser import MarkdownParser, parse
 from .renderer import SVGRenderer, measure, render, render_blocks
@@ -102,5 +109,11 @@ __all__ = [
     "download_google_font",
     "get_font_cache_dir",
     "list_cached_fonts",
+    # Image utilities
+    "ImageSize",
+    "ImageUrlMapper",
+    "get_image_size",
+    "create_prefix_mapper",
+    "create_base_url_mapper",
 ]
 

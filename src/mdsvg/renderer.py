@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 # Precise text measurement
 from .fonts import FontMeasurer, get_default_measurer
+from .images import ImageSize, ImageUrlMapper, get_image_size
 from .measure import Size, estimate_text_width
 from .style import Style
 from .types import (
@@ -77,7 +78,13 @@ class SVGRenderer:
         self,
         style: Optional[Style] = None,
         font_path: Optional[str] = None,
+        mono_font_path: Optional[str] = None,
         use_precise_measurement: bool = True,
+        # Image options
+        fetch_image_sizes: bool = True,
+        image_base_path: Optional[str] = None,
+        image_url_mapper: Optional[ImageUrlMapper] = None,
+        image_timeout: float = 10.0,
     ) -> None:
         """
         Initialize the renderer.
@@ -86,12 +93,31 @@ class SVGRenderer:
             style: Style configuration. Uses default style if None.
             font_path: Path to a TTF/OTF font file for precise measurement.
                       If None, uses system default font.
+            mono_font_path: Path to a monospace TTF/OTF font file for measuring
+                      inline code. If None, uses style.mono_char_width_ratio.
             use_precise_measurement: If True (default), uses fonttools for
                       accurate text measurement when available. Set to False
                       to always use heuristic estimation.
+            fetch_image_sizes: If True (default), fetch image dimensions from
+                      local files or remote URLs. Required for accurate layout.
+            image_base_path: Base directory for resolving relative image paths.
+                      Used when fetching local image dimensions.
+            image_url_mapper: Optional function to transform image URLs before
+                      embedding in SVG. Useful for mapping local paths to CDN URLs.
+                      Example: create_prefix_mapper({"/assets/": "https://cdn.example.com/"})
+            image_timeout: Timeout in seconds for fetching remote images (default 10).
         """
         self.style = style or Style()
         self._measurer: Optional[FontMeasurer] = None
+        self._mono_measurer: Optional[FontMeasurer] = None
+        self._mono_char_width: Optional[float] = None  # Cached mono character width per unit
+        
+        # Image handling
+        self._fetch_image_sizes = fetch_image_sizes
+        self._image_base_path = image_base_path
+        self._image_url_mapper = image_url_mapper
+        self._image_timeout = image_timeout
+        self._image_size_cache: Dict[str, Optional[ImageSize]] = {}
 
         if use_precise_measurement:
             if font_path:
@@ -101,25 +127,65 @@ class SVGRenderer:
             else:
                 self._measurer = get_default_measurer()
 
+            # Set up mono font measurement
+            if mono_font_path:
+                self._mono_measurer = FontMeasurer(mono_font_path)
+                if self._mono_measurer.is_available:
+                    # Measure a reference character to get exact width per unit
+                    # All chars in monospace have same width, so just measure one
+                    self._mono_char_width = self._mono_measurer.measure("M", 1.0)
+                else:
+                    self._mono_measurer = None
+
     def _measure_text(
         self,
         text: str,
         font_size: float,
         is_bold: bool = False,
+        is_italic: bool = False,
         is_mono: bool = False,
     ) -> float:
         """Measure text width using best available method."""
-        if self._measurer is not None and self._measurer.is_available:
-            return self._measurer.measure(text, font_size)
+        width: float
 
-        return estimate_text_width(
-            text,
-            font_size,
-            is_bold=is_bold,
-            is_mono=is_mono,
-            char_width_ratio=self.style.char_width_ratio,
-            bold_char_width_ratio=self.style.bold_char_width_ratio,
-        )
+        # Monospace: all characters have identical width, so just multiply
+        if is_mono:
+            if self._mono_char_width is not None:
+                # Use measured width from actual mono font
+                width = len(text) * self._mono_char_width * font_size
+            else:
+                # Fall back to configured ratio
+                width = len(text) * font_size * self.style.mono_char_width_ratio
+        elif self._measurer is not None and self._measurer.is_available:
+            width = self._measurer.measure(text, font_size)
+            # Apply scaling for bold/italic since FontMeasurer only has regular font
+            # Bold text is typically 10-15% wider, italic ~4% wider
+            if is_bold and is_italic:
+                # Bold italic combines both effects
+                bold_ratio = self.style.bold_char_width_ratio / self.style.char_width_ratio
+                italic_ratio = self.style.italic_char_width_ratio / self.style.char_width_ratio
+                width *= bold_ratio * italic_ratio / 1.0  # Combine effects
+            elif is_bold:
+                width *= self.style.bold_char_width_ratio / self.style.char_width_ratio
+            elif is_italic:
+                width *= self.style.italic_char_width_ratio / self.style.char_width_ratio
+        else:
+            # Use heuristic when FontMeasurer is not available
+            effective_ratio = self.style.char_width_ratio
+            if is_italic:
+                effective_ratio = self.style.italic_char_width_ratio
+
+            width = estimate_text_width(
+                text,
+                font_size,
+                is_bold=is_bold,
+                is_mono=is_mono,
+                char_width_ratio=effective_ratio,
+                bold_char_width_ratio=self.style.bold_char_width_ratio,
+            )
+
+        # Apply safety margin for browser rendering differences
+        return width * self.style.text_width_scale
 
     def render(
         self,
@@ -300,14 +366,108 @@ class SVGRenderer:
         ctx: RenderContext,
     ) -> Tuple[List[str], float]:
         """Render a code block with background."""
+        overflow = self.style.code_block_overflow
+        
+        if overflow == "foreignObject":
+            return self._render_code_block_foreign_object(code, ctx)
+        elif overflow == "wrap":
+            return self._render_code_block_wrapped(code, ctx)
+        else:
+            return self._render_code_block_simple(code, ctx, overflow)
+
+    def _render_code_block_simple(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+        overflow: str,
+    ) -> Tuple[List[str], float]:
+        """Render code block with show/hide/ellipsis overflow."""
         elements: List[str] = []
 
         padding = self.style.code_block_padding
         font_size = self.style.base_font_size * 0.9
         line_height = font_size * 1.4
+        char_width = font_size * self.style.mono_char_width_ratio
+        max_chars = int((ctx.width - padding * 2) / char_width)
 
         lines = code.code.split("\n")
+        
+        # Process lines for ellipsis mode
+        if overflow == "ellipsis":
+            processed_lines = []
+            for line in lines:
+                if len(line) > max_chars and max_chars > 3:
+                    processed_lines.append(line[:max_chars - 3] + "...")
+                else:
+                    processed_lines.append(line)
+            lines = processed_lines
+
         text_height = len(lines) * line_height
+        total_height = text_height + (padding * 2)
+
+        # For hide mode, add a clipPath
+        clip_id = None
+        if overflow == "hide":
+            clip_id = f"code-clip-{id(code)}"
+            elements.append(
+                f'  <defs><clipPath id="{clip_id}">'
+                f'<rect x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+                f'width="{format_number(ctx.width)}" height="{format_number(total_height)}"/>'
+                f'</clipPath></defs>'
+            )
+
+        # Background rectangle
+        elements.append(
+            f'  <rect x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+            f'width="{format_number(ctx.width)}" height="{format_number(total_height)}" '
+            f'fill="{self.style.code_background}" '
+            f'rx="{format_number(self.style.code_block_border_radius)}"/>'
+        )
+
+        # Code lines (optionally clipped)
+        clip_attr = f' clip-path="url(#{clip_id})"' if clip_id else ""
+        y_offset = ctx.y + padding + font_size
+        for line in lines:
+            if line:  # Don't render empty lines as text elements
+                escaped = escape_svg_text(line)
+                elements.append(
+                    f'  <text x="{format_number(ctx.x + padding)}" '
+                    f'y="{format_number(y_offset)}" '
+                    f'class="md-mono" font-size="{format_number(font_size)}" '
+                    f'fill="{self.style.text_color}"{clip_attr}>{escaped}</text>'
+                )
+            y_offset += line_height
+
+        return elements, total_height
+
+    def _render_code_block_wrapped(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+    ) -> Tuple[List[str], float]:
+        """Render code block with wrapped lines."""
+        elements: List[str] = []
+
+        padding = self.style.code_block_padding
+        font_size = self.style.base_font_size * 0.9
+        line_height = font_size * 1.4
+        char_width = font_size * self.style.mono_char_width_ratio
+        max_chars = max(10, int((ctx.width - padding * 2) / char_width))
+
+        # Wrap lines
+        wrapped_lines: List[str] = []
+        for line in code.code.split("\n"):
+            if not line:
+                wrapped_lines.append("")
+            elif len(line) <= max_chars:
+                wrapped_lines.append(line)
+            else:
+                # Wrap long lines
+                while line:
+                    wrapped_lines.append(line[:max_chars])
+                    line = line[max_chars:]
+
+        text_height = len(wrapped_lines) * line_height
         total_height = text_height + (padding * 2)
 
         # Background rectangle
@@ -320,8 +480,8 @@ class SVGRenderer:
 
         # Code lines
         y_offset = ctx.y + padding + font_size
-        for line in lines:
-            if line:  # Don't render empty lines as text elements
+        for line in wrapped_lines:
+            if line:
                 escaped = escape_svg_text(line)
                 elements.append(
                     f'  <text x="{format_number(ctx.x + padding)}" '
@@ -330,6 +490,44 @@ class SVGRenderer:
                     f'fill="{self.style.text_color}">{escaped}</text>'
                 )
             y_offset += line_height
+
+        return elements, total_height
+
+    def _render_code_block_foreign_object(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+    ) -> Tuple[List[str], float]:
+        """Render code block using foreignObject for scrollable HTML."""
+        elements: List[str] = []
+
+        padding = self.style.code_block_padding
+        font_size = self.style.base_font_size * 0.9
+        line_height = font_size * 1.4
+
+        lines = code.code.split("\n")
+        # Cap height for scrollable content
+        max_visible_lines = 20
+        visible_lines = min(len(lines), max_visible_lines)
+        text_height = visible_lines * line_height
+        total_height = text_height + (padding * 2)
+
+        escaped_code = escape_svg_text(code.code)
+        
+        elements.append(
+            f'  <foreignObject x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+            f'width="{format_number(ctx.width)}" height="{format_number(total_height)}">'
+            f'<div xmlns="http://www.w3.org/1999/xhtml" style="'
+            f'width: 100%; height: 100%; overflow: auto; '
+            f'background: {self.style.code_background}; '
+            f'border-radius: {self.style.code_block_border_radius}px; '
+            f'box-sizing: border-box; padding: {padding}px;">'
+            f'<pre style="margin: 0; font-family: {self.style.mono_font_family}; '
+            f'font-size: {font_size}px; line-height: {line_height}px; '
+            f'color: {self.style.text_color}; white-space: pre; '
+            f'overflow-x: auto;">{escaped_code}</pre>'
+            f'</div></foreignObject>'
+        )
 
         return elements, total_height
 
@@ -593,20 +791,90 @@ class SVGRenderer:
 
             x += col_width
 
+    def _get_image_size(self, url: str) -> Optional[ImageSize]:
+        """Get image dimensions, using cache to avoid re-fetching."""
+        if url in self._image_size_cache:
+            return self._image_size_cache[url]
+        
+        # Skip fetching if enforce_aspect_ratio is set (speed optimization)
+        if self.style.image_enforce_aspect_ratio:
+            return None
+        
+        if not self._fetch_image_sizes:
+            return None
+        
+        size = get_image_size(
+            url,
+            base_path=self._image_base_path,
+            timeout=self._image_timeout,
+        )
+        self._image_size_cache[url] = size
+        return size
+
+    def _map_image_url(self, url: str) -> str:
+        """Apply URL mapper if configured."""
+        if self._image_url_mapper:
+            return self._image_url_mapper(url)
+        return url
+
     def _render_image_block(
         self,
         img: ImageBlock,
         ctx: RenderContext,
     ) -> Tuple[List[str], float]:
-        """Render an image block."""
-        # Default size for images - could be enhanced to detect actual size
-        img_width = min(ctx.width, 200)
-        img_height = 150
+        """Render an image block.
+
+        Image sizing priority:
+        1. Explicit dimensions from markdown: ![alt](url){width=X height=Y}
+        2. Fetched dimensions from the actual image (if fetch_image_sizes=True)
+        3. Style defaults (image_width, image_height)
+        4. Fallback: full width with image_fallback_aspect_ratio
+
+        The preserveAspectRatio attribute ensures the actual image
+        scales proportionally within the allocated space.
+        """
+        # Try to get actual image dimensions
+        actual_size = self._get_image_size(img.url)
+        
+        # Determine dimensions using priority order
+        explicit_width = img.width
+        explicit_height = img.height
+        
+        # Calculate final width
+        if explicit_width is not None:
+            # Explicit width from markdown
+            img_width = min(ctx.width, explicit_width)
+        elif self.style.image_width is not None:
+            # Style default width
+            img_width = min(ctx.width, self.style.image_width)
+        else:
+            # Full container width
+            img_width = ctx.width
+        
+        # Calculate final height
+        if explicit_height is not None:
+            # Explicit height from markdown
+            img_height = explicit_height
+        elif explicit_width is not None and actual_size is not None:
+            # Scale height based on actual aspect ratio
+            img_height = img_width / actual_size.aspect_ratio
+        elif self.style.image_height is not None:
+            # Style default height
+            img_height = self.style.image_height
+        elif actual_size is not None:
+            # Use actual image aspect ratio
+            img_height = img_width / actual_size.aspect_ratio
+        else:
+            # Fallback to configured aspect ratio
+            img_height = img_width / self.style.image_fallback_aspect_ratio
+
+        # Map URL for embedding (e.g., local path -> CDN URL)
+        embed_url = self._map_image_url(img.url)
 
         element = (
             f'  <image x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
             f'width="{format_number(img_width)}" height="{format_number(img_height)}" '
-            f'href="{escape_svg_text(img.url)}" '
+            f'href="{escape_svg_text(embed_url)}" '
             f'preserveAspectRatio="xMidYMid meet"/>'
         )
 
@@ -628,7 +896,7 @@ class SVGRenderer:
         css_class: str,
         font_weight: str = "normal",
     ) -> Tuple[List[str], float]:
-        """Render a sequence of spans as wrapped text."""
+        """Render a sequence of spans as wrapped text using tspan for proper spacing."""
         if not spans:
             return [], 0
 
@@ -644,23 +912,23 @@ class SVGRenderer:
         current_y = ctx.y + font_size  # Baseline
 
         for line_runs in lines:
-            # Render each run in the line
-            current_x = ctx.x
+            if not line_runs:
+                current_y += line_height
+                continue
+
+            # Build a single <text> element with <tspan> children for proper spacing
+            # This lets the browser handle text positioning correctly
+            tspan_parts: List[str] = []
+            has_link = False
 
             for run in line_runs:
                 if not run.text:
                     continue
 
                 escaped = escape_svg_text(run.text)
-                attrs = [
-                    f'x="{format_number(current_x)}"',
-                    f'y="{format_number(current_y)}"',
-                    f'font-size="{format_number(font_size)}"',
-                ]
 
-                # Apply run-specific styling
+                # Build tspan styling
                 style_parts: List[str] = []
-                classes = [css_class]
 
                 if run.is_bold:
                     style_parts.append("font-weight: bold")
@@ -671,37 +939,41 @@ class SVGRenderer:
                     style_parts.append("font-style: italic")
 
                 if run.is_code:
-                    classes = ["md-code"]
+                    style_parts.append(f"font-family: {self.style.mono_font_family}")
+                    style_parts.append(f"fill: {self.style.code_color}")
 
                 if run.is_link:
-                    classes.append("md-link")
+                    has_link = True
+                    style_parts.append(f"fill: {self.style.link_color}")
                     if self.style.link_underline:
                         style_parts.append("text-decoration: underline")
 
-                attrs.append(f'class="{" ".join(classes)}"')
-
+                # Create tspan element
                 if style_parts:
-                    attrs.append(f'style="{"; ".join(style_parts)}"')
-
-                # Wrap in anchor if it's a link
-                if run.is_link and run.url:
-                    elements.append(
-                        f'  <a href="{escape_svg_text(run.url)}">'
-                        f'<text {" ".join(attrs)}>{escaped}</text></a>'
-                    )
+                    style_attr = f' style="{"; ".join(style_parts)}"'
                 else:
-                    elements.append(f'  <text {" ".join(attrs)}>{escaped}</text>')
+                    style_attr = ""
 
-                # Advance x position
-                run_width = estimate_text_width(
-                    run.text,
-                    font_size,
-                    is_bold=run.is_bold,
-                    is_mono=run.is_code,
-                    char_width_ratio=self.style.char_width_ratio,
-                    bold_char_width_ratio=self.style.bold_char_width_ratio,
-                )
-                current_x += run_width
+                if run.is_link and run.url:
+                    # Wrap link text in an anchor
+                    tspan_parts.append(
+                        f'<a href="{escape_svg_text(run.url)}">'
+                        f'<tspan{style_attr}>{escaped}</tspan></a>'
+                    )
+                elif style_parts:
+                    tspan_parts.append(f'<tspan{style_attr}>{escaped}</tspan>')
+                else:
+                    # Plain text without tspan wrapper
+                    tspan_parts.append(escaped)
+
+            # Build the complete text element
+            text_content = "".join(tspan_parts)
+            text_element = (
+                f'  <text x="{format_number(ctx.x)}" y="{format_number(current_y)}" '
+                f'font-size="{format_number(font_size)}" class="{css_class}">'
+                f'{text_content}</text>'
+            )
+            elements.append(text_element)
 
             current_y += line_height
 
@@ -756,9 +1028,8 @@ class SVGRenderer:
                 if i > 0 or (lines[-1] and not lines[-1][-1].text.endswith(" ")):
                     word = " " + word if lines[-1] else word
 
-                word_width = estimate_text_width(
-                    word, font_size, run.is_bold, run.is_code,
-                    self.style.char_width_ratio, self.style.bold_char_width_ratio
+                word_width = self._measure_text(
+                    word, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
                 )
 
                 if current_width + word_width <= max_width or not lines[-1]:
@@ -773,9 +1044,8 @@ class SVGRenderer:
                     # Start new line
                     word_clean = word.lstrip(" ")
                     lines.append([run.with_text(word_clean)])
-                    current_width = estimate_text_width(
-                        word_clean, font_size, run.is_bold, run.is_code,
-                        self.style.char_width_ratio, self.style.bold_char_width_ratio
+                    current_width = self._measure_text(
+                        word_clean, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
                     )
 
         return lines

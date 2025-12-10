@@ -65,7 +65,7 @@ size = measure(markdown, width=target_width, padding=20)
 # Add some extra padding for safety margin
 svg = render(markdown, width=target_width, padding=20)
 
-with open("examples/output/measured.svg", "w") as f:
+with open("docs/usage-examples/output/measured.svg", "w") as f:
     f.write(svg)
 
 print(f"Generated measured.svg")

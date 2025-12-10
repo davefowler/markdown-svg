@@ -32,13 +32,13 @@ def greet(name):
 
 # Using built-in dark theme
 dark_svg = render(markdown, width=500, padding=20, style=DARK_THEME)
-with open("examples/output/dark_theme.svg", "w") as f:
+with open("docs/usage-examples/output/dark_theme.svg", "w") as f:
     f.write(dark_svg)
 print("Generated dark_theme.svg")
 
 # Using GitHub theme
 github_svg = render(markdown, width=500, padding=20, style=GITHUB_THEME)
-with open("examples/output/github_theme.svg", "w") as f:
+with open("docs/usage-examples/output/github_theme.svg", "w") as f:
     f.write(github_svg)
 print("Generated github_theme.svg")
 
@@ -67,7 +67,7 @@ custom_style = Style(
 )
 
 custom_svg = render(markdown, width=500, padding=25, style=custom_style)
-with open("examples/output/custom_style.svg", "w") as f:
+with open("docs/usage-examples/output/custom_style.svg", "w") as f:
     f.write(custom_svg)
 print("Generated custom_style.svg")
 
@@ -79,7 +79,7 @@ modified_style = base_style.with_updates(
     link_underline=False,
 )
 modified_svg = render(markdown, width=500, padding=20, style=modified_style)
-with open("examples/output/modified_style.svg", "w") as f:
+with open("docs/usage-examples/output/modified_style.svg", "w") as f:
     f.write(modified_svg)
 print("Generated modified_style.svg")
 

@@ -274,12 +274,6 @@ make typecheck    # Run type checker
 make help         # Show all commands
 ```
 
-## Roadmap
-
-Planned enhancements:
-
-- **Syntax Highlighting** - Colorized code blocks using Pygments with VS Code theme support. See [notes/SYNTAX_HIGHLIGHTING_PLAN.md](notes/SYNTAX_HIGHLIGHTING_PLAN.md) for details.
-
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.

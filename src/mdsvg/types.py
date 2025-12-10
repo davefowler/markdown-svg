@@ -159,11 +159,21 @@ class Table(Block):
 
 @dataclass(frozen=True)
 class ImageBlock(Block):
-    """A standalone image block."""
+    """A standalone image block.
+    
+    Attributes:
+        url: The image URL (may be relative or absolute).
+        alt: Alt text for accessibility.
+        title: Optional title attribute.
+        width: Explicit width in pixels (from markdown {width=X} syntax).
+        height: Explicit height in pixels (from markdown {height=Y} syntax).
+    """
 
     url: str
     alt: str = ""
     title: Optional[str] = None
+    width: Optional[float] = None
+    height: Optional[float] = None
     block_type: BlockType = field(default=BlockType.IMAGE, init=False)
 
 
