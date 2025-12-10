@@ -27,4 +27,3 @@
 | Japan | 126M | $5.1 | Asia |
 | Germany | 83M | $3.8 | Europe |
 | UK | 67M | $2.8 | Europe |
-

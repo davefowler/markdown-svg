@@ -1,3 +1,2 @@
 # Dependencies for markdown-svg
 fonttools>=4.0
-

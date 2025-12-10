@@ -20,4 +20,3 @@ console.log("Hello, World!");
 ---
 
 That's it! Simple and straightforward.
-

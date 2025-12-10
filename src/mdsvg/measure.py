@@ -39,10 +39,10 @@ def estimate_char_width(
 ) -> float:
     """
     Estimate the width of a single character.
-    
+
     This uses heuristics based on character class to provide reasonable
     estimates without requiring actual font metrics.
-    
+
     Args:
         char: The character to measure.
         font_size: Font size in pixels.
@@ -50,7 +50,7 @@ def estimate_char_width(
         is_mono: Whether using a monospace font.
         char_width_ratio: Average character width ratio for normal text.
         bold_char_width_ratio: Average character width ratio for bold text.
-        
+
     Returns:
         Estimated width in pixels.
     """
@@ -89,7 +89,7 @@ def estimate_text_width(
 ) -> float:
     """
     Estimate the width of a text string.
-    
+
     Args:
         text: The text to measure.
         font_size: Font size in pixels.
@@ -97,7 +97,7 @@ def estimate_text_width(
         is_mono: Whether using a monospace font.
         char_width_ratio: Average character width ratio for normal text.
         bold_char_width_ratio: Average character width ratio for bold text.
-        
+
     Returns:
         Estimated width in pixels.
     """
@@ -118,7 +118,7 @@ def wrap_text(
 ) -> List[str]:
     """
     Wrap text to fit within a maximum width.
-    
+
     Args:
         text: The text to wrap.
         max_width: Maximum line width in pixels.
@@ -127,7 +127,7 @@ def wrap_text(
         is_mono: Whether using a monospace font.
         char_width_ratio: Average character width ratio.
         bold_char_width_ratio: Character width ratio for bold.
-        
+
     Returns:
         List of wrapped lines.
     """
@@ -152,14 +152,18 @@ def wrap_text(
         if word_width > max_width and not current_line:
             # Break the long word
             broken = _break_long_word(
-                word, max_width, font_size, is_bold, is_mono,
-                char_width_ratio, bold_char_width_ratio
+                word,
+                max_width,
+                font_size,
+                is_bold,
+                is_mono,
+                char_width_ratio,
+                bold_char_width_ratio,
             )
             lines.extend(broken[:-1])
             current_line = [broken[-1]]
             current_width = estimate_text_width(
-                broken[-1], font_size, is_bold, is_mono,
-                char_width_ratio, bold_char_width_ratio
+                broken[-1], font_size, is_bold, is_mono, char_width_ratio, bold_char_width_ratio
             )
             continue
 
@@ -223,12 +227,12 @@ def measure_spans(
 ) -> TextMetrics:
     """
     Measure the dimensions needed to render a sequence of spans.
-    
+
     Args:
         spans: Sequence of Span objects to measure.
         max_width: Maximum width available.
         style: Style configuration.
-        
+
     Returns:
         TextMetrics with dimensions and line information.
     """
@@ -238,10 +242,7 @@ def measure_spans(
     full_text = "".join(span.text for span in spans)
 
     # For simplicity, use the average characteristics
-    has_bold = any(
-        span.span_type in (SpanType.BOLD, SpanType.BOLD_ITALIC)
-        for span in spans
-    )
+    has_bold = any(span.span_type in (SpanType.BOLD, SpanType.BOLD_ITALIC) for span in spans)
 
     lines = wrap_text(
         full_text,
@@ -272,4 +273,3 @@ def measure_spans(
         line_count=len(lines),
         lines=tuple(lines),
     )
-

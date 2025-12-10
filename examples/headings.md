@@ -21,4 +21,3 @@ Even smaller.
 ###### Heading Level 6
 
 The smallest heading level.
-

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Example showing measurement and rendering workflow."""
 
-from mdsvg import Style, measure, parse, render, render_blocks
+from mdsvg import Style, measure, parse, render
 
 markdown = """# Measurement Example
 
@@ -43,6 +43,7 @@ blocks = parse(markdown)
 for width in [300, 400, 500, 600]:
     # Use render_blocks and measure from renderer
     from mdsvg.renderer import SVGRenderer
+
     renderer = SVGRenderer()
     block_size = renderer.measure(blocks, width=width, padding=20)
     print(f"Width {width}px -> Height {block_size.height:.1f}px")
@@ -68,11 +69,10 @@ svg = render(markdown, width=target_width, padding=20)
 with open("docs/usage-examples/output/measured.svg", "w") as f:
     f.write(svg)
 
-print(f"Generated measured.svg")
+print("Generated measured.svg")
 print(f"Final dimensions: {size.width}x{size.height}px")
 
 # Method 5: Inspect the AST
 print("\n=== Method 5: Inspect the AST ===")
 for i, block in enumerate(blocks):
     print(f"Block {i}: {block.block_type.value}")
-

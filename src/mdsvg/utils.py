@@ -10,10 +10,10 @@ from typing import List, Tuple
 def escape_xml(text: str) -> str:
     """
     Escape text for safe inclusion in XML/SVG.
-    
+
     Args:
         text: Raw text string.
-        
+
     Returns:
         XML-escaped string.
     """
@@ -23,12 +23,12 @@ def escape_xml(text: str) -> str:
 def escape_svg_text(text: str) -> str:
     """
     Escape text for inclusion in SVG text elements.
-    
+
     This handles special characters that could break SVG rendering.
-    
+
     Args:
         text: Raw text string.
-        
+
     Returns:
         Escaped string safe for SVG.
     """
@@ -42,10 +42,10 @@ def escape_svg_text(text: str) -> str:
 def normalize_whitespace(text: str) -> str:
     """
     Normalize whitespace in text (collapse multiple spaces, strip edges).
-    
+
     Args:
         text: Text with potentially irregular whitespace.
-        
+
     Returns:
         Normalized text.
     """
@@ -55,10 +55,10 @@ def normalize_whitespace(text: str) -> str:
 def split_lines(text: str) -> List[str]:
     """
     Split text into lines, handling different line endings.
-    
+
     Args:
         text: Text with line breaks.
-        
+
     Returns:
         List of lines (without line ending characters).
     """
@@ -68,11 +68,11 @@ def split_lines(text: str) -> List[str]:
 def indent_text(text: str, indent: str = "  ") -> str:
     """
     Indent all lines of text.
-    
+
     Args:
         text: Multi-line text.
         indent: String to prepend to each line.
-        
+
     Returns:
         Indented text.
     """
@@ -83,11 +83,11 @@ def indent_text(text: str, indent: str = "  ") -> str:
 def generate_id(prefix: str, index: int) -> str:
     """
     Generate a unique ID for SVG elements.
-    
+
     Args:
         prefix: ID prefix (e.g., "heading", "para").
         index: Numeric index.
-        
+
     Returns:
         Generated ID string.
     """
@@ -97,10 +97,10 @@ def generate_id(prefix: str, index: int) -> str:
 def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
     """
     Convert hex color to RGB tuple.
-    
+
     Args:
         hex_color: Hex color string (e.g., "#ff0000" or "ff0000").
-        
+
     Returns:
         Tuple of (red, green, blue) values (0-255).
     """
@@ -117,12 +117,12 @@ def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
 def rgb_to_hex(r: int, g: int, b: int) -> str:
     """
     Convert RGB values to hex color string.
-    
+
     Args:
         r: Red value (0-255).
         g: Green value (0-255).
         b: Blue value (0-255).
-        
+
     Returns:
         Hex color string with leading #.
     """
@@ -132,11 +132,11 @@ def rgb_to_hex(r: int, g: int, b: int) -> str:
 def lighten_color(hex_color: str, factor: float = 0.1) -> str:
     """
     Lighten a color by a factor.
-    
+
     Args:
         hex_color: Hex color string.
         factor: Amount to lighten (0-1).
-        
+
     Returns:
         Lightened hex color.
     """
@@ -150,11 +150,11 @@ def lighten_color(hex_color: str, factor: float = 0.1) -> str:
 def darken_color(hex_color: str, factor: float = 0.1) -> str:
     """
     Darken a color by a factor.
-    
+
     Args:
         hex_color: Hex color string.
         factor: Amount to darken (0-1).
-        
+
     Returns:
         Darkened hex color.
     """
@@ -168,12 +168,12 @@ def darken_color(hex_color: str, factor: float = 0.1) -> str:
 def clamp(value: float, minimum: float, maximum: float) -> float:
     """
     Clamp a value between minimum and maximum.
-    
+
     Args:
         value: Value to clamp.
         minimum: Minimum allowed value.
         maximum: Maximum allowed value.
-        
+
     Returns:
         Clamped value.
     """
@@ -183,13 +183,13 @@ def clamp(value: float, minimum: float, maximum: float) -> float:
 def format_number(n: float, precision: int = 2) -> str:
     """
     Format a number for SVG attribute output.
-    
+
     Removes unnecessary trailing zeros and decimal points.
-    
+
     Args:
         n: Number to format.
         precision: Decimal precision.
-        
+
     Returns:
         Formatted number string.
     """
@@ -199,4 +199,3 @@ def format_number(n: float, precision: int = 2) -> str:
     # Remove trailing zeros
     formatted = formatted.rstrip("0").rstrip(".")
     return formatted
-

@@ -64,10 +64,10 @@ class RenderContext:
 class SVGRenderer:
     """
     Renderer that converts Markdown AST to SVG.
-    
+
     By default, uses fonttools for precise text measurement if available.
     Falls back to heuristic estimation otherwise.
-    
+
     Example:
         >>> renderer = SVGRenderer(style=Style())
         >>> blocks = parse("# Hello\\n\\nWorld")
@@ -88,7 +88,7 @@ class SVGRenderer:
     ) -> None:
         """
         Initialize the renderer.
-        
+
         Args:
             style: Style configuration. Uses default style if None.
             font_path: Path to a TTF/OTF font file for precise measurement.
@@ -111,7 +111,7 @@ class SVGRenderer:
         self._measurer: Optional[FontMeasurer] = None
         self._mono_measurer: Optional[FontMeasurer] = None
         self._mono_char_width: Optional[float] = None  # Cached mono character width per unit
-        
+
         # Image handling
         self._fetch_image_sizes = fetch_image_sizes
         self._image_base_path = image_base_path
@@ -195,12 +195,12 @@ class SVGRenderer:
     ) -> str:
         """
         Render blocks to an SVG string.
-        
+
         Args:
             blocks: Document AST to render.
             width: Width of the SVG in pixels.
             padding: Padding inside the SVG.
-            
+
         Returns:
             SVG string.
         """
@@ -239,12 +239,12 @@ class SVGRenderer:
     ) -> Size:
         """
         Measure the size needed to render blocks.
-        
+
         Args:
             blocks: Document AST to measure.
             width: Width constraint.
             padding: Padding inside the SVG.
-            
+
         Returns:
             Size with width and height.
         """
@@ -282,14 +282,16 @@ class SVGRenderer:
         ]
 
         # Add a style block for fonts
-        svg_parts.append(f"""  <style>
+        svg_parts.append(
+            f"""  <style>
     .md-text {{ font-family: {self.style.font_family}; fill: {self.style.text_color}; }}
     .md-mono {{ font-family: {self.style.mono_font_family}; }}
     .md-heading {{ font-family: {self.style.font_family}; fill: {self.style.get_heading_color()}; font-weight: {self.style.heading_font_weight}; }}
     .md-code {{ font-family: {self.style.mono_font_family}; fill: {self.style.code_color}; }}
     .md-link {{ fill: {self.style.link_color}; }}
     .md-blockquote {{ fill: {self.style.blockquote_color}; }}
-  </style>""")
+  </style>"""
+        )
 
         svg_parts.extend(elements)
         svg_parts.append("</svg>")
@@ -367,7 +369,7 @@ class SVGRenderer:
     ) -> Tuple[List[str], float]:
         """Render a code block with background."""
         overflow = self.style.code_block_overflow
-        
+
         if overflow == "foreignObject":
             return self._render_code_block_foreign_object(code, ctx)
         elif overflow == "wrap":
@@ -391,13 +393,13 @@ class SVGRenderer:
         max_chars = int((ctx.width - padding * 2) / char_width)
 
         lines = code.code.split("\n")
-        
+
         # Process lines for ellipsis mode
         if overflow == "ellipsis":
             processed_lines = []
             for line in lines:
                 if len(line) > max_chars and max_chars > 3:
-                    processed_lines.append(line[:max_chars - 3] + "...")
+                    processed_lines.append(line[: max_chars - 3] + "...")
                 else:
                     processed_lines.append(line)
             lines = processed_lines
@@ -413,7 +415,7 @@ class SVGRenderer:
                 f'  <defs><clipPath id="{clip_id}">'
                 f'<rect x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
                 f'width="{format_number(ctx.width)}" height="{format_number(total_height)}"/>'
-                f'</clipPath></defs>'
+                f"</clipPath></defs>"
             )
 
         # Background rectangle
@@ -513,20 +515,20 @@ class SVGRenderer:
         total_height = text_height + (padding * 2)
 
         escaped_code = escape_svg_text(code.code)
-        
+
         elements.append(
             f'  <foreignObject x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
             f'width="{format_number(ctx.width)}" height="{format_number(total_height)}">'
             f'<div xmlns="http://www.w3.org/1999/xhtml" style="'
-            f'width: 100%; height: 100%; overflow: auto; '
-            f'background: {self.style.code_background}; '
-            f'border-radius: {self.style.code_block_border_radius}px; '
+            f"width: 100%; height: 100%; overflow: auto; "
+            f"background: {self.style.code_background}; "
+            f"border-radius: {self.style.code_block_border_radius}px; "
             f'box-sizing: border-box; padding: {padding}px;">'
             f'<pre style="margin: 0; font-family: {self.style.mono_font_family}; '
-            f'font-size: {font_size}px; line-height: {line_height}px; '
-            f'color: {self.style.text_color}; white-space: pre; '
+            f"font-size: {font_size}px; line-height: {line_height}px; "
+            f"color: {self.style.text_color}; white-space: pre; "
             f'overflow-x: auto;">{escaped_code}</pre>'
-            f'</div></foreignObject>'
+            f"</div></foreignObject>"
         )
 
         return elements, total_height
@@ -701,16 +703,32 @@ class SVGRenderer:
 
         # Render header row
         self._render_table_row(
-            elements, table.header, ctx.x, current_y, col_width, row_height,
-            padding, font_size, table.alignments, is_header=True
+            elements,
+            table.header,
+            ctx.x,
+            current_y,
+            col_width,
+            row_height,
+            padding,
+            font_size,
+            table.alignments,
+            is_header=True,
         )
         current_y += row_height
 
         # Render body rows
         for row in table.rows:
             self._render_table_row(
-                elements, row, ctx.x, current_y, col_width, row_height,
-                padding, font_size, table.alignments, is_header=False
+                elements,
+                row,
+                ctx.x,
+                current_y,
+                col_width,
+                row_height,
+                padding,
+                font_size,
+                table.alignments,
+                is_header=False,
             )
             current_y += row_height
 
@@ -795,14 +813,14 @@ class SVGRenderer:
         """Get image dimensions, using cache to avoid re-fetching."""
         if url in self._image_size_cache:
             return self._image_size_cache[url]
-        
+
         # Skip fetching if enforce_aspect_ratio is set (speed optimization)
         if self.style.image_enforce_aspect_ratio:
             return None
-        
+
         if not self._fetch_image_sizes:
             return None
-        
+
         size = get_image_size(
             url,
             base_path=self._image_base_path,
@@ -835,11 +853,11 @@ class SVGRenderer:
         """
         # Try to get actual image dimensions
         actual_size = self._get_image_size(img.url)
-        
+
         # Determine dimensions using priority order
         explicit_width = img.width
         explicit_height = img.height
-        
+
         # Calculate final width
         if explicit_width is not None:
             # Explicit width from markdown
@@ -850,7 +868,7 @@ class SVGRenderer:
         else:
             # Full container width
             img_width = ctx.width
-        
+
         # Calculate final height
         if explicit_height is not None:
             # Explicit height from markdown
@@ -882,9 +900,7 @@ class SVGRenderer:
 
         # Add alt text as title for accessibility
         if img.alt:
-            elements.append(
-                f'  <title>{escape_svg_text(img.alt)}</title>'
-            )
+            elements.append(f"  <title>{escape_svg_text(img.alt)}</title>")
 
         return elements, img_height
 
@@ -953,10 +969,10 @@ class SVGRenderer:
                     # Wrap link text in an anchor
                     tspan_parts.append(
                         f'<a href="{escape_svg_text(run.url)}">'
-                        f'<tspan{style_attr}>{escaped}</tspan></a>'
+                        f"<tspan{style_attr}>{escaped}</tspan></a>"
                     )
                 elif style_parts:
-                    tspan_parts.append(f'<tspan{style_attr}>{escaped}</tspan>')
+                    tspan_parts.append(f"<tspan{style_attr}>{escaped}</tspan>")
                 else:
                     # Plain text without tspan wrapper
                     tspan_parts.append(escaped)
@@ -966,7 +982,7 @@ class SVGRenderer:
             text_element = (
                 f'  <text x="{format_number(ctx.x)}" y="{format_number(current_y)}" '
                 f'font-size="{format_number(font_size)}" class="{css_class}">'
-                f'{text_content}</text>'
+                f"{text_content}</text>"
             )
             elements.append(text_element)
 
@@ -990,15 +1006,17 @@ class SVGRenderer:
             is_link = span.span_type == SpanType.LINK
             is_image = span.span_type == SpanType.IMAGE
 
-            runs.append(TextRun(
-                text=span.text,
-                is_bold=is_bold,
-                is_italic=is_italic,
-                is_code=is_code,
-                is_link=is_link,
-                is_image=is_image,
-                url=span.url,
-            ))
+            runs.append(
+                TextRun(
+                    text=span.text,
+                    is_bold=is_bold,
+                    is_italic=is_italic,
+                    is_code=is_code,
+                    is_link=is_link,
+                    is_image=is_image,
+                    url=span.url,
+                )
+            )
 
         return runs
 
@@ -1024,7 +1042,11 @@ class SVGRenderer:
                     word = " " + word if lines[-1] else word
 
                 word_width = self._measure_text(
-                    word, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
+                    word,
+                    font_size,
+                    is_bold=run.is_bold,
+                    is_italic=run.is_italic,
+                    is_mono=run.is_code,
                 )
 
                 if current_width + word_width <= max_width or not lines[-1]:
@@ -1040,7 +1062,11 @@ class SVGRenderer:
                     word_clean = word.lstrip(" ")
                     lines.append([run.with_text(word_clean)])
                     current_width = self._measure_text(
-                        word_clean, font_size, is_bold=run.is_bold, is_italic=run.is_italic, is_mono=run.is_code
+                        word_clean,
+                        font_size,
+                        is_bold=run.is_bold,
+                        is_italic=run.is_italic,
+                        is_mono=run.is_code,
                     )
 
         return lines
@@ -1087,6 +1113,7 @@ class TextRun:
 
 # Convenience functions
 
+
 def render(
     markdown: str,
     width: float = 400,
@@ -1095,18 +1122,18 @@ def render(
 ) -> str:
     """
     Render Markdown text to SVG.
-    
+
     This is the main entry point for the library.
-    
+
     Args:
         markdown: Markdown text to render.
         width: Width of the SVG in pixels.
         padding: Padding inside the SVG.
         style: Style configuration. Uses default if None.
-        
+
     Returns:
         SVG string.
-        
+
     Example:
         >>> svg = render("# Hello World\\n\\nThis is **bold** text.")
         >>> with open("output.svg", "w") as f:
@@ -1127,13 +1154,13 @@ def render_blocks(
 ) -> str:
     """
     Render pre-parsed blocks to SVG.
-    
+
     Args:
         blocks: Document AST to render.
         width: Width of the SVG in pixels.
         padding: Padding inside the SVG.
         style: Style configuration.
-        
+
     Returns:
         SVG string.
     """
@@ -1149,16 +1176,16 @@ def measure(
 ) -> Size:
     """
     Measure the dimensions needed to render Markdown.
-    
+
     Args:
         markdown: Markdown text to measure.
         width: Width constraint.
         padding: Padding inside the SVG.
         style: Style configuration.
-        
+
     Returns:
         Size with width and height.
-        
+
     Example:
         >>> size = measure("# Hello\\n\\nLong paragraph...")
         >>> print(f"Height needed: {size.height}px")
@@ -1168,4 +1195,3 @@ def measure(
     blocks = parse(markdown)
     renderer = SVGRenderer(style=style)
     return renderer.measure(blocks, width=width, padding=padding)
-

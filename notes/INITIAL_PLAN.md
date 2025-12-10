@@ -112,7 +112,7 @@ style = Style(
     mono_font_family="ui-monospace, monospace",
     base_font_size=14.0,
     line_height=1.5,
-    
+
     # Colors
     text_color="#1a1a1a",
     heading_color="#111111",
@@ -120,7 +120,7 @@ style = Style(
     code_color="#be185d",
     code_background="#f3f4f6",
     blockquote_color="#6b7280",
-    
+
     # Heading scales (multipliers of base_font_size)
     h1_scale=2.0,
     h2_scale=1.6,
@@ -128,7 +128,7 @@ style = Style(
     h4_scale=1.15,
     h5_scale=1.0,
     h6_scale=0.9,
-    
+
     # Spacing
     paragraph_spacing=12.0,
     list_indent=24.0,
@@ -268,16 +268,16 @@ Document clearly in README:
 ```markdown
 ## Text Width Estimation
 
-This library estimates text width using character-based heuristics rather 
-than actual font metrics. This works well for common system fonts but may 
+This library estimates text width using character-based heuristics rather
+than actual font metrics. This works well for common system fonts but may
 be less accurate for:
 
 - Variable-width fonts with unusual character widths
 - Non-Latin scripts
 - Fonts with ligatures
 
-The estimation uses ~0.48em average character width for normal text and 
-~0.52em for bold text, which provides good results for system-ui and 
+The estimation uses ~0.48em average character width for normal text and
+~0.52em for bold text, which provides good results for system-ui and
 similar sans-serif fonts.
 
 For pixel-perfect accuracy, consider:

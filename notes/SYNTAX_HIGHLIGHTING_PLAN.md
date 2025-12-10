@@ -51,20 +51,20 @@ Most markdown libraries **delegate** syntax highlighting to external libraries:
 def _render_code_line_highlighted(self, line: str, lexer) -> List[str]:
     """Render a single code line with syntax highlighting."""
     from pygments import lex
-    
+
     tspans = []
     x_offset = 0
-    
+
     for token_type, token_value in lex(line, lexer):
         color = self._get_token_color(token_type)
         escaped = escape_svg_text(token_value)
         width = len(token_value) * char_width
-        
+
         tspans.append(
             f'<tspan fill="{color}">{escaped}</tspan>'
         )
         x_offset += width
-    
+
     return tspans
 ```
 
@@ -74,7 +74,7 @@ def _render_code_line_highlighted(self, line: str, lexer) -> List[str]:
 @dataclass
 class Style:
     # ... existing options ...
-    
+
     # Syntax highlighting
     code_highlight: bool = False      # Enable syntax highlighting
     code_theme: str = "monokai"       # Built-in theme name
@@ -150,7 +150,7 @@ If VS Code format feels heavy, we could define a simpler format:
 ```json
 {
   "keyword": "#f92672",
-  "string": "#e6db74", 
+  "string": "#e6db74",
   "comment": "#75715e",
   "function": "#a6e22e",
   "number": "#ae81ff",
@@ -168,10 +168,10 @@ Style(
     code_highlight=True,
     # Option 1: Built-in theme name
     code_theme="monokai",
-    
+
     # Option 2: VS Code theme JSON file
     code_theme_file="./my-theme.json",
-    
+
     # Option 3: Simple color dict
     code_colors={
         "keyword": "#ff0000",
@@ -251,7 +251,7 @@ highlight = ["pygments>=2.0"]
 
 ## Open Questions
 
-1. **Should highlighting be on by default?** 
+1. **Should highlighting be on by default?**
    - Pro: Better out-of-box experience
    - Con: Adds dependency, slight perf cost
 

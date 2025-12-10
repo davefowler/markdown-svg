@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>markdown-svg Playground</title>
-  
+
   <!-- CodeMirror from CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/markdown/markdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --bg-primary: #ffffff;
@@ -29,13 +29,13 @@
       --success: #22c55e;
       --warning: #f59e0b;
     }
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
       font-family: 'Outfit', system-ui, sans-serif;
       background: var(--bg-primary);
@@ -44,7 +44,7 @@
       display: flex;
       flex-direction: column;
     }
-    
+
     /* Header */
     header {
       display: flex;
@@ -56,7 +56,7 @@
       gap: 16px;
       flex-wrap: wrap;
     }
-    
+
     .logo {
       display: flex;
       align-items: center;
@@ -64,7 +64,7 @@
       font-weight: 600;
       font-size: 18px;
     }
-    
+
     .github-link {
       display: flex;
       align-items: center;
@@ -74,19 +74,19 @@
       padding: 8px;
       border-radius: 8px;
     }
-    
+
     .github-link:hover {
       color: var(--text-primary);
       background: var(--bg-tertiary);
     }
-    
+
     .controls {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
     }
-    
+
     select, button {
       font-family: inherit;
       font-size: 13px;
@@ -98,18 +98,18 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    
+
     select:hover, button:hover {
       border-color: var(--accent);
       background: var(--bg-secondary);
     }
-    
+
     select:focus, button:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
-    
+
     button.primary {
       background: var(--accent);
       border-color: var(--accent);
@@ -118,27 +118,27 @@
       align-items: center;
       gap: 6px;
     }
-    
+
     button.primary:hover {
       background: #4f46e5;
     }
-    
+
     button.primary svg {
       width: 16px;
       height: 16px;
     }
-    
+
     button.primary.white {
       background: var(--bg-primary);
       border-color: var(--border);
       color: var(--text-primary);
     }
-    
+
     button.primary.white:hover {
       background: var(--bg-tertiary);
       border-color: var(--accent);
     }
-    
+
     /* Toast notification */
     .toast {
       position: fixed;
@@ -156,12 +156,12 @@
       transition: all 0.3s ease;
       z-index: 1000;
     }
-    
+
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
-    
+
     label {
       display: flex;
       align-items: center;
@@ -169,21 +169,21 @@
       font-size: 13px;
       color: var(--text-secondary);
     }
-    
+
     /* Main content */
     main {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
-    
+
     .panel {
       flex: 1;
       display: flex;
       flex-direction: column;
       min-width: 0;
     }
-    
+
     .panel-header {
       display: flex;
       align-items: center;
@@ -195,43 +195,43 @@
       font-weight: 500;
       color: var(--text-secondary);
     }
-    
+
     .panel-header .status {
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 12px;
     }
-    
+
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: var(--success);
     }
-    
+
     .status-dot.pending {
       background: var(--warning);
       animation: pulse 1s infinite;
     }
-    
+
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
-    
+
     .panel-content {
       flex: 1;
       overflow: auto;
       position: relative;
     }
-    
+
     .editor-panel {
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
     }
-    
+
     /* Split editor panes */
     .editor-split {
       display: flex;
@@ -239,7 +239,7 @@
       flex: 1;
       overflow: hidden;
     }
-    
+
     .style-pane {
       height: 180px;
       min-height: 100px;
@@ -247,22 +247,22 @@
       display: flex;
       flex-direction: column;
     }
-    
+
     .style-pane .panel-header {
       padding: 8px 16px;
     }
-    
+
     .style-pane .panel-content {
       flex: 1;
     }
-    
+
     .markdown-pane {
       flex: 1;
       display: flex;
       flex-direction: column;
       min-height: 0;
     }
-    
+
     /* CodeMirror customization */
     .CodeMirror {
       height: 100%;
@@ -272,29 +272,29 @@
       background: var(--bg-primary);
       color: var(--text-primary);
     }
-    
+
     .CodeMirror-gutters {
       background: var(--bg-secondary);
       border-right: 1px solid var(--border);
     }
-    
+
     .CodeMirror-linenumber {
       color: var(--text-secondary);
       padding: 0 12px;
     }
-    
+
     .CodeMirror-cursor {
       border-left-color: var(--accent);
     }
-    
+
     .CodeMirror-focused .CodeMirror-selected {
       background: rgba(99, 102, 241, 0.15);
     }
-    
+
     .CodeMirror-selected {
       background: rgba(99, 102, 241, 0.1);
     }
-    
+
     /* Syntax highlighting for light theme */
     .cm-header { color: #1a1d21; font-weight: 600; }
     .cm-strong { color: #1a1d21; font-weight: 600; }
@@ -310,13 +310,13 @@
     .cm-variable-2 { color: #6366f1; }
     .cm-property { color: #6366f1; }
     .cm-def { color: #8250df; }
-    
+
     /* Style editor specific */
     .style-pane .CodeMirror {
       font-size: 12px;
       line-height: 1.5;
     }
-    
+
     /* Preview panel */
     .preview-panel .panel-content {
       background: var(--bg-tertiary);
@@ -325,11 +325,11 @@
       padding: 32px;
       overflow: auto;
     }
-    
+
     .preview-panel .panel-header {
       padding: 8px 16px;
     }
-    
+
     .svg-container {
       background: #ffffff;
       border-radius: 8px;
@@ -337,11 +337,11 @@
       max-width: 100%;
       overflow: auto;
     }
-    
+
     .svg-container svg {
       display: block;
     }
-    
+
     /* Divider / Resize handle */
     .divider {
       width: 4px;
@@ -349,11 +349,11 @@
       cursor: col-resize;
       transition: background 0.15s ease;
     }
-    
+
     .divider:hover {
       background: var(--accent);
     }
-    
+
     .h-divider {
       height: 4px;
       width: 100%;
@@ -361,11 +361,11 @@
       cursor: row-resize;
       transition: background 0.15s ease;
     }
-    
+
     .h-divider:hover {
       background: var(--accent);
     }
-    
+
     /* Empty state */
     .empty-state {
       display: flex;
@@ -377,14 +377,14 @@
       text-align: center;
       padding: 32px;
     }
-    
+
     .empty-state svg {
       width: 64px;
       height: 64px;
       margin-bottom: 16px;
       opacity: 0.5;
     }
-    
+
     /* Error state */
     .error-message {
       color: #ef4444;
@@ -393,7 +393,7 @@
       background: rgba(239, 68, 68, 0.1);
       border-top: 1px solid rgba(239, 68, 68, 0.2);
     }
-    
+
     /* Gallery Modal */
     .modal-overlay {
       position: fixed;
@@ -407,12 +407,12 @@
       visibility: hidden;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
-    
+
     .modal-overlay.open {
       opacity: 1;
       visibility: visible;
     }
-    
+
     .modal {
       background: var(--bg-primary);
       border-radius: 12px;
@@ -425,11 +425,11 @@
       transform: scale(0.95);
       transition: transform 0.2s ease;
     }
-    
+
     .modal-overlay.open .modal {
       transform: scale(1);
     }
-    
+
     .modal-header {
       display: flex;
       align-items: center;
@@ -437,12 +437,12 @@
       padding: 16px 20px;
       border-bottom: 1px solid var(--border);
     }
-    
+
     .modal-header h2 {
       font-size: 18px;
       font-weight: 600;
     }
-    
+
     .modal-close {
       background: none;
       border: none;
@@ -452,24 +452,24 @@
       border-radius: 6px;
       transition: all 0.15s ease;
     }
-    
+
     .modal-close:hover {
       background: var(--bg-tertiary);
       color: var(--text-primary);
     }
-    
+
     .modal-body {
       padding: 20px;
       overflow-y: auto;
       flex: 1;
     }
-    
+
     .examples-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 16px;
     }
-    
+
     .example-card {
       background: var(--bg-secondary);
       border: 1px solid var(--border);
@@ -478,18 +478,18 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    
+
     .example-card:hover {
       border-color: var(--accent);
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
       transform: translateY(-2px);
     }
-    
+
     .example-card.active {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
-    
+
     .example-thumbnail {
       width: 100%;
       height: 120px;
@@ -500,21 +500,21 @@
       overflow: hidden;
       padding: 8px;
     }
-    
+
     .example-thumbnail svg {
       width: 100%;
       height: auto;
       max-height: 100%;
       object-fit: contain;
     }
-    
+
     .example-thumbnail img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: top;
     }
-    
+
     .example-name {
       padding: 10px 12px;
       font-size: 12px;
@@ -530,26 +530,26 @@
       main {
         flex-direction: column;
       }
-      
+
       .divider {
         width: 100%;
         height: 4px;
         cursor: row-resize;
       }
-      
+
       .panel {
         height: 50vh;
       }
-      
+
       header {
         padding: 12px 16px;
       }
-      
+
       .controls {
         width: 100%;
         justify-content: flex-start;
       }
-      
+
       .examples-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       }
@@ -561,7 +561,7 @@
     <div class="logo">
       <span>markdown-svg</span>
     </div>
-    
+
     <div class="controls">
       <button id="examples-btn" class="primary white" title="Browse examples">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
@@ -572,7 +572,7 @@
         </svg>
         Examples
       </button>
-      
+
       <button id="clear-btn" class="primary white" title="Clear editor">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
           <path d="M3 6h18"/>
@@ -581,7 +581,7 @@
         </svg>
         Clear
       </button>
-      
+
       <button id="share-btn" class="primary white" title="Copy shareable URL">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="18" cy="5" r="3"/>
@@ -592,7 +592,7 @@
         </svg>
         Share
       </button>
-      
+
       <button id="download-btn" class="primary" title="Download SVG">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -601,7 +601,7 @@
         </svg>
         Download
       </button>
-      
+
       <a href="https://github.com/davefowler/markdown-svg" target="_blank" class="github-link" title="View on GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -609,7 +609,7 @@
       </a>
     </div>
   </header>
-  
+
   <main>
     <div class="panel editor-panel">
       <div class="editor-split">
@@ -621,9 +621,9 @@
             <textarea id="style-editor"></textarea>
           </div>
         </div>
-        
+
         <div class="h-divider" id="h-divider"></div>
-        
+
         <div class="markdown-pane">
           <div class="panel-header">
             <span>Markdown</span>
@@ -638,9 +638,9 @@
         </div>
       </div>
     </div>
-    
+
     <div class="divider" id="divider"></div>
-    
+
     <div class="panel preview-panel">
       <div class="panel-header">
         <span>SVG Preview</span>
@@ -658,9 +658,9 @@
       </div>
     </div>
   </main>
-  
+
   <div class="toast" id="toast"></div>
-  
+
   <!-- Examples Gallery Modal -->
   <div class="modal-overlay" id="examples-modal">
     <div class="modal">
@@ -680,7 +680,7 @@
       </div>
     </div>
   </div>
-  
+
   <script>
     // Default style options
     const defaultStyle = {
@@ -695,7 +695,7 @@
       code_background: "#f3f4f6",
       blockquote_color: "#6b7280",
     };
-    
+
     // Initialize CodeMirror for markdown
     const markdownTextarea = document.getElementById('editor');
     const markdownEditor = CodeMirror.fromTextArea(markdownTextarea, {
@@ -706,7 +706,7 @@
       tabSize: 2,
       indentWithTabs: false,
     });
-    
+
     // Initialize CodeMirror for style JSON
     const styleTextarea = document.getElementById('style-editor');
     const styleEditor = CodeMirror.fromTextArea(styleTextarea, {
@@ -716,10 +716,10 @@
       tabSize: 2,
       indentWithTabs: false,
     });
-    
+
     // Set default style
     styleEditor.setValue(JSON.stringify(defaultStyle, null, 2));
-    
+
     // Elements
     const svgContainer = document.getElementById('svg-container');
     const examplesBtn = document.getElementById('examples-btn');
@@ -732,19 +732,19 @@
     const statusText = document.getElementById('status-text');
     const dimensionsEl = document.getElementById('dimensions');
     const toast = document.getElementById('toast');
-    
+
     let debounceTimer;
     let currentSvg = '';
     let currentExample = '';
     let examplesList = [];
-    
+
     // Toast notification
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
-    
+
     // URL state management
     function encodeState() {
       const state = {
@@ -753,7 +753,7 @@
       };
       return btoa(encodeURIComponent(JSON.stringify(state)));
     }
-    
+
     function decodeState(encoded) {
       try {
         const json = decodeURIComponent(atob(encoded));
@@ -763,30 +763,30 @@
         return null;
       }
     }
-    
+
     function loadStateFromUrl() {
       const hash = window.location.hash.slice(1);
       if (!hash) return false;
-      
+
       const state = decodeState(hash);
       if (!state) return false;
-      
+
       if (state.s) styleEditor.setValue(state.s);
       if (state.m) markdownEditor.setValue(state.m);
-      
+
       return true;
     }
-    
+
     // Update URL hash without adding to browser history
     function updateUrl() {
       const encoded = encodeState();
       const newUrl = `${window.location.origin}${window.location.pathname}#${encoded}`;
       history.replaceState(null, '', newUrl);
     }
-    
+
     function copyShareUrl() {
       const url = window.location.href;
-      
+
       navigator.clipboard.writeText(url).then(() => {
         showToast('Link copied to clipboard!');
       }).catch(() => {
@@ -800,65 +800,65 @@
         showToast('Link copied to clipboard!');
       });
     }
-    
+
     // Modal functions
     function openModal() {
       examplesModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-    
+
     function closeModal() {
       examplesModal.classList.remove('open');
       document.body.style.overflow = '';
     }
-    
+
     // Load examples list and build gallery
     async function loadExamples() {
       try {
         const res = await fetch('/api/examples');
         examplesList = await res.json();
-        
+
         // Build gallery grid
         examplesGrid.innerHTML = '';
-        
+
         for (const ex of examplesList) {
           const card = document.createElement('div');
           card.className = 'example-card';
           card.dataset.filename = ex.filename;
-          
+
           // Get SVG thumbnail filename (without .md extension)
           const svgFilename = ex.filename.replace('.md', '.svg');
-          
+
           card.innerHTML = `
             <div class="example-thumbnail">
               <img src="/examples/svg/${svgFilename}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=\\'color: var(--text-secondary); font-size: 11px;\\'>Preview unavailable</span>'"/>
             </div>
             <div class="example-name">${ex.name}</div>
           `;
-          
+
           card.addEventListener('click', () => {
             loadExample(ex.filename);
             closeModal();
           });
-          
+
           examplesGrid.appendChild(card);
         }
       } catch (e) {
         console.error('Failed to load examples:', e);
       }
     }
-    
+
     // Update active state in gallery
     function updateActiveExample() {
       document.querySelectorAll('.example-card').forEach(card => {
         card.classList.toggle('active', card.dataset.filename === currentExample);
       });
     }
-    
+
     // Load a specific example
     async function loadExample(filename) {
       if (!filename) return;
-      
+
       try {
         const res = await fetch(`/api/example/${filename}`);
         const data = await res.json();
@@ -869,7 +869,7 @@
         console.error('Failed to load example:', e);
       }
     }
-    
+
     // Parse style JSON safely
     function parseStyle() {
       try {
@@ -879,18 +879,18 @@
         return null;
       }
     }
-    
+
     // Render markdown to SVG
     async function renderMarkdown() {
       const markdown = markdownEditor.getValue();
       const style = parseStyle();
-      
+
       if (!style) {
         statusDot.classList.remove('pending');
         statusText.textContent = 'Invalid JSON';
         return;
       }
-      
+
       if (!markdown.trim()) {
         svgContainer.innerHTML = `
           <div class="empty-state">
@@ -905,10 +905,10 @@
         updateUrl();
         return;
       }
-      
+
       statusDot.classList.add('pending');
       statusText.textContent = 'Rendering...';
-      
+
       try {
         const res = await fetch('/api/render', {
           method: 'POST',
@@ -918,30 +918,30 @@
             ...style,
           }),
         });
-        
+
         const data = await res.json();
-        
+
         if (data.error) {
           throw new Error(data.error);
         }
-        
+
         currentSvg = data.svg;
         svgContainer.innerHTML = data.svg;
-        
+
         // Show dimensions and set min-width to prevent horizontal scroll issues
         const svg = svgContainer.querySelector('svg');
         if (svg) {
           const w = svg.getAttribute('width');
           const h = svg.getAttribute('height');
           dimensionsEl.textContent = `${w} × ${parseFloat(h).toFixed(0)}px`;
-          
+
           // Set min-width on container to match SVG width
           svgContainer.style.minWidth = `${parseFloat(w)}px`;
         }
-        
+
         statusDot.classList.remove('pending');
         statusText.textContent = 'Ready';
-        
+
         // Update URL to reflect current state
         updateUrl();
       } catch (e) {
@@ -955,17 +955,17 @@
         `;
       }
     }
-    
+
     // Debounced render
     function debouncedRender() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(renderMarkdown, 300);
     }
-    
+
     // Download SVG
     function downloadSvg() {
       if (!currentSvg) return;
-      
+
       const blob = new Blob([currentSvg], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -976,67 +976,67 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-    
+
     // Resize panels (horizontal)
     function initDivider() {
       const divider = document.getElementById('divider');
       const editorPanel = document.querySelector('.editor-panel');
       const previewPanel = document.querySelector('.preview-panel');
       let isDragging = false;
-      
+
       divider.addEventListener('mousedown', (e) => {
         isDragging = true;
         document.body.style.cursor = 'col-resize';
         document.body.style.userSelect = 'none';
       });
-      
+
       document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
-        
+
         const container = document.querySelector('main');
         const containerRect = container.getBoundingClientRect();
         const percent = ((e.clientX - containerRect.left) / containerRect.width) * 100;
-        
+
         if (percent > 20 && percent < 80) {
           editorPanel.style.flex = `0 0 ${percent}%`;
           previewPanel.style.flex = `0 0 ${100 - percent}%`;
         }
       });
-      
+
       document.addEventListener('mouseup', () => {
         isDragging = false;
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
       });
     }
-    
+
     // Resize style/markdown panes (vertical)
     function initHDivider() {
       const divider = document.getElementById('h-divider');
       const stylePane = document.querySelector('.style-pane');
       const markdownPane = document.querySelector('.markdown-pane');
       let isDragging = false;
-      
+
       divider.addEventListener('mousedown', (e) => {
         isDragging = true;
         document.body.style.cursor = 'row-resize';
         document.body.style.userSelect = 'none';
       });
-      
+
       document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
-        
+
         const container = document.querySelector('.editor-split');
         const containerRect = container.getBoundingClientRect();
         const height = e.clientY - containerRect.top;
-        
+
         if (height > 80 && height < containerRect.height - 100) {
           stylePane.style.height = `${height}px`;
           styleEditor.refresh();
           markdownEditor.refresh();
         }
       });
-      
+
       document.addEventListener('mouseup', () => {
         if (isDragging) {
           isDragging = false;
@@ -1047,7 +1047,7 @@
         }
       });
     }
-    
+
     // Clear editor
     function clearEditor() {
       markdownEditor.setValue('');
@@ -1055,14 +1055,14 @@
       currentExample = '';
       updateActiveExample();
     }
-    
+
     // Event listeners
     markdownEditor.on('change', debouncedRender);
     styleEditor.on('change', debouncedRender);
     downloadBtn.addEventListener('click', downloadSvg);
     shareBtn.addEventListener('click', copyShareUrl);
     document.getElementById('clear-btn').addEventListener('click', clearEditor);
-    
+
     // Modal event listeners
     examplesBtn.addEventListener('click', openModal);
     modalClose.addEventListener('click', closeModal);
@@ -1074,23 +1074,23 @@
         closeModal();
       }
     });
-    
+
     // Initialize
     async function init() {
       await loadExamples();
-      
+
       // Try to load state from URL first
       const loadedFromUrl = loadStateFromUrl();
-      
+
       // If no URL state, load kitchen-sink as default
       if (!loadedFromUrl) {
         loadExample('kitchen-sink.md');
       }
-      
+
       initDivider();
       initHDivider();
     }
-    
+
     init();
   </script>
 </body>

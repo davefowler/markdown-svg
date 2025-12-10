@@ -73,4 +73,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SVG output with embedded CSS classes for styling
 - Proper XML escaping for all text content
 - Support for Python 3.9+
-

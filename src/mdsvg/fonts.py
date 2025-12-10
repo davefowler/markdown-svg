@@ -6,7 +6,7 @@ actual glyph metrics from font files.
 ## Basic Usage
 
     from mdsvg.fonts import FontMeasurer, get_system_font
-    
+
     # Use system font (auto-detected)
     measurer = FontMeasurer.system_default()
     width = measurer.measure("Hello World", font_size=14)
@@ -22,7 +22,7 @@ You can use any TTF/OTF font file:
 
 Recommended locations:
 - Project directory: `./fonts/MyFont.ttf`
-- User fonts (macOS): `~/Library/Fonts/MyFont.ttf`  
+- User fonts (macOS): `~/Library/Fonts/MyFont.ttf`
 - User fonts (Linux): `~/.local/share/fonts/MyFont.ttf`
 - User fonts (Windows): `C:\\Users\\<user>\\AppData\\Local\\Microsoft\\Windows\\Fonts\\`
 
@@ -31,7 +31,7 @@ Recommended locations:
 Download fonts from Google Fonts automatically:
 
     from mdsvg.fonts import download_google_font, FontMeasurer
-    
+
     font_path = download_google_font("Inter")
     measurer = FontMeasurer(font_path)
 
@@ -51,7 +51,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 class FontMeasurer:
     """
     Measure text width using actual font metrics via fonttools.
-    
+
     Example:
         >>> measurer = FontMeasurer("/System/Library/Fonts/Helvetica.ttc")
         >>> measurer.measure("Hello World", 14)
@@ -72,6 +72,7 @@ class FontMeasurer:
         """Load font metrics from the font file."""
         try:
             from fontTools.ttLib import TTFont
+
             font = TTFont(self.font_path, fontNumber=self.font_number)
             self._cmap = font.getBestCmap()
             self._hmtx = font["hmtx"]
@@ -84,14 +85,14 @@ class FontMeasurer:
     def measure(self, text: str, font_size: float) -> float:
         """
         Measure the width of text in pixels.
-        
+
         Args:
             text: The text to measure.
             font_size: Font size in pixels.
-            
+
         Returns:
             Width in pixels.
-            
+
         Raises:
             RuntimeError: If fonttools is not available.
         """
@@ -124,7 +125,7 @@ class FontMeasurer:
     def system_default(cls) -> Optional[FontMeasurer]:
         """
         Create a FontMeasurer using the system default font.
-        
+
         Returns:
             FontMeasurer if a system font is found and fonttools is available,
             None otherwise.
@@ -140,9 +141,9 @@ class FontMeasurer:
 def get_system_font() -> Optional[str]:
     """
     Find a system font that can be used for measurement.
-    
+
     Looks for common sans-serif fonts that match typical "system-ui" rendering.
-        
+
     Returns:
         Path to a font file, or None if not found.
     """
@@ -191,12 +192,12 @@ def create_precise_wrapper(
 ) -> Callable[[str], List[str]]:
     """
     Create a text wrapper function that uses precise font measurement.
-    
+
     Args:
         max_width: Maximum line width in pixels.
         font_size: Font size in pixels.
         measurer: FontMeasurer to use (auto-detects if None).
-        
+
     Returns:
         A function that takes text and returns list of wrapped lines.
     """
@@ -205,6 +206,7 @@ def create_precise_wrapper(
 
     if measurer is None or not measurer.is_available:
         from .measure import wrap_text
+
         return lambda text: wrap_text(text, max_width, font_size)
 
     def wrap_precise(text: str) -> List[str]:
@@ -243,13 +245,13 @@ def calibrate_heuristic(
 ) -> Tuple[float, float]:
     """
     Calibrate heuristic character width ratios based on actual font measurement.
-    
+
     Returns adjusted ratios for use with the heuristic estimator.
-    
+
     Args:
         measurer: FontMeasurer to use for calibration.
         font_size: Font size for calibration.
-        
+
     Returns:
         Tuple of (char_width_ratio, bold_char_width_ratio).
     """
@@ -269,9 +271,9 @@ def calibrate_heuristic(
 def get_font_cache_dir() -> str:
     """
     Get the directory for caching downloaded fonts.
-    
+
     Creates the directory if it doesn't exist.
-    
+
     Returns:
         Path to the font cache directory.
     """
@@ -297,26 +299,26 @@ def download_google_font(
 ) -> str:
     """
     Download a font from Google Fonts.
-    
+
     Downloads the font file and caches it locally. Subsequent calls
     return the cached file.
-    
+
     Args:
         font_name: Name of the font (e.g., "Inter", "Roboto", "Open Sans").
         weight: Font weight (100-900). Default 400 (regular).
         cache_dir: Directory to cache fonts. Uses system cache if None.
-        
+
     Returns:
         Path to the downloaded font file.
-        
+
     Raises:
         RuntimeError: If download fails or font not found.
-        
+
     Example:
         >>> font_path = download_google_font("Inter")
         >>> measurer = FontMeasurer(font_path)
         >>> measurer.measure("Hello", 14)
-        
+
         >>> # With specific weight
         >>> bold_path = download_google_font("Inter", weight=700)
     """
@@ -337,14 +339,15 @@ def download_google_font(
         return font_path
 
     # Google Fonts CSS API URL
-    css_url = f"https://fonts.googleapis.com/css2?family={font_name.replace(' ', '+')}:wght@{weight}"
+    css_url = (
+        f"https://fonts.googleapis.com/css2?family={font_name.replace(' ', '+')}:wght@{weight}"
+    )
 
     try:
         # Fetch CSS to get the actual font URL
         # Use a browser-like User-Agent to get TTF instead of WOFF2
         request = urllib.request.Request(
-            css_url,
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+            css_url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
         )
         with urllib.request.urlopen(request, timeout=30) as response:
             css = response.read().decode("utf-8")
@@ -388,10 +391,10 @@ def download_google_font(
 def list_cached_fonts(cache_dir: Optional[str] = None) -> List[str]:
     """
     List all fonts in the cache directory.
-    
+
     Args:
         cache_dir: Cache directory to list. Uses system cache if None.
-        
+
     Returns:
         List of cached font file paths.
     """

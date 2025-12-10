@@ -29,7 +29,7 @@ from .utils import normalize_whitespace, split_lines
 class MarkdownParser:
     """
     Parser that converts Markdown text to an AST.
-    
+
     The parser handles common Markdown syntax including:
     - Headings (ATX style: # through ######)
     - Paragraphs with inline formatting
@@ -40,7 +40,7 @@ class MarkdownParser:
     - Horizontal rules
     - Tables (GFM style)
     - Images
-    
+
     Example:
         >>> parser = MarkdownParser()
         >>> doc = parser.parse("# Hello\\n\\nThis is **bold**.")
@@ -60,8 +60,7 @@ class MarkdownParser:
     TABLE_SEPARATOR = re.compile(r"^\|[\s\-:|]+\|$")
     # Image block with optional {width=X height=Y} attributes
     IMAGE_BLOCK = re.compile(
-        r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+[\"']([^\"']+)[\"'])?\)"
-        r"(?:\{([^}]+)\})?\s*$"
+        r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+[\"']([^\"']+)[\"'])?\)" r"(?:\{([^}]+)\})?\s*$"
     )
     # Pattern to extract key=value pairs from image attributes
     IMAGE_ATTR = re.compile(r"(\w+)\s*=\s*(\d+(?:\.\d+)?)")
@@ -77,10 +76,10 @@ class MarkdownParser:
     def parse(self, text: str) -> Document:
         """
         Parse Markdown text into a document AST.
-        
+
         Args:
             text: Markdown text to parse.
-            
+
         Returns:
             List of Block objects representing the document.
         """
@@ -120,9 +119,7 @@ class MarkdownParser:
 
         return blocks
 
-    def _try_parse_block(
-        self, lines: List[str], start: int
-    ) -> Tuple[Optional[AnyBlock], int]:
+    def _try_parse_block(self, lines: List[str], start: int) -> Tuple[Optional[AnyBlock], int]:
         """Try to parse a block starting at the given line index."""
         line = lines[start]
 
@@ -219,7 +216,7 @@ class MarkdownParser:
             alt = match.group(1)
             url = match.group(2)
             title = match.group(3) if match.group(3) else None
-            
+
             # Parse optional {width=X height=Y} attributes
             width: Optional[float] = None
             height: Optional[float] = None
@@ -232,14 +229,12 @@ class MarkdownParser:
                         width = value
                     elif key == "height":
                         height = value
-            
+
             return ImageBlock(url=url, alt=alt, title=title, width=width, height=height), 1
 
         return None, 0
 
-    def _collect_paragraph_lines(
-        self, lines: List[str], start: int
-    ) -> Tuple[List[str], int]:
+    def _collect_paragraph_lines(self, lines: List[str], start: int) -> Tuple[List[str], int]:
         """Collect lines that belong to a paragraph."""
         para_lines: List[str] = []
         i = start
@@ -269,9 +264,7 @@ class MarkdownParser:
 
         return para_lines, i - start
 
-    def _parse_unordered_list(
-        self, lines: List[str], start: int
-    ) -> Tuple[UnorderedList, int]:
+    def _parse_unordered_list(self, lines: List[str], start: int) -> Tuple[UnorderedList, int]:
         """Parse an unordered list."""
         items: List[ListItem] = []
         i = start
@@ -309,9 +302,7 @@ class MarkdownParser:
 
         return UnorderedList(items=tuple(items)), i - start
 
-    def _parse_ordered_list(
-        self, lines: List[str], start: int
-    ) -> Tuple[OrderedList, int]:
+    def _parse_ordered_list(self, lines: List[str], start: int) -> Tuple[OrderedList, int]:
         """Parse an ordered list."""
         items: List[ListItem] = []
         i = start
@@ -347,9 +338,7 @@ class MarkdownParser:
 
         return OrderedList(items=tuple(items), start=start_num), i - start
 
-    def _parse_table(
-        self, lines: List[str], start: int
-    ) -> Tuple[Optional[Table], int]:
+    def _parse_table(self, lines: List[str], start: int) -> Tuple[Optional[Table], int]:
         """Parse a GFM-style table."""
         if start + 1 >= len(lines):
             return None, 0
@@ -433,7 +422,7 @@ class MarkdownParser:
     def _parse_inline(self, text: str) -> List[Span]:
         """
         Parse inline formatting in text.
-        
+
         Handles: bold, italic, bold+italic, inline code, links, images.
         """
         if not text:
@@ -508,13 +497,21 @@ class MarkdownParser:
             elif match_type == "image":
                 alt = earliest_match.group(1)
                 url = earliest_match.group(2)
-                title = earliest_match.group(3) if earliest_match.lastindex and earliest_match.lastindex >= 3 else None
+                title = (
+                    earliest_match.group(3)
+                    if earliest_match.lastindex and earliest_match.lastindex >= 3
+                    else None
+                )
                 spans.append(Span(text=alt or url, span_type=SpanType.IMAGE, url=url, title=title))
 
             elif match_type == "link":
                 link_text = earliest_match.group(1)
                 url = earliest_match.group(2)
-                title = earliest_match.group(3) if earliest_match.lastindex and earliest_match.lastindex >= 3 else None
+                title = (
+                    earliest_match.group(3)
+                    if earliest_match.lastindex and earliest_match.lastindex >= 3
+                    else None
+                )
                 spans.append(Span(text=link_text, span_type=SpanType.LINK, url=url, title=title))
 
             elif match_type == "bold_italic":
@@ -530,7 +527,7 @@ class MarkdownParser:
                 spans.append(Span(text=inner, span_type=SpanType.ITALIC))
 
             # Continue with rest of text
-            remaining = remaining[earliest_match.end():]
+            remaining = remaining[earliest_match.end() :]
 
         return spans
 
@@ -539,19 +536,18 @@ class MarkdownParser:
 def parse(text: str) -> Document:
     """
     Parse Markdown text into a document AST.
-    
+
     This is a convenience function that creates a MarkdownParser
     and calls parse() on it.
-    
+
     Args:
         text: Markdown text to parse.
-        
+
     Returns:
         List of Block objects representing the document.
-        
+
     Example:
         >>> doc = parse("# Hello World")
         >>> print(doc[0].level)  # 1
     """
     return MarkdownParser().parse(text)
-

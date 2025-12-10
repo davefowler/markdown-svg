@@ -38,4 +38,3 @@ with open("docs/usage-examples/output/basic.svg", "w") as f:
 
 print("Generated basic.svg")
 print(f"SVG length: {len(svg)} characters")
-

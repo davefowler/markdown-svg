@@ -160,7 +160,7 @@ class Table(Block):
 @dataclass(frozen=True)
 class ImageBlock(Block):
     """A standalone image block.
-    
+
     Attributes:
         url: The image URL (may be relative or absolute).
         alt: Alt text for accessibility.
@@ -192,4 +192,3 @@ AnyBlock = Union[
 
 # Type alias for list of blocks (the AST)
 Document = List[AnyBlock]
-

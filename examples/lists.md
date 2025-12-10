@@ -27,4 +27,3 @@
 - *Italic item* for style
 - Item with `inline code`
 - Item with a [link](https://example.com)
-

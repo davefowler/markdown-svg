@@ -48,7 +48,6 @@ custom_style = Style(
     font_family="Georgia, serif",
     mono_font_family="'Courier New', monospace",
     base_font_size=16.0,
-    
     # Custom colors
     text_color="#2d3748",
     heading_color="#1a202c",
@@ -56,11 +55,9 @@ custom_style = Style(
     code_color="#d53f8c",
     code_background="#edf2f7",
     blockquote_color="#718096",
-    
     # Custom scales
     h1_scale=2.5,
     h2_scale=1.8,
-    
     # Custom spacing
     paragraph_spacing=16.0,
     list_indent=28.0,
@@ -82,4 +79,3 @@ modified_svg = render(markdown, width=500, padding=20, style=modified_style)
 with open("docs/usage-examples/output/modified_style.svg", "w") as f:
     f.write(modified_svg)
 print("Generated modified_style.svg")
-

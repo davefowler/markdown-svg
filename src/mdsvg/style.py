@@ -13,10 +13,10 @@ CodeBlockOverflow = Literal["wrap", "show", "hide", "ellipsis", "foreignObject"]
 class Style:
     """
     Configuration for styling rendered SVG output.
-    
+
     All style properties are immutable. Use `with_updates()` to create
     a modified copy of a style.
-    
+
     Attributes:
         font_family: Primary font stack for body text.
         mono_font_family: Font stack for code elements.
@@ -122,13 +122,13 @@ class Style:
     def with_updates(self, **kwargs: Any) -> Style:
         """
         Create a new Style with updated values.
-        
+
         Args:
             **kwargs: Style properties to update.
-            
+
         Returns:
             A new Style instance with the specified updates.
-            
+
         Example:
             >>> style = Style()
             >>> dark_style = style.with_updates(
@@ -141,10 +141,10 @@ class Style:
     def get_heading_scale(self, level: int) -> float:
         """
         Get the font size scale for a heading level.
-        
+
         Args:
             level: Heading level (1-6).
-            
+
         Returns:
             The font size multiplier for that heading level.
         """
@@ -191,4 +191,3 @@ GITHUB_THEME = Style(
     blockquote_color="#59636e",
     blockquote_border_color="#d1d9e0",
 )
-

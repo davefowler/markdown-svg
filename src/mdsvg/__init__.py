@@ -7,11 +7,11 @@ with support for common Markdown elements and automatic text wrapping.
 Basic usage:
     >>> from mdsvg import render
     >>> svg = render("# Hello World\\n\\nThis is **bold** text.")
-    
+
 With custom styling:
     >>> from mdsvg import render, Style
     >>> svg = render("# Hello", width=400, style=Style(text_color="#333"))
-    
+
 Measure dimensions without rendering:
     >>> from mdsvg import measure
     >>> size = measure("# Hello\\n\\nLong paragraph...")
@@ -116,4 +116,3 @@ __all__ = [
     "create_prefix_mapper",
     "create_base_url_mapper",
 ]
-

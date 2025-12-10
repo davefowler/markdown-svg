@@ -4,7 +4,7 @@ Markdown-svg supports images with flexible sizing options.
 
 ## Basic Image (Full Width)
 
-Images default to full container width.  By default they're fetched to get the aspect ratio as in SVG both height and width have to be explicitly set. 
+Images default to full container width.  By default they're fetched to get the aspect ratio as in SVG both height and width have to be explicitly set.
 
 ```markdown
 ![Mountain landscape](https://picsum.photos/seed/mountain/800/400)
@@ -57,4 +57,3 @@ Set `image_enforce_aspect_ratio=True` to skip fetching and always use the fallba
 - With `pillow` + `requests` installed, dimensions are fetched automatically
 - URL mapping available for CDN/asset path rewriting via `image_url_mapper`
 - Local files are detected quickly without network requests
-

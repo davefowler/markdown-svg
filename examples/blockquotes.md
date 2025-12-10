@@ -25,4 +25,3 @@
 > **Important:** This quote contains *emphasized* text and even `code snippets`.
 >
 > It demonstrates that blockquotes can contain rich markdown formatting.
-

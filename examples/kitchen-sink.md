@@ -71,4 +71,3 @@ Images render at full width by default with a configurable aspect ratio (16:9 de
 ---
 
 *That's everything! Try editing the markdown to see live changes.*
-

@@ -47,4 +47,3 @@ help:
 	@echo "  make dev           - Install with dev dependencies"
 	@echo "  make generate-svgs - Regenerate playground SVG examples"
 	@echo "  make clean         - Remove build artifacts"
-

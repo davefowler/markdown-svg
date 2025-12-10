@@ -7,7 +7,6 @@ Or: python -m mdsvg.playground
 """
 
 import json
-import os
 import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
@@ -16,19 +15,43 @@ from typing import Any, Dict, List
 from .renderer import render
 from .style import Style
 
-
 # Style options that can be passed from the frontend
 STYLE_OPTIONS = {
-    "font_family", "mono_font_family", "base_font_size", "line_height",
-    "text_color", "heading_color", "link_color", "link_underline",
-    "code_color", "code_background", "blockquote_color", "blockquote_border_color",
-    "h1_scale", "h2_scale", "h3_scale", "h4_scale", "h5_scale", "h6_scale",
-    "heading_font_weight", "heading_margin_top", "heading_margin_bottom",
-    "paragraph_spacing", "list_indent", "list_item_spacing",
-    "code_block_padding", "code_block_border_radius",
-    "blockquote_padding", "blockquote_border_width",
-    "table_border_color", "table_header_background", "table_cell_padding",
-    "hr_color", "hr_height", "char_width_ratio", "bold_char_width_ratio",
+    "font_family",
+    "mono_font_family",
+    "base_font_size",
+    "line_height",
+    "text_color",
+    "heading_color",
+    "link_color",
+    "link_underline",
+    "code_color",
+    "code_background",
+    "blockquote_color",
+    "blockquote_border_color",
+    "h1_scale",
+    "h2_scale",
+    "h3_scale",
+    "h4_scale",
+    "h5_scale",
+    "h6_scale",
+    "heading_font_weight",
+    "heading_margin_top",
+    "heading_margin_bottom",
+    "paragraph_spacing",
+    "list_indent",
+    "list_item_spacing",
+    "code_block_padding",
+    "code_block_border_radius",
+    "blockquote_padding",
+    "blockquote_border_width",
+    "table_border_color",
+    "table_header_background",
+    "table_cell_padding",
+    "hr_color",
+    "hr_height",
+    "char_width_ratio",
+    "bold_char_width_ratio",
 }
 
 
@@ -38,9 +61,10 @@ def get_playground_dir() -> Path:
     src_playground = Path(__file__).parent.parent.parent / "playground"
     if src_playground.exists():
         return src_playground
-    
+
     # Check if installed as package
     import importlib.resources
+
     try:
         # Python 3.9+
         files = importlib.resources.files("mdsvg")
@@ -49,7 +73,7 @@ def get_playground_dir() -> Path:
             return playground_path
     except (AttributeError, TypeError):
         pass
-    
+
     # Fallback to checking relative to this file
     return Path(__file__).parent.parent.parent / "playground"
 
@@ -66,10 +90,12 @@ def list_examples(examples_dir: Path) -> List[Dict[str, str]]:
     if examples_dir.exists():
         for path in sorted(examples_dir.glob("*.md")):
             name = path.stem.replace("-", " ").replace("_", " ").title()
-            examples.append({
-                "name": name,
-                "filename": path.name,
-            })
+            examples.append(
+                {
+                    "name": name,
+                    "filename": path.name,
+                }
+            )
     return examples
 
 
@@ -94,7 +120,7 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         """Handle GET requests."""
         from urllib.parse import urlparse
-        
+
         parsed = urlparse(self.path)
         path = parsed.path
 
@@ -114,29 +140,29 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
     def do_POST(self) -> None:
         """Handle POST requests."""
         from urllib.parse import urlparse
-        
+
         parsed = urlparse(self.path)
         path = parsed.path
 
         if path == "/api/render":
             content_length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(content_length)
-            
+
             try:
                 data = json.loads(body)
                 markdown = data.get("markdown", "")
                 width = data.get("width", 600)
                 padding = data.get("padding", 20)
-                
+
                 style = build_style(data)
-                
+
                 svg = render(
                     markdown,
                     width=width,
                     padding=padding,
                     style=style,
                 )
-                
+
                 self._send_json({"svg": svg})
             except json.JSONDecodeError:
                 self._send_error(400, "Invalid JSON")
@@ -189,9 +215,10 @@ def run_server(host: str = "localhost", port: int = 8765) -> None:
     """Run the playground server."""
     playground_dir = get_playground_dir()
     examples_dir = playground_dir / "examples"
-    
+
     if not playground_dir.exists() or not (playground_dir / "index.html").exists():
-        print("""
+        print(
+            """
 ╔═══════════════════════════════════════════════════════════════════╗
 ║                                                                   ║
 ║   Playground files not found!                                     ║
@@ -208,17 +235,19 @@ def run_server(host: str = "localhost", port: int = 8765) -> None:
 ║      python playground/server.py                                  ║
 ║                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════╝
-""")
+"""
+        )
         sys.exit(1)
-    
+
     # Set class variables for the handler
     PlaygroundHandler.playground_dir = playground_dir
     PlaygroundHandler.examples_dir = examples_dir
-    
+
     server_address = (host, port)
     httpd = HTTPServer(server_address, PlaygroundHandler)
-    
-    print(f"""
+
+    print(
+        f"""
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
 ║   🎨 markdown-svg Playground                              ║
@@ -229,8 +258,9 @@ def run_server(host: str = "localhost", port: int = 8765) -> None:
 ║   Press Ctrl+C to stop                                    ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
-""")
-    
+"""
+    )
+
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -241,15 +271,14 @@ def run_server(host: str = "localhost", port: int = 8765) -> None:
 def main() -> None:
     """Main entry point for the playground."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Run the markdown-svg playground")
     parser.add_argument("--host", default="localhost", help="Host to bind to")
     parser.add_argument("--port", type=int, default=8765, help="Port to bind to")
-    
+
     args = parser.parse_args()
     run_server(args.host, args.port)
 
 
 if __name__ == "__main__":
     main()
-

@@ -52,4 +52,3 @@ To estimate bold and italic widths, scaling ratios are applied:
 | Monospace | 0.60 | Fixed width for all characters |
 
 These can be tuned via Style options if your font differs significantly from the defaults.
-

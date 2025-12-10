@@ -84,14 +84,14 @@ style = Style(
     mono_font_family="'Courier New', monospace",
     base_font_size=16.0,
     line_height=1.6,
-    
+
     # Colors
     text_color="#333333",
     heading_color="#111111",
     link_color="#0066cc",
     code_color="#c7254e",
     code_background="#f9f2f4",
-    
+
     # Heading scales
     h1_scale=2.25,
     h2_scale=1.75,
@@ -108,7 +108,7 @@ from mdsvg import render, DARK_THEME, GITHUB_THEME, LIGHT_THEME
 # Use dark theme
 svg = render("# Dark Mode", style=DARK_THEME)
 
-# Use GitHub-style theme  
+# Use GitHub-style theme
 svg = render("# GitHub Style", style=GITHUB_THEME)
 ```
 
@@ -298,4 +298,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 - This is the only Python library (that we know of) for rendering Markdown directly to SVG
 - For HTML output, see [markdown](https://pypi.org/project/Markdown/), [mistune](https://pypi.org/project/mistune/), or [markdown-it-py](https://pypi.org/project/markdown-it-py/)
-

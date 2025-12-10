@@ -168,4 +168,3 @@ Feel free to open an issue for questions or discussions about the project.
 ## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
-
