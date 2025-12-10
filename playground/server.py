@@ -41,6 +41,7 @@ STYLE_OPTIONS = {
     "blockquote_padding", "blockquote_border_width",
     "table_border_color", "table_header_background", "table_cell_padding",
     "hr_color", "hr_height", "char_width_ratio", "bold_char_width_ratio",
+    "image_width", "image_height", "image_fallback_aspect_ratio", "image_enforce_aspect_ratio",
 }
 
 
@@ -92,8 +93,11 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
                 self._send_json({"content": content})
             else:
                 self._send_error(404, "Example not found")
+        elif path.startswith("/examples/"):
+            # Serve files from the examples directory
+            self._serve_file(ROOT_DIR / path.lstrip("/"))
         else:
-            # Serve static files
+            # Serve static files from playground
             super().do_GET()
 
     def do_POST(self) -> None:
@@ -147,6 +151,33 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _serve_file(self, file_path: Path) -> None:
+        """Serve a static file from an arbitrary path."""
+        if not file_path.exists() or not file_path.is_file():
+            self._send_error(404, "File not found")
+            return
+        
+        # Determine content type
+        suffix = file_path.suffix.lower()
+        content_types = {
+            ".svg": "image/svg+xml",
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".html": "text/html",
+            ".css": "text/css",
+            ".js": "application/javascript",
+            ".md": "text/markdown",
+        }
+        content_type = content_types.get(suffix, "application/octet-stream")
+        
+        content = file_path.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(content)))
+        self.end_headers()
+        self.wfile.write(content)
+
     def do_OPTIONS(self) -> None:
         """Handle CORS preflight."""
         self.send_response(200)
@@ -157,10 +188,15 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
 
     def log_message(self, format: str, *args: Any) -> None:
         """Log with color."""
-        method = args[0].split()[0] if args else ""
+        # Safely extract method from first arg (could be string or HTTPStatus)
+        method = ""
+        if args and isinstance(args[0], str):
+            parts = args[0].split()
+            method = parts[0] if parts else ""
+        
         if method == "POST":
             color = "\033[33m"  # Yellow
-        elif "200" in str(args[1]) if len(args) > 1 else False:
+        elif len(args) > 1 and "200" in str(args[1]):
             color = "\033[32m"  # Green
         else:
             color = "\033[0m"  # Default
@@ -171,9 +207,9 @@ class PlaygroundHandler(SimpleHTTPRequestHandler):
 def run_server(host: str = "localhost", port: int = 8765) -> None:
     """Run the playground server."""
     # Generate example SVGs for the gallery thumbnails
-    from playground.generate_svgs import main as generate_svgs
+    import subprocess
     print("Generating example SVGs...")
-    generate_svgs()
+    subprocess.run([sys.executable, str(PLAYGROUND_DIR / "generate_svgs.py")], check=True)
     
     server_address = (host, port)
     httpd = HTTPServer(server_address, PlaygroundHandler)

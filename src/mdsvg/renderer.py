@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 # Precise text measurement
 from .fonts import FontMeasurer, get_default_measurer
+from .images import ImageSize, ImageUrlMapper, get_image_size
 from .measure import Size, estimate_text_width
 from .style import Style
 from .types import (
@@ -79,6 +80,11 @@ class SVGRenderer:
         font_path: Optional[str] = None,
         mono_font_path: Optional[str] = None,
         use_precise_measurement: bool = True,
+        # Image options
+        fetch_image_sizes: bool = True,
+        image_base_path: Optional[str] = None,
+        image_url_mapper: Optional[ImageUrlMapper] = None,
+        image_timeout: float = 10.0,
     ) -> None:
         """
         Initialize the renderer.
@@ -92,11 +98,26 @@ class SVGRenderer:
             use_precise_measurement: If True (default), uses fonttools for
                       accurate text measurement when available. Set to False
                       to always use heuristic estimation.
+            fetch_image_sizes: If True (default), fetch image dimensions from
+                      local files or remote URLs. Required for accurate layout.
+            image_base_path: Base directory for resolving relative image paths.
+                      Used when fetching local image dimensions.
+            image_url_mapper: Optional function to transform image URLs before
+                      embedding in SVG. Useful for mapping local paths to CDN URLs.
+                      Example: create_prefix_mapper({"/assets/": "https://cdn.example.com/"})
+            image_timeout: Timeout in seconds for fetching remote images (default 10).
         """
         self.style = style or Style()
         self._measurer: Optional[FontMeasurer] = None
         self._mono_measurer: Optional[FontMeasurer] = None
         self._mono_char_width: Optional[float] = None  # Cached mono character width per unit
+        
+        # Image handling
+        self._fetch_image_sizes = fetch_image_sizes
+        self._image_base_path = image_base_path
+        self._image_url_mapper = image_url_mapper
+        self._image_timeout = image_timeout
+        self._image_size_cache: Dict[str, Optional[ImageSize]] = {}
 
         if use_precise_measurement:
             if font_path:
@@ -638,40 +659,90 @@ class SVGRenderer:
 
             x += col_width
 
+    def _get_image_size(self, url: str) -> Optional[ImageSize]:
+        """Get image dimensions, using cache to avoid re-fetching."""
+        if url in self._image_size_cache:
+            return self._image_size_cache[url]
+        
+        # Skip fetching if enforce_aspect_ratio is set (speed optimization)
+        if self.style.image_enforce_aspect_ratio:
+            return None
+        
+        if not self._fetch_image_sizes:
+            return None
+        
+        size = get_image_size(
+            url,
+            base_path=self._image_base_path,
+            timeout=self._image_timeout,
+        )
+        self._image_size_cache[url] = size
+        return size
+
+    def _map_image_url(self, url: str) -> str:
+        """Apply URL mapper if configured."""
+        if self._image_url_mapper:
+            return self._image_url_mapper(url)
+        return url
+
     def _render_image_block(
         self,
         img: ImageBlock,
         ctx: RenderContext,
     ) -> Tuple[List[str], float]:
         """Render an image block.
-        
-        Image sizing follows these rules:
-        - If style.image_width is set, use that (capped by container width)
-        - Otherwise, use full container width (like CSS width: 100%)
-        - If style.image_height is set, use that
-        - Otherwise, calculate from width using style.image_aspect_ratio
-        
+
+        Image sizing priority:
+        1. Explicit dimensions from markdown: ![alt](url){width=X height=Y}
+        2. Fetched dimensions from the actual image (if fetch_image_sizes=True)
+        3. Style defaults (image_width, image_height)
+        4. Fallback: full width with image_fallback_aspect_ratio
+
         The preserveAspectRatio attribute ensures the actual image
         scales proportionally within the allocated space.
         """
-        # Determine image width
-        if self.style.image_width is not None:
+        # Try to get actual image dimensions
+        actual_size = self._get_image_size(img.url)
+        
+        # Determine dimensions using priority order
+        explicit_width = img.width
+        explicit_height = img.height
+        
+        # Calculate final width
+        if explicit_width is not None:
+            # Explicit width from markdown
+            img_width = min(ctx.width, explicit_width)
+        elif self.style.image_width is not None:
+            # Style default width
             img_width = min(ctx.width, self.style.image_width)
         else:
-            # Default: full width (like CSS width: 100%)
+            # Full container width
             img_width = ctx.width
-
-        # Determine image height
-        if self.style.image_height is not None:
+        
+        # Calculate final height
+        if explicit_height is not None:
+            # Explicit height from markdown
+            img_height = explicit_height
+        elif explicit_width is not None and actual_size is not None:
+            # Scale height based on actual aspect ratio
+            img_height = img_width / actual_size.aspect_ratio
+        elif self.style.image_height is not None:
+            # Style default height
             img_height = self.style.image_height
+        elif actual_size is not None:
+            # Use actual image aspect ratio
+            img_height = img_width / actual_size.aspect_ratio
         else:
-            # Calculate from aspect ratio
-            img_height = img_width / self.style.image_aspect_ratio
+            # Fallback to configured aspect ratio
+            img_height = img_width / self.style.image_fallback_aspect_ratio
+
+        # Map URL for embedding (e.g., local path -> CDN URL)
+        embed_url = self._map_image_url(img.url)
 
         element = (
             f'  <image x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
             f'width="{format_number(img_width)}" height="{format_number(img_height)}" '
-            f'href="{escape_svg_text(img.url)}" '
+            f'href="{escape_svg_text(embed_url)}" '
             f'preserveAspectRatio="xMidYMid meet"/>'
         )
 

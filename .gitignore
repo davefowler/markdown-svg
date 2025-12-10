@@ -71,12 +71,12 @@ venv.bak/
 # macOS
 .DS_Store
 
-# Output files
-examples/output/*.svg
-!examples/output/.gitkeep
+# Generated example SVGs (regenerate with: python playground/generate_svgs.py)
+examples/svg/
 
-# Generated playground SVGs (regenerate with: python playground/generate_svgs.py)
-playground/svg/*.svg
+# Output files from usage examples
+docs/usage-examples/output/*.svg
+!docs/usage-examples/output/.gitkeep
 
 # Type checking
 .mypy_cache/

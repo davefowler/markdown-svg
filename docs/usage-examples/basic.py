@@ -33,7 +33,7 @@ That's it! Simple and straightforward.
 svg = render(markdown, width=500, padding=20)
 
 # Save to file
-with open("examples/output/basic.svg", "w") as f:
+with open("docs/usage-examples/output/basic.svg", "w") as f:
     f.write(svg)
 
 print("Generated basic.svg")

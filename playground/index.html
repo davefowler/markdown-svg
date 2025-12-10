@@ -768,9 +768,15 @@
       return true;
     }
     
-    function copyShareUrl() {
+    // Update URL hash without adding to browser history
+    function updateUrl() {
       const encoded = encodeState();
-      const url = `${window.location.origin}${window.location.pathname}#${encoded}`;
+      const newUrl = `${window.location.origin}${window.location.pathname}#${encoded}`;
+      history.replaceState(null, '', newUrl);
+    }
+    
+    function copyShareUrl() {
+      const url = window.location.href;
       
       navigator.clipboard.writeText(url).then(() => {
         showToast('Link copied to clipboard!');
@@ -887,6 +893,7 @@
         `;
         dimensionsEl.textContent = '';
         svgContainer.style.minWidth = '';
+        updateUrl();
         return;
       }
       
@@ -925,6 +932,9 @@
         
         statusDot.classList.remove('pending');
         statusText.textContent = 'Ready';
+        
+        // Update URL to reflect current state
+        updateUrl();
       } catch (e) {
         console.error('Render error:', e);
         statusDot.classList.remove('pending');

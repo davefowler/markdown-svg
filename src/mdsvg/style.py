@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import Any, Optional
+from typing import Any, Literal, Optional
+
+# Code block overflow options
+CodeBlockOverflow = Literal["wrap", "show", "hide", "ellipsis", "foreignObject"]
 
 
 @dataclass(frozen=True)
@@ -48,6 +51,10 @@ class Style:
         table_cell_padding: Padding inside table cells in pixels.
         hr_color: Color for horizontal rules.
         hr_height: Height of horizontal rules in pixels.
+        image_width: Fixed image width in pixels (None = full container width).
+        image_height: Fixed image height in pixels (None = auto from aspect ratio).
+        image_fallback_aspect_ratio: Aspect ratio when dimensions unknown (default 16:9).
+        image_enforce_aspect_ratio: Skip fetching dimensions, always use fallback ratio.
         char_width_ratio: Average character width as ratio of font size.
         bold_char_width_ratio: Character width ratio for bold text.
         mono_char_width_ratio: Character width ratio for monospace text.
@@ -86,6 +93,7 @@ class Style:
     list_item_spacing: float = 4.0
     code_block_padding: float = 12.0
     code_block_border_radius: float = 4.0
+    code_block_overflow: CodeBlockOverflow = "wrap"  # wrap, show, hide, ellipsis, foreignObject
     blockquote_padding: float = 16.0
     blockquote_border_width: float = 3.0
 
@@ -100,8 +108,9 @@ class Style:
 
     # Images
     image_width: Optional[float] = None  # None = full width (100% of container)
-    image_height: Optional[float] = None  # None = auto (based on aspect ratio hint)
-    image_aspect_ratio: float = 16 / 9  # Default aspect ratio when height is auto
+    image_height: Optional[float] = None  # None = auto (based on fetched/fallback ratio)
+    image_fallback_aspect_ratio: float = 16 / 9  # Used when dimensions can't be detected
+    image_enforce_aspect_ratio: bool = False  # Skip fetching, always use fallback ratio
 
     # Text measurement
     char_width_ratio: float = 0.48  # Average char width as ratio of font size

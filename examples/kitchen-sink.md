@@ -6,24 +6,29 @@ Everything markdown-svg can render, all in one place.
 
 Regular text, **bold**, *italic*, ***bold italic***, and `inline code`.
 
-Links work too: [Link to markdown-svg github](https://github.com/davefowler/markdown-svg)
+Links work too: [markdown-svg on GitHub](https://github.com/davefowler/markdown-svg)
+
+## Word Wrapping
+
+Text automatically wraps to fit the specified width. This paragraph demonstrates how longer text flows naturally within the SVG container. The renderer calculates character widths and breaks lines at appropriate points, respecting word boundaries. You can adjust the `width` parameter to control how wide the text area is.
+
+Here's a paragraph with **bold text that wraps** and *italic text that also wraps correctly* across multiple lines while maintaining proper formatting throughout.
 
 ## Lists
 
-### Unordered
-- Item one
+- Item one with enough text to potentially wrap to a second line if needed
 - Item two
-  - Nested item
+  - Nested item with its own wrapping behavior
+  - Another nested item
 - Item three
 
-### Ordered
-1. First
-2. Second
+1. First ordered item
+2. Second with a longer description that might wrap
 3. Third
 
 ## Blockquote
 
-> "Any sufficiently advanced technology is indistinguishable from magic."
+> "Any sufficiently advanced technology is indistinguishable from magic." This quote is long enough to demonstrate how blockquotes handle text wrapping within their indented container.
 > — Arthur C. Clarke
 
 ## Code Block
@@ -43,19 +48,18 @@ print(greet("World"))
 | `#` | Heading | `# Title` |
 | `**` | Bold | `**text**` |
 | `*` | Italic | `*text*` |
-| `` ` `` | Code | `` `code` `` |
 
 ---
 
 ## Images
 
-![Sample image](https://picsum.photos/seed/demo/400/200)
+Images render at full width by default with a configurable aspect ratio (16:9 default). Use the `image_width`, `image_height`, and `image_aspect_ratio` style options to customize sizing.
+
+![Sample landscape](https://picsum.photos/seed/demo/800/400)
 
 ---
 
-## All Heading Levels
-
-### Level 3
+### All Heading Levels
 #### Level 4
 ##### Level 5
 ###### Level 6

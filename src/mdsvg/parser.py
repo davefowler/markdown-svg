@@ -58,7 +58,13 @@ class MarkdownParser:
     BLOCKQUOTE = re.compile(r"^>\s?(.*)$")
     TABLE_ROW = re.compile(r"^\|(.+)\|$")
     TABLE_SEPARATOR = re.compile(r"^\|[\s\-:|]+\|$")
-    IMAGE_BLOCK = re.compile(r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+[\"']([^\"']+)[\"'])?\)$")
+    # Image block with optional {width=X height=Y} attributes
+    IMAGE_BLOCK = re.compile(
+        r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+[\"']([^\"']+)[\"'])?\)"
+        r"(?:\{([^}]+)\})?\s*$"
+    )
+    # Pattern to extract key=value pairs from image attributes
+    IMAGE_ATTR = re.compile(r"(\w+)\s*=\s*(\d+(?:\.\d+)?)")
 
     # Regex patterns for inline elements
     INLINE_CODE = re.compile(r"`([^`]+)`")
@@ -212,8 +218,22 @@ class MarkdownParser:
         if match:
             alt = match.group(1)
             url = match.group(2)
-            title = match.group(3) if len(match.groups()) > 2 else None
-            return ImageBlock(url=url, alt=alt, title=title), 1
+            title = match.group(3) if match.group(3) else None
+            
+            # Parse optional {width=X height=Y} attributes
+            width: Optional[float] = None
+            height: Optional[float] = None
+            attrs_str = match.group(4)
+            if attrs_str:
+                for attr_match in self.IMAGE_ATTR.finditer(attrs_str):
+                    key = attr_match.group(1).lower()
+                    value = float(attr_match.group(2))
+                    if key == "width":
+                        width = value
+                    elif key == "height":
+                        height = value
+            
+            return ImageBlock(url=url, alt=alt, title=title, width=width, height=height), 1
 
         return None, 0
 
