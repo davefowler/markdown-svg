@@ -563,6 +563,15 @@
     </div>
 
     <div class="controls">
+      <label>
+        Preset:
+        <select id="preset-select">
+          <option value="default">Default</option>
+          <option value="compact">Compact</option>
+          <option value="minimal">Minimal</option>
+        </select>
+      </label>
+
       <button id="examples-btn" class="primary white" title="Browse examples">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
           <rect x="3" y="3" width="7" height="7"/>
@@ -682,6 +691,31 @@
   </div>
 
   <script>
+    // Style presets for different rendering contexts
+    const stylePresets = {
+      default: {
+        // Document preset - generous whitespace for long-form reading
+        heading_margin_top: 1.5,
+        heading_margin_bottom: 0.5,
+        paragraph_spacing: 12.0,
+        list_item_spacing: 4.0,
+      },
+      compact: {
+        // Compact preset - tighter spacing for dashboards and UI
+        heading_margin_top: 0.3,
+        heading_margin_bottom: 0.3,
+        paragraph_spacing: 8.0,
+        list_item_spacing: 3.0,
+      },
+      minimal: {
+        // Minimal preset - very tight for tooltips and constrained spaces
+        heading_margin_top: 0.1,
+        heading_margin_bottom: 0.1,
+        paragraph_spacing: 4.0,
+        list_item_spacing: 2.0,
+      },
+    };
+
     // Default style options
     const defaultStyle = {
       width: 600,
@@ -694,6 +728,8 @@
       code_color: "#be185d",
       code_background: "#f3f4f6",
       blockquote_color: "#6b7280",
+      // Default preset values
+      ...stylePresets.default,
     };
 
     // Initialize CodeMirror for markdown
@@ -732,6 +768,7 @@
     const statusText = document.getElementById('status-text');
     const dimensionsEl = document.getElementById('dimensions');
     const toast = document.getElementById('toast');
+    const presetSelect = document.getElementById('preset-select');
 
     let debounceTimer;
     let currentSvg = '';
@@ -1052,8 +1089,25 @@
     function clearEditor() {
       markdownEditor.setValue('');
       styleEditor.setValue(JSON.stringify(defaultStyle, null, 2));
+      presetSelect.value = 'default';
       currentExample = '';
       updateActiveExample();
+    }
+
+    // Apply preset to current style
+    function applyPreset(presetName) {
+      const preset = stylePresets[presetName];
+      if (!preset) return;
+
+      try {
+        const currentStyle = JSON.parse(styleEditor.getValue());
+        const newStyle = { ...currentStyle, ...preset };
+        styleEditor.setValue(JSON.stringify(newStyle, null, 2));
+      } catch (e) {
+        // If current style is invalid, apply preset to default
+        const newStyle = { ...defaultStyle, ...preset };
+        styleEditor.setValue(JSON.stringify(newStyle, null, 2));
+      }
     }
 
     // Event listeners
@@ -1062,6 +1116,7 @@
     downloadBtn.addEventListener('click', downloadSvg);
     shareBtn.addEventListener('click', copyShareUrl);
     document.getElementById('clear-btn').addEventListener('click', clearEditor);
+    presetSelect.addEventListener('change', (e) => applyPreset(e.target.value));
 
     // Modal event listeners
     examplesBtn.addEventListener('click', openModal);

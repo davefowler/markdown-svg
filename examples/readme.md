@@ -4,6 +4,10 @@
 
 Convert Markdown to SVG with automatic text wrapping. Zero dependencies.
 
+**[🚀 Try the Live Playground](https://markdown-svg-production.up.railway.app/)** — see it in action, no installation required!
+
+📝 [Read the blog post](https://thingsilearned.com/things/markdown-svg) for background on the challenges and how they were solved.
+
 ## Why This Library?
 
 SVG has no native text flow or wrapping. If you need to embed formatted text in SVG (for dashboards, diagrams, exports, or anywhere else), you've had to manually position every line. Until now.
@@ -107,6 +111,39 @@ svg = render("# Dark Mode", style=DARK_THEME)
 # Use GitHub-style theme
 svg = render("# GitHub Style", style=GITHUB_THEME)
 ```
+
+### Style Presets
+
+Style presets optimize spacing for different contexts. Themes control colors, presets control margins:
+
+```python
+from mdsvg import render, COMPACT_PRESET, MINIMAL_PRESET, DOCUMENT_PRESET
+
+# Default behavior (generous whitespace for documents/articles)
+svg = render("# Title", style=DOCUMENT_PRESET)
+
+# Compact spacing for dashboards, cards, and UI components
+svg = render("# Title", style=COMPACT_PRESET)
+
+# Minimal spacing for tooltips and tight spaces
+svg = render("# Title", style=MINIMAL_PRESET)
+```
+
+Combine presets with themes using `merge_styles()`:
+
+```python
+from mdsvg import render, merge_styles, COMPACT_PRESET, DARK_THEME
+
+# Compact spacing + dark colors
+style = merge_styles(COMPACT_PRESET, DARK_THEME)
+svg = render("# Dashboard Title", style=style)
+```
+
+| Preset | heading_margin_top | heading_margin_bottom | paragraph_spacing |
+|--------|-------------------|----------------------|-------------------|
+| `DOCUMENT_PRESET` | 1.5em | 0.5em | 12px |
+| `COMPACT_PRESET` | 0.3em | 0.3em | 8px |
+| `MINIMAL_PRESET` | 0.1em | 0.1em | 4px |
 
 ### Working with the AST
 
@@ -231,14 +268,16 @@ renderer = SVGRenderer(use_precise_measurement=False)
 
 Try markdown-svg in your browser with the interactive playground:
 
+**🚀 [Live Demo and Playground](https://markdown-svg-production.up.railway.app/)** — no installation required!
+
+Or run locally:
+
 ```bash
-# Clone the repo and run the playground
 git clone https://github.com/davefowler/markdown-svg
 cd markdown-svg
 make play
+# Open http://localhost:8765
 ```
-
-Then open http://localhost:8765
 
 Features:
 - Live preview as you type
@@ -273,6 +312,12 @@ make lint         # Run linter
 make typecheck    # Run type checker
 make help         # Show all commands
 ```
+
+## Roadmap
+
+Planned enhancements:
+
+- **Syntax Highlighting** - Colorized code blocks using Pygments with VS Code theme support. See [notes/SYNTAX_HIGHLIGHTING_PLAN.md](notes/SYNTAX_HIGHLIGHTING_PLAN.md) for details.
 
 ## License
 
