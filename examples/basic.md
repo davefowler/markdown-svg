@@ -10,9 +10,8 @@ This is a paragraph with **bold** and *italic* text.
 
 ## Code Example
 
-```python
-from mdsvg import render
-svg = render("# Hello")
+```javascript
+console.log("Hello, World!");
 ```
 
 > This is a blockquote that can span multiple lines

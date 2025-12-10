@@ -18,9 +18,9 @@ Check out the [markdown-svg documentation](https://github.com/davefowler/markdow
 
 ## Inline Code
 
-Use the `render()` function to generate SVGs.
+Use `backticks` for inline code like `variables` or `functions()`.
 
-The `Style` class accepts parameters like `font_family` and `text_color`.
+You can reference things like `config.json` or `npm install` inline.
 
 ## Combined Formatting
 
