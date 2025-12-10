@@ -40,7 +40,9 @@ STYLE_OPTIONS = {
     "code_block_padding", "code_block_border_radius", "code_block_overflow",
     "blockquote_padding", "blockquote_border_width",
     "table_border_color", "table_header_background", "table_cell_padding",
-    "hr_color", "hr_height", "char_width_ratio", "bold_char_width_ratio",
+    "hr_color", "hr_height",
+    "char_width_ratio", "bold_char_width_ratio", "italic_char_width_ratio",
+    "mono_char_width_ratio", "text_width_scale",
     "image_width", "image_height", "image_fallback_aspect_ratio", "image_enforce_aspect_ratio",
 }
 

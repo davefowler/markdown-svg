@@ -117,7 +117,7 @@ class Style:
     bold_char_width_ratio: float = 0.58  # Wider for bold (~20% wider than regular)
     italic_char_width_ratio: float = 0.52  # Wider for italic (~8% wider than regular)
     mono_char_width_ratio: float = 0.6  # Mono char width = font_size × ratio (all chars identical)
-    text_width_scale: float = 1.05  # Safety margin for browser rendering differences
+    text_width_scale: float = 1.1  # Safety margin for browser rendering differences
 
     def with_updates(self, **kwargs: Any) -> Style:
         """

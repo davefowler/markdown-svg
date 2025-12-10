@@ -38,3 +38,18 @@ Use horizontal rules to separate sections.
 
 They create visual breaks in your content.
 
+## Text Measurement Notes
+
+For accurate word wrapping, markdown-svg measures text width using fonttools. However, the font measurer only loads the **regular weight** font file—not separate files for bold or italic variants.
+
+To estimate bold and italic widths, scaling ratios are applied:
+
+| Style | Ratio | Notes |
+|-------|-------|-------|
+| Regular | 0.48 | `char_width_ratio` |
+| Bold | 0.58 | ~20% wider than regular |
+| Italic | 0.52 | ~8% wider than regular |
+| Monospace | 0.60 | Fixed width for all characters |
+
+These can be tuned via Style options if your font differs significantly from the defaults.
+
