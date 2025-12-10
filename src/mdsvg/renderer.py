@@ -366,14 +366,108 @@ class SVGRenderer:
         ctx: RenderContext,
     ) -> Tuple[List[str], float]:
         """Render a code block with background."""
+        overflow = self.style.code_block_overflow
+        
+        if overflow == "foreignObject":
+            return self._render_code_block_foreign_object(code, ctx)
+        elif overflow == "wrap":
+            return self._render_code_block_wrapped(code, ctx)
+        else:
+            return self._render_code_block_simple(code, ctx, overflow)
+
+    def _render_code_block_simple(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+        overflow: str,
+    ) -> Tuple[List[str], float]:
+        """Render code block with show/hide/ellipsis overflow."""
         elements: List[str] = []
 
         padding = self.style.code_block_padding
         font_size = self.style.base_font_size * 0.9
         line_height = font_size * 1.4
+        char_width = font_size * self.style.mono_char_width_ratio
+        max_chars = int((ctx.width - padding * 2) / char_width)
 
         lines = code.code.split("\n")
+        
+        # Process lines for ellipsis mode
+        if overflow == "ellipsis":
+            processed_lines = []
+            for line in lines:
+                if len(line) > max_chars and max_chars > 3:
+                    processed_lines.append(line[:max_chars - 3] + "...")
+                else:
+                    processed_lines.append(line)
+            lines = processed_lines
+
         text_height = len(lines) * line_height
+        total_height = text_height + (padding * 2)
+
+        # For hide mode, add a clipPath
+        clip_id = None
+        if overflow == "hide":
+            clip_id = f"code-clip-{id(code)}"
+            elements.append(
+                f'  <defs><clipPath id="{clip_id}">'
+                f'<rect x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+                f'width="{format_number(ctx.width)}" height="{format_number(total_height)}"/>'
+                f'</clipPath></defs>'
+            )
+
+        # Background rectangle
+        elements.append(
+            f'  <rect x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+            f'width="{format_number(ctx.width)}" height="{format_number(total_height)}" '
+            f'fill="{self.style.code_background}" '
+            f'rx="{format_number(self.style.code_block_border_radius)}"/>'
+        )
+
+        # Code lines (optionally clipped)
+        clip_attr = f' clip-path="url(#{clip_id})"' if clip_id else ""
+        y_offset = ctx.y + padding + font_size
+        for line in lines:
+            if line:  # Don't render empty lines as text elements
+                escaped = escape_svg_text(line)
+                elements.append(
+                    f'  <text x="{format_number(ctx.x + padding)}" '
+                    f'y="{format_number(y_offset)}" '
+                    f'class="md-mono" font-size="{format_number(font_size)}" '
+                    f'fill="{self.style.text_color}"{clip_attr}>{escaped}</text>'
+                )
+            y_offset += line_height
+
+        return elements, total_height
+
+    def _render_code_block_wrapped(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+    ) -> Tuple[List[str], float]:
+        """Render code block with wrapped lines."""
+        elements: List[str] = []
+
+        padding = self.style.code_block_padding
+        font_size = self.style.base_font_size * 0.9
+        line_height = font_size * 1.4
+        char_width = font_size * self.style.mono_char_width_ratio
+        max_chars = max(10, int((ctx.width - padding * 2) / char_width))
+
+        # Wrap lines
+        wrapped_lines: List[str] = []
+        for line in code.code.split("\n"):
+            if not line:
+                wrapped_lines.append("")
+            elif len(line) <= max_chars:
+                wrapped_lines.append(line)
+            else:
+                # Wrap long lines
+                while line:
+                    wrapped_lines.append(line[:max_chars])
+                    line = line[max_chars:]
+
+        text_height = len(wrapped_lines) * line_height
         total_height = text_height + (padding * 2)
 
         # Background rectangle
@@ -386,8 +480,8 @@ class SVGRenderer:
 
         # Code lines
         y_offset = ctx.y + padding + font_size
-        for line in lines:
-            if line:  # Don't render empty lines as text elements
+        for line in wrapped_lines:
+            if line:
                 escaped = escape_svg_text(line)
                 elements.append(
                     f'  <text x="{format_number(ctx.x + padding)}" '
@@ -396,6 +490,44 @@ class SVGRenderer:
                     f'fill="{self.style.text_color}">{escaped}</text>'
                 )
             y_offset += line_height
+
+        return elements, total_height
+
+    def _render_code_block_foreign_object(
+        self,
+        code: CodeBlock,
+        ctx: RenderContext,
+    ) -> Tuple[List[str], float]:
+        """Render code block using foreignObject for scrollable HTML."""
+        elements: List[str] = []
+
+        padding = self.style.code_block_padding
+        font_size = self.style.base_font_size * 0.9
+        line_height = font_size * 1.4
+
+        lines = code.code.split("\n")
+        # Cap height for scrollable content
+        max_visible_lines = 20
+        visible_lines = min(len(lines), max_visible_lines)
+        text_height = visible_lines * line_height
+        total_height = text_height + (padding * 2)
+
+        escaped_code = escape_svg_text(code.code)
+        
+        elements.append(
+            f'  <foreignObject x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
+            f'width="{format_number(ctx.width)}" height="{format_number(total_height)}">'
+            f'<div xmlns="http://www.w3.org/1999/xhtml" style="'
+            f'width: 100%; height: 100%; overflow: auto; '
+            f'background: {self.style.code_background}; '
+            f'border-radius: {self.style.code_block_border_radius}px; '
+            f'box-sizing: border-box; padding: {padding}px;">'
+            f'<pre style="margin: 0; font-family: {self.style.mono_font_family}; '
+            f'font-size: {font_size}px; line-height: {line_height}px; '
+            f'color: {self.style.text_color}; white-space: pre; '
+            f'overflow-x: auto;">{escaped_code}</pre>'
+            f'</div></foreignObject>'
+        )
 
         return elements, total_height
 

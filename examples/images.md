@@ -28,6 +28,12 @@ Specify just width and height auto-calculates from the fetched image's actual as
 
 ![Forest](https://picsum.photos/seed/forest/600/400){width=400}
 
+
+## Aspect Ratio
+
+If we cannot find the image or its size, there's a fall back to `image_fallback_aspect_ratio`.  You can enforce using this fallback (and skip fetching the image) by setting `image_enforce_aspect_ratio: true`.
+
+
 ## Multiple Images
 
 Images flow naturally in the document:

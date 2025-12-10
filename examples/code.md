@@ -2,55 +2,59 @@
 
 ## Inline Code
 
-Use `render()` to convert markdown to SVG. The `width` parameter controls the output width.
+Use backticks for `inline code` like variables, functions, or short snippets.
+
+Mix with text: The `width` parameter accepts pixels, and `style` takes a Style object.
 
 ## Code Blocks
 
-### Python
+Use triple backticks with an optional language for syntax hints:
 
 ```python
-from mdsvg import render, Style, DARK_THEME
+def greet(name):
+    return f"Hello, {name}!"
 
-# Create custom style
-style = Style(
-    font_family="Georgia, serif",
-    base_font_size=16,
-    text_color="#333333"
-)
-
-# Render markdown to SVG
-markdown = "# Hello World"
-svg = render(markdown, width=600, style=style)
-
-# Save to file
-with open("output.svg", "w") as f:
-    f.write(svg)
+print(greet("World"))
 ```
-
-### JavaScript
 
 ```javascript
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
+const greet = (name) => `Hello, ${name}!`;
+console.log(greet("World"));
 ```
 
-### SQL
-
 ```sql
-SELECT users.name, COUNT(orders.id) as order_count
+SELECT name, email
 FROM users
-LEFT JOIN orders ON users.id = orders.user_id
-WHERE users.created_at > '2024-01-01'
-GROUP BY users.id
-ORDER BY order_count DESC
-LIMIT 10;
+WHERE active = true;
+```
+
+## Long Lines
+
+Long lines demonstrate overflow handling. The `code_block_overflow` style controls behavior:
+
+| Option | Behavior |
+|--------|----------|
+| `wrap` | Wrap long lines (default) |
+| `show` | Let content overflow visible |
+| `hide` | Clip hidden content |
+| `ellipsis` | Truncate with `...` |
+| `foreignObject` | Scrollable HTML embed |
+
+Here's a long line:
+
+```python
+result = calculate_something(first_argument, second_argument, third_argument, fourth_argument, fifth_arg)
+```
+
+## Empty & Short Blocks
+
+```
+Single line
+```
+
+```
+Line one
+Line two
+Line three
 ```
 

@@ -37,7 +37,7 @@ STYLE_OPTIONS = {
     "h1_scale", "h2_scale", "h3_scale", "h4_scale", "h5_scale", "h6_scale",
     "heading_font_weight", "heading_margin_top", "heading_margin_bottom",
     "paragraph_spacing", "list_indent", "list_item_spacing",
-    "code_block_padding", "code_block_border_radius",
+    "code_block_padding", "code_block_border_radius", "code_block_overflow",
     "blockquote_padding", "blockquote_border_width",
     "table_border_color", "table_header_background", "table_cell_padding",
     "hr_color", "hr_height", "char_width_ratio", "bold_char_width_ratio",
