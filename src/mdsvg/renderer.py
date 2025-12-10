@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 # Precise text measurement
 from .fonts import FontMeasurer, get_default_measurer
@@ -919,7 +919,6 @@ class SVGRenderer:
             # Build a single <text> element with <tspan> children for proper spacing
             # This lets the browser handle text positioning correctly
             tspan_parts: List[str] = []
-            has_link = False
 
             for run in line_runs:
                 if not run.text:
@@ -943,16 +942,12 @@ class SVGRenderer:
                     style_parts.append(f"fill: {self.style.code_color}")
 
                 if run.is_link:
-                    has_link = True
                     style_parts.append(f"fill: {self.style.link_color}")
                     if self.style.link_underline:
                         style_parts.append("text-decoration: underline")
 
                 # Create tspan element
-                if style_parts:
-                    style_attr = f' style="{"; ".join(style_parts)}"'
-                else:
-                    style_attr = ""
+                style_attr = f' style="{"; ".join(style_parts)}"' if style_parts else ""
 
                 if run.is_link and run.url:
                     # Wrap link text in an anchor
