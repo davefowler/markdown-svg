@@ -4,6 +4,8 @@
 
 Convert Markdown to SVG with automatic text wrapping. Zero dependencies.
 
+**[🚀 Try the Live Playground](https://markdown-svg-production.up.railway.app/)** — see it in action, no installation required!
+
 ## Why This Library?
 
 SVG has no native text flow or wrapping. If you need to embed formatted text in SVG (for dashboards, diagrams, exports, or anywhere else), you've had to manually position every line. Until now.
