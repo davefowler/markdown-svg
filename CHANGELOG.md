@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2025-12-15
+
+### Removed
+
+- Removed SVG `<foreignObject>` rendering for code blocks to improve portability across SVG renderers.
+- Removed `foreignObject` from the `code_block_overflow` options (use `wrap`, `show`, `hide`, or `ellipsis`).
+
 ## [0.6.3] - 2025-12-10
 
 ### Added

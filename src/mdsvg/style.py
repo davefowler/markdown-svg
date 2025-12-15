@@ -6,7 +6,7 @@ from dataclasses import dataclass, replace
 from typing import Any, Literal, Optional
 
 # Code block overflow options
-CodeBlockOverflow = Literal["wrap", "show", "hide", "ellipsis", "foreignObject"]
+CodeBlockOverflow = Literal["wrap", "show", "hide", "ellipsis"]
 
 
 @dataclass(frozen=True)
@@ -93,7 +93,7 @@ class Style:
     list_item_spacing: float = 4.0
     code_block_padding: float = 12.0
     code_block_border_radius: float = 4.0
-    code_block_overflow: CodeBlockOverflow = "wrap"  # wrap, show, hide, ellipsis, foreignObject
+    code_block_overflow: CodeBlockOverflow = "wrap"  # wrap, show, hide, ellipsis
     blockquote_padding: float = 16.0
     blockquote_border_width: float = 3.0
 

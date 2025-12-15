@@ -370,12 +370,13 @@ class SVGRenderer:
         """Render a code block with background."""
         overflow = self.style.code_block_overflow
 
-        if overflow == "foreignObject":
-            return self._render_code_block_foreign_object(code, ctx)
-        elif overflow == "wrap":
+        if overflow == "wrap":
             return self._render_code_block_wrapped(code, ctx)
-        else:
+        elif overflow in {"show", "hide", "ellipsis"}:
             return self._render_code_block_simple(code, ctx, overflow)
+        else:
+            # Defensive fallback (should be unreachable due to typing)
+            return self._render_code_block_wrapped(code, ctx)
 
     def _render_code_block_simple(
         self,
@@ -492,44 +493,6 @@ class SVGRenderer:
                     f'fill="{self.style.text_color}">{escaped}</text>'
                 )
             y_offset += line_height
-
-        return elements, total_height
-
-    def _render_code_block_foreign_object(
-        self,
-        code: CodeBlock,
-        ctx: RenderContext,
-    ) -> Tuple[List[str], float]:
-        """Render code block using foreignObject for scrollable HTML."""
-        elements: List[str] = []
-
-        padding = self.style.code_block_padding
-        font_size = self.style.base_font_size * 0.9
-        line_height = font_size * 1.4
-
-        lines = code.code.split("\n")
-        # Cap height for scrollable content
-        max_visible_lines = 20
-        visible_lines = min(len(lines), max_visible_lines)
-        text_height = visible_lines * line_height
-        total_height = text_height + (padding * 2)
-
-        escaped_code = escape_svg_text(code.code)
-
-        elements.append(
-            f'  <foreignObject x="{format_number(ctx.x)}" y="{format_number(ctx.y)}" '
-            f'width="{format_number(ctx.width)}" height="{format_number(total_height)}">'
-            f'<div xmlns="http://www.w3.org/1999/xhtml" style="'
-            f"width: 100%; height: 100%; overflow: auto; "
-            f"background: {self.style.code_background}; "
-            f"border-radius: {self.style.code_block_border_radius}px; "
-            f'box-sizing: border-box; padding: {padding}px;">'
-            f'<pre style="margin: 0; font-family: {self.style.mono_font_family}; '
-            f"font-size: {font_size}px; line-height: {line_height}px; "
-            f"color: {self.style.text_color}; white-space: pre; "
-            f'overflow-x: auto;">{escaped_code}</pre>'
-            f"</div></foreignObject>"
-        )
 
         return elements, total_height
 
