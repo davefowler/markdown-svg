@@ -6,7 +6,7 @@ with support for common Markdown elements and automatic text wrapping.
 
 Basic usage:
     >>> from mdsvg import render
-    >>> svg = render("# Hello World\\n\\nThis is **bold** text.")
+    >>> svg = render("# Hello World\n\nThis is **bold** text.")
 
 With custom styling:
     >>> from mdsvg import render, Style
@@ -14,7 +14,7 @@ With custom styling:
 
 Measure dimensions without rendering:
     >>> from mdsvg import measure
-    >>> size = measure("# Hello\\n\\nLong paragraph...")
+    >>> size = measure("# Hello\n\nLong paragraph...")
     >>> print(f"Height: {size.height}px")
 """
 
@@ -70,7 +70,7 @@ from .types import (
     UnorderedList,
 )
 
-__version__ = "0.6.3"
+__version__ = "0.7.0"
 
 __all__ = [
     # Main API

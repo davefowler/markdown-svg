@@ -308,7 +308,7 @@ highlight = ["pygments"]  # For syntax highlighting
 - **Font metrics mode**: Use actual font files for precise measurement
 - **Syntax highlighting**: Pygments integration for code blocks
 - **Themes**: Built-in dark/light themes
-- **HTML fallback**: Option to embed `<foreignObject>` for complex content
+- **HTML fallback**: Avoid `<foreignObject>`; prefer pure SVG primitives for portability
 
 ## Timeline
 

@@ -38,7 +38,6 @@ Long lines demonstrate overflow handling. The `code_block_overflow` style contro
 | `show` | Let content overflow visible |
 | `hide` | Clip hidden content |
 | `ellipsis` | Truncate with `...` |
-| `foreignObject` | Scrollable HTML embed |
 
 Here's a long line:
 
