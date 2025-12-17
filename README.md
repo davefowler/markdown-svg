@@ -48,7 +48,7 @@ with open("output.svg", "w") as f:
 - **Inline formatting**: bold, italic, bold+italic, inline code
 - **Links** (rendered as styled text, clickable in SVG viewers)
 - **Lists**: unordered (bullets) and ordered (numbers)
-- **Code blocks** with syntax highlighting background
+- **Code blocks** with background styling (syntax highlighting coming soon)
 - **Blockquotes** with styled left border
 - **Horizontal rules**
 - **Tables** with headers and alignment

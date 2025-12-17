@@ -437,6 +437,7 @@ class SVGRenderer:
                     f'  <text x="{format_number(ctx.x + padding)}" '
                     f'y="{format_number(y_offset)}" '
                     f'class="md-mono" font-size="{format_number(font_size)}" '
+                    f'font-weight="400" '
                     f'fill="{self.style.text_color}"{clip_attr}>{escaped}</text>'
                 )
             y_offset += line_height
@@ -490,6 +491,7 @@ class SVGRenderer:
                     f'  <text x="{format_number(ctx.x + padding)}" '
                     f'y="{format_number(y_offset)}" '
                     f'class="md-mono" font-size="{format_number(font_size)}" '
+                    f'font-weight="400" '
                     f'fill="{self.style.text_color}">{escaped}</text>'
                 )
             y_offset += line_height

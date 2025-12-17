@@ -8,7 +8,9 @@ Mix with text: The `width` parameter accepts pixels, and `style` takes a Style o
 
 ## Code Blocks
 
-Use triple backticks with an optional language for syntax hints:
+Code blocks render with a monospace font on a subtle background. **Syntax highlighting is planned for a future release** - for now, code is rendered in a single color.
+
+Use triple backticks with an optional language hint:
 
 ```python
 def greet(name):
