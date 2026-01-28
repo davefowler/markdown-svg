@@ -439,3 +439,62 @@ class TestRenderContent:
         # to_svg() should still work
         svg = result.to_svg()
         assert "<svg" in svg
+
+    def test_render_result_has_elements_field(self) -> None:
+        """Test that RenderResult has elements field without style block."""
+        result = render_content("Hello World")
+        assert result.elements is not None
+        # Elements should have the actual content
+        assert "Hello World" in result.elements
+        # Elements should NOT have the style block
+        assert "<style>" not in result.elements
+
+    def test_render_result_has_style_block_field(self) -> None:
+        """Test that RenderResult has style_block field."""
+        result = render_content("Hello World")
+        assert result.style_block is not None
+        # Style block should have the CSS
+        assert "<style>" in result.style_block
+        assert ".md-text" in result.style_block
+        assert ".md-heading" in result.style_block
+        # Style block should NOT have content
+        assert "Hello World" not in result.style_block
+
+    def test_content_property_combines_style_and_elements(self) -> None:
+        """Test that content property is style_block + elements."""
+        result = render_content("Hello World")
+        # content should be the combination
+        assert result.content == result.style_block + "\n" + result.elements
+        # Both pieces should be in content
+        assert "<style>" in result.content
+        assert "Hello World" in result.content
+
+    def test_compose_with_single_style_block(self) -> None:
+        """Test composing multiple sections with a single style block."""
+        result1 = render_content("# Section 1", width=300)
+        result2 = render_content("# Section 2", width=300)
+
+        # Compose using only one style block + elements from both
+        combined_svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="700" height="400">
+  {result1.style_block}
+  <g transform="translate(0, 0)">
+    {result1.elements}
+  </g>
+  <g transform="translate(350, 0)">
+    {result2.elements}
+  </g>
+</svg>"""
+
+        # Should be valid SVG with both sections
+        assert 'xmlns="http://www.w3.org/2000/svg"' in combined_svg
+        assert "Section 1" in combined_svg
+        assert "Section 2" in combined_svg
+        # Should only have ONE style block
+        assert combined_svg.count("<style>") == 1
+
+    def test_style_block_reflects_custom_style(self) -> None:
+        """Test that style_block contains custom style values."""
+        style = Style(text_color="#abcdef", link_color="#123456")
+        result = render_content("Hello", style=style)
+        assert "#abcdef" in result.style_block
+        assert "#123456" in result.style_block

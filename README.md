@@ -83,9 +83,11 @@ from mdsvg import render_content, RenderResult
 # Get structured result
 result: RenderResult = render_content("# Hello World", width=400)
 
-result.content  # SVG elements without <svg> wrapper (includes style block)
-result.width    # 400.0
-result.height   # Actual rendered height
+result.elements     # SVG elements (rects, text, etc.) without style block
+result.style_block  # The <style>...</style> CSS block
+result.content      # Combined: style_block + elements (backwards compatible)
+result.width        # 400.0
+result.height       # Actual rendered height
 
 # Convert to full SVG when needed
 svg = result.to_svg()  # Full SVG with wrapper
@@ -101,20 +103,23 @@ large_svg = f"""
 """
 ```
 
-This eliminates the need for regex extraction when composing multiple mdsvg outputs:
+When composing multiple sections, use `elements` and `style_block` separately to avoid duplicating the CSS:
 
 ```python
-# Compose multiple sections side by side
+# Compose multiple sections with a single style block
 left = render_content("# Section 1\n\nLeft content", width=350)
 right = render_content("# Section 2\n\nRight content", width=350)
 
 combined = f"""
 <svg xmlns="http://www.w3.org/2000/svg" width="750" height="{max(left.height, right.height)}">
-  <g transform="translate(0, 0)">{left.content}</g>
-  <g transform="translate(400, 0)">{right.content}</g>
+  {left.style_block}
+  <g transform="translate(0, 0)">{left.elements}</g>
+  <g transform="translate(400, 0)">{right.elements}</g>
 </svg>
 """
 ```
+
+> **Note:** When composing multiple sections, use the same `Style` object for all `render_content()` calls to ensure consistent styling.
 
 ### Custom Styling
 
