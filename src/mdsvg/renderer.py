@@ -892,6 +892,15 @@ class SVGRenderer:
 
         current_y = ctx.y + font_size  # Baseline
 
+        # Calculate x position based on text alignment
+        text_anchor = self.style.get_text_anchor()
+        if self.style.text_align == "center":
+            text_x = ctx.x + ctx.width / 2
+        elif self.style.text_align == "right":
+            text_x = ctx.x + ctx.width
+        else:  # left (default)
+            text_x = ctx.x
+
         for line_runs in lines:
             if not line_runs:
                 current_y += line_height
@@ -945,8 +954,9 @@ class SVGRenderer:
             # Build the complete text element
             text_content = "".join(tspan_parts)
             text_element = (
-                f'  <text x="{format_number(ctx.x)}" y="{format_number(current_y)}" '
-                f'font-size="{format_number(font_size)}" class="{css_class}">'
+                f'  <text x="{format_number(text_x)}" y="{format_number(current_y)}" '
+                f'font-size="{format_number(font_size)}" class="{css_class}" '
+                f'text-anchor="{text_anchor}">'
                 f"{text_content}</text>"
             )
             elements.append(text_element)

@@ -244,6 +244,45 @@ class TestEdgeCases:
         assert svg.count("<text") > 1
 
 
+class TestTextAlignment:
+    """Test text alignment functionality."""
+
+    def test_default_alignment_is_left(self) -> None:
+        """Test default text alignment is left (start)."""
+        svg = render("Hello")
+        assert 'text-anchor="start"' in svg
+
+    def test_center_alignment(self) -> None:
+        """Test center text alignment."""
+        style = Style(text_align="center")
+        svg = render("Hello", style=style)
+        assert 'text-anchor="middle"' in svg
+
+    def test_right_alignment(self) -> None:
+        """Test right text alignment."""
+        style = Style(text_align="right")
+        svg = render("Hello", style=style)
+        assert 'text-anchor="end"' in svg
+
+    def test_left_alignment_explicit(self) -> None:
+        """Test explicit left text alignment."""
+        style = Style(text_align="left")
+        svg = render("Hello", style=style)
+        assert 'text-anchor="start"' in svg
+
+    def test_heading_respects_alignment(self) -> None:
+        """Test that headings respect text alignment."""
+        style = Style(text_align="center")
+        svg = render("# Centered Title", style=style)
+        assert 'text-anchor="middle"' in svg
+
+    def test_style_get_text_anchor_method(self) -> None:
+        """Test Style.get_text_anchor() helper method."""
+        assert Style(text_align="left").get_text_anchor() == "start"
+        assert Style(text_align="center").get_text_anchor() == "middle"
+        assert Style(text_align="right").get_text_anchor() == "end"
+
+
 class TestComplexDocuments:
     """Test complex document rendering."""
 

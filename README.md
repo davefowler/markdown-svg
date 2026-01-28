@@ -100,6 +100,25 @@ style = Style(
 svg = render("# Styled Heading", style=style)
 ```
 
+### Text Alignment
+
+Control horizontal text alignment using the `text_align` option:
+
+```python
+from mdsvg import render, Style
+
+# Center-aligned text (great for titles in dashboards)
+style = Style(text_align="center")
+svg = render("# Centered Title", style=style)
+
+# Right-aligned text
+style = Style(text_align="right")
+svg = render("Right aligned content", style=style)
+
+# Default is left-aligned
+style = Style(text_align="left")
+```
+
 ### Built-in Themes
 
 ```python
@@ -263,6 +282,7 @@ renderer = SVGRenderer(use_precise_measurement=False)
 | `paragraph_spacing` | 12.0 | Space between paragraphs (px) |
 | `list_indent` | 24.0 | List indentation (px) |
 | `char_width_ratio` | 0.48 | Average character width ratio |
+| `text_align` | "left" | Horizontal text alignment ("left", "center", "right") |
 
 ## Playground
 
