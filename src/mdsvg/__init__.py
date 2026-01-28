@@ -45,8 +45,10 @@ from .style import (
     GITHUB_THEME,
     LIGHT_THEME,
     MINIMAL_PRESET,
+    CodeBlockOverflow,
     Style,
     StylePresets,
+    TextAlign,
     merge_styles,
 )
 from .types import (
@@ -92,6 +94,9 @@ __all__ = [
     "COMPACT_PRESET",
     "MINIMAL_PRESET",
     "merge_styles",
+    # Style option types
+    "TextAlign",
+    "CodeBlockOverflow",
     # Types
     "Size",
     "TextMetrics",

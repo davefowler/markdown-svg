@@ -8,6 +8,9 @@ from typing import Any, Literal, Optional
 # Code block overflow options
 CodeBlockOverflow = Literal["wrap", "show", "hide", "ellipsis"]
 
+# Text alignment options
+TextAlign = Literal["left", "center", "right"]
+
 
 @dataclass(frozen=True)
 class Style:
@@ -58,6 +61,7 @@ class Style:
         char_width_ratio: Average character width as ratio of font size.
         bold_char_width_ratio: Character width ratio for bold text.
         mono_char_width_ratio: Character width ratio for monospace text.
+        text_align: Horizontal text alignment ("left", "center", "right").
     """
 
     # Fonts
@@ -119,6 +123,9 @@ class Style:
     mono_char_width_ratio: float = 0.6  # Mono char width = font_size × ratio (all chars identical)
     text_width_scale: float = 1.1  # Safety margin for browser rendering differences
 
+    # Text alignment
+    text_align: TextAlign = "left"  # Horizontal alignment: "left", "center", "right"
+
     def with_updates(self, **kwargs: Any) -> Style:
         """
         Create a new Style with updated values.
@@ -161,6 +168,15 @@ class Style:
     def get_heading_color(self) -> str:
         """Get the color for headings, falling back to text_color."""
         return self.heading_color or self.text_color
+
+    def get_text_anchor(self) -> str:
+        """Get the SVG text-anchor value corresponding to text_align."""
+        anchor_map = {
+            "left": "start",
+            "center": "middle",
+            "right": "end",
+        }
+        return anchor_map.get(self.text_align, "start")
 
 
 # Pre-built themes
