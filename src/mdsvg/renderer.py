@@ -39,22 +39,46 @@ class RenderResult:
     without needing to regex-strip wrappers.
 
     Attributes:
-        content: SVG elements without the <svg> wrapper (includes <style> block).
+        elements: SVG elements without wrapper or style block.
+        style_block: The <style> block with CSS classes for the rendered content.
         width: Width of the rendered content in pixels.
         height: Height of the rendered content in pixels.
 
     Example:
         >>> from mdsvg import render_content
         >>> result = render_content("# Hello", width=400)
-        >>> result.content  # SVG elements without wrapper
-        >>> result.width    # 400.0
-        >>> result.height   # Actual rendered height
-        >>> result.to_svg() # Full SVG with wrapper
+        >>> result.elements     # Just SVG elements (rects, text, etc.)
+        >>> result.style_block  # The <style>...</style> CSS block
+        >>> result.content      # Combined style_block + elements (backwards compatible)
+        >>> result.width        # 400.0
+        >>> result.height       # Actual rendered height
+        >>> result.to_svg()     # Full SVG with wrapper
+
+        # Compose multiple sections with single style block:
+        >>> left = render_content("# Left", width=350)
+        >>> right = render_content("# Right", width=350)
+        >>> combined = f'''
+        ... <svg xmlns="http://www.w3.org/2000/svg" width="750" height="{max(left.height, right.height)}">
+        ...   {left.style_block}
+        ...   <g transform="translate(0, 0)">{left.elements}</g>
+        ...   <g transform="translate(400, 0)">{right.elements}</g>
+        ... </svg>
+        ... '''
     """
 
-    content: str
+    elements: str
+    style_block: str
     width: float
     height: float
+
+    @property
+    def content(self) -> str:
+        """Combined style block and elements for backwards compatibility.
+
+        Returns:
+            String containing the style block followed by SVG elements.
+        """
+        return self.style_block + "\n" + self.elements
 
     def to_svg(self) -> str:
         """Wrap content in a complete SVG element.
@@ -332,21 +356,9 @@ class SVGRenderer:
         """
         svg_elements, total_height = self._render_blocks_to_elements(blocks, width, padding)
 
-        # Build content (style block + elements) without SVG wrapper
-        content_parts = [
-            f"""  <style>
-    .md-text {{ font-family: {self.style.font_family}; fill: {self.style.text_color}; }}
-    .md-mono {{ font-family: {self.style.mono_font_family}; }}
-    .md-heading {{ font-family: {self.style.font_family}; fill: {self.style.get_heading_color()}; font-weight: {self.style.heading_font_weight}; }}
-    .md-code {{ font-family: {self.style.mono_font_family}; fill: {self.style.code_color}; }}
-    .md-link {{ fill: {self.style.link_color}; }}
-    .md-blockquote {{ fill: {self.style.blockquote_color}; }}
-  </style>"""
-        ]
-        content_parts.extend(svg_elements)
-
         return RenderResult(
-            content="\n".join(content_parts),
+            elements="\n".join(svg_elements),
+            style_block=self._get_style_block(),
             width=width,
             height=total_height,
         )
@@ -388,6 +400,21 @@ class SVGRenderer:
 
         return Size(width=width, height=current_y + padding)
 
+    def _get_style_block(self) -> str:
+        """Generate the CSS style block for SVG rendering.
+
+        Returns:
+            A <style> block string with CSS classes for text, headings, code, etc.
+        """
+        return f"""  <style>
+    .md-text {{ font-family: {self.style.font_family}; fill: {self.style.text_color}; }}
+    .md-mono {{ font-family: {self.style.mono_font_family}; }}
+    .md-heading {{ font-family: {self.style.font_family}; fill: {self.style.get_heading_color()}; font-weight: {self.style.heading_font_weight}; }}
+    .md-code {{ font-family: {self.style.mono_font_family}; fill: {self.style.code_color}; }}
+    .md-link {{ fill: {self.style.link_color}; }}
+    .md-blockquote {{ fill: {self.style.blockquote_color}; }}
+  </style>"""
+
     def _build_svg(
         self,
         elements: List[str],
@@ -402,16 +429,7 @@ class SVGRenderer:
         ]
 
         # Add a style block for fonts
-        svg_parts.append(
-            f"""  <style>
-    .md-text {{ font-family: {self.style.font_family}; fill: {self.style.text_color}; }}
-    .md-mono {{ font-family: {self.style.mono_font_family}; }}
-    .md-heading {{ font-family: {self.style.font_family}; fill: {self.style.get_heading_color()}; font-weight: {self.style.heading_font_weight}; }}
-    .md-code {{ font-family: {self.style.mono_font_family}; fill: {self.style.code_color}; }}
-    .md-link {{ fill: {self.style.link_color}; }}
-    .md-blockquote {{ fill: {self.style.blockquote_color}; }}
-  </style>"""
-        )
+        svg_parts.append(self._get_style_block())
 
         svg_parts.extend(elements)
         svg_parts.append("</svg>")
