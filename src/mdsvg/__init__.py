@@ -16,6 +16,14 @@ Measure dimensions without rendering:
     >>> from mdsvg import measure
     >>> size = measure("# Hello\n\nLong paragraph...")
     >>> print(f"Height: {size.height}px")
+
+Get structured result for composing into larger SVGs:
+    >>> from mdsvg import render_content, RenderResult
+    >>> result = render_content("# Hello", width=400)
+    >>> result.content  # SVG elements without <svg> wrapper
+    >>> result.width    # 400.0
+    >>> result.height   # Actual rendered height
+    >>> result.to_svg() # Full SVG with wrapper
 """
 
 # Precise text measurement
@@ -37,7 +45,7 @@ from .images import (
 )
 from .measure import Size, TextMetrics, estimate_text_width, measure_spans, wrap_text
 from .parser import MarkdownParser, parse
-from .renderer import SVGRenderer, measure, render, render_blocks
+from .renderer import RenderResult, SVGRenderer, measure, render, render_blocks, render_content
 from .style import (
     COMPACT_PRESET,
     DARK_THEME,
@@ -77,11 +85,13 @@ __version__ = "0.7.0"
 __all__ = [
     # Main API
     "render",
+    "render_content",
     "render_blocks",
     "measure",
     "parse",
     # Classes
     "Style",
+    "RenderResult",
     "MarkdownParser",
     "SVGRenderer",
     # Themes
