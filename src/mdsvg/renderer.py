@@ -31,6 +31,54 @@ from .utils import escape_svg_text, format_number
 
 
 @dataclass
+class RenderResult:
+    """Result of rendering markdown content.
+
+    Contains the rendered SVG content (without wrapper), along with dimensions.
+    This allows callers to compose multiple mdsvg outputs into a larger SVG
+    without needing to regex-strip wrappers.
+
+    Attributes:
+        content: SVG elements without the <svg> wrapper (includes <style> block).
+        width: Width of the rendered content in pixels.
+        height: Height of the rendered content in pixels.
+
+    Example:
+        >>> from mdsvg import render_content
+        >>> result = render_content("# Hello", width=400)
+        >>> result.content  # SVG elements without wrapper
+        >>> result.width    # 400.0
+        >>> result.height   # Actual rendered height
+        >>> result.to_svg() # Full SVG with wrapper
+    """
+
+    content: str
+    width: float
+    height: float
+
+    def to_svg(self) -> str:
+        """Wrap content in a complete SVG element.
+
+        Returns:
+            Complete SVG string with xmlns, width, height, and viewBox attributes.
+
+        Example:
+            >>> result = render_content("# Hello", width=400)
+            >>> svg = result.to_svg()
+            >>> with open("output.svg", "w") as f:
+            ...     f.write(svg)
+        """
+        svg_parts = [
+            f'<svg xmlns="http://www.w3.org/2000/svg" '
+            f'width="{format_number(self.width)}" height="{format_number(self.height)}" '
+            f'viewBox="0 0 {format_number(self.width)} {format_number(self.height)}">',
+            self.content,
+            "</svg>",
+        ]
+        return "\n".join(svg_parts)
+
+
+@dataclass
 class RenderContext:
     """Context passed through rendering for tracking state."""
 
@@ -187,14 +235,16 @@ class SVGRenderer:
         # Apply safety margin for browser rendering differences
         return width * self.style.text_width_scale
 
-    def render(
+    def _render_blocks_to_elements(
         self,
         blocks: Document,
-        width: float = 400,
-        padding: float = 0,
-    ) -> str:
+        width: float,
+        padding: float,
+    ) -> Tuple[List[str], float]:
         """
-        Render blocks to an SVG string.
+        Render blocks to SVG elements and return total height.
+
+        This is the core rendering logic shared by render() and render_content().
 
         Args:
             blocks: Document AST to render.
@@ -202,7 +252,7 @@ class SVGRenderer:
             padding: Padding inside the SVG.
 
         Returns:
-            SVG string.
+            Tuple of (svg_elements, total_height).
         """
         content_width = width - (padding * 2)
 
@@ -226,10 +276,80 @@ class SVGRenderer:
             current_y -= self.style.paragraph_spacing
 
         total_height = current_y + padding
+        return svg_elements, total_height
 
-        # Build SVG
+    def render(
+        self,
+        blocks: Document,
+        width: float = 400,
+        padding: float = 0,
+    ) -> str:
+        """
+        Render blocks to an SVG string.
+
+        Args:
+            blocks: Document AST to render.
+            width: Width of the SVG in pixels.
+            padding: Padding inside the SVG.
+
+        Returns:
+            SVG string.
+        """
+        svg_elements, total_height = self._render_blocks_to_elements(blocks, width, padding)
         svg = self._build_svg(svg_elements, width, total_height)
         return svg
+
+    def render_content(
+        self,
+        blocks: Document,
+        width: float = 400,
+        padding: float = 0,
+    ) -> RenderResult:
+        """
+        Render blocks and return structured result with content and dimensions.
+
+        Unlike render(), this returns the SVG content without the <svg> wrapper,
+        along with the actual dimensions. This is useful when composing multiple
+        mdsvg outputs into a larger SVG.
+
+        Args:
+            blocks: Document AST to render.
+            width: Width of the SVG in pixels.
+            padding: Padding inside the SVG.
+
+        Returns:
+            RenderResult with content (SVG elements without wrapper),
+            width, and height.
+
+        Example:
+            >>> renderer = SVGRenderer()
+            >>> blocks = parse("# Hello")
+            >>> result = renderer.render_content(blocks, width=400)
+            >>> result.content  # SVG elements without wrapper
+            >>> result.width    # 400.0
+            >>> result.height   # Actual rendered height
+            >>> result.to_svg() # Full SVG with wrapper
+        """
+        svg_elements, total_height = self._render_blocks_to_elements(blocks, width, padding)
+
+        # Build content (style block + elements) without SVG wrapper
+        content_parts = [
+            f"""  <style>
+    .md-text {{ font-family: {self.style.font_family}; fill: {self.style.text_color}; }}
+    .md-mono {{ font-family: {self.style.mono_font_family}; }}
+    .md-heading {{ font-family: {self.style.font_family}; fill: {self.style.get_heading_color()}; font-weight: {self.style.heading_font_weight}; }}
+    .md-code {{ font-family: {self.style.mono_font_family}; fill: {self.style.code_color}; }}
+    .md-link {{ fill: {self.style.link_color}; }}
+    .md-blockquote {{ fill: {self.style.blockquote_color}; }}
+  </style>"""
+        ]
+        content_parts.extend(svg_elements)
+
+        return RenderResult(
+            content="\n".join(content_parts),
+            width=width,
+            height=total_height,
+        )
 
     def measure(
         self,
@@ -1160,3 +1280,50 @@ def measure(
     blocks = parse(markdown)
     renderer = SVGRenderer(style=style)
     return renderer.measure(blocks, width=width, padding=padding)
+
+
+def render_content(
+    markdown: str,
+    width: float = 400,
+    padding: float = 20,
+    style: Optional[Style] = None,
+) -> RenderResult:
+    """
+    Render Markdown and return structured result with content and dimensions.
+
+    Unlike render(), this returns the SVG content without the <svg> wrapper,
+    along with the actual dimensions. This is useful when composing multiple
+    mdsvg outputs into a larger SVG without needing regex-based extraction.
+
+    Args:
+        markdown: Markdown text to render.
+        width: Width of the SVG in pixels.
+        padding: Padding inside the SVG.
+        style: Style configuration. Uses default if None.
+
+    Returns:
+        RenderResult with content (SVG elements without wrapper),
+        width, and height.
+
+    Example:
+        >>> from mdsvg import render_content
+        >>> result = render_content("# Hello World", width=400)
+        >>> result.content  # SVG elements without <svg> wrapper
+        >>> result.width    # 400.0
+        >>> result.height   # Actual rendered height
+        >>> result.to_svg() # Full SVG with wrapper (convenience method)
+
+        # Embed in a larger SVG:
+        >>> large_svg = f'''
+        ... <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+        ...   <g transform="translate(50, 100)">
+        ...     {result.content}
+        ...   </g>
+        ... </svg>
+        ... '''
+    """
+    from .parser import parse
+
+    blocks = parse(markdown)
+    renderer = SVGRenderer(style=style)
+    return renderer.render_content(blocks, width=width, padding=padding)

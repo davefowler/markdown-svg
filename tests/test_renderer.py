@@ -4,12 +4,14 @@
 from mdsvg import (
     DARK_THEME,
     GITHUB_THEME,
+    RenderResult,
     Size,
     Style,
     measure,
     parse,
     render,
     render_blocks,
+    render_content,
 )
 from mdsvg.renderer import SVGRenderer
 
@@ -279,3 +281,122 @@ def hello():
         assert "Main Title" in svg
         assert "bold" in svg
         assert "print" in svg
+
+
+class TestRenderContent:
+    """Test render_content function and RenderResult dataclass."""
+
+    def test_render_content_returns_render_result(self) -> None:
+        """Test that render_content returns a RenderResult object."""
+        result = render_content("# Hello World")
+        assert isinstance(result, RenderResult)
+
+    def test_render_result_has_content(self) -> None:
+        """Test that RenderResult has content without SVG wrapper."""
+        result = render_content("Hello World")
+        assert result.content is not None
+        # Content should not have the outer SVG tags
+        assert not result.content.strip().startswith("<svg")
+        assert not result.content.strip().endswith("</svg>")
+        # But should have actual content
+        assert "Hello World" in result.content
+
+    def test_render_result_has_dimensions(self) -> None:
+        """Test that RenderResult has width and height."""
+        result = render_content("# Hello", width=400)
+        assert result.width == 400
+        assert result.height > 0
+
+    def test_render_result_height_matches_measure(self) -> None:
+        """Test that RenderResult height matches measure()."""
+        markdown = "# Title\n\nSome paragraph text here."
+        result = render_content(markdown, width=400, padding=20)
+        size = measure(markdown, width=400, padding=20)
+        assert result.height == size.height
+        assert result.width == size.width
+
+    def test_render_result_to_svg(self) -> None:
+        """Test RenderResult.to_svg() method."""
+        result = render_content("# Hello World", width=400)
+        svg = result.to_svg()
+
+        # Should have SVG wrapper
+        assert svg.startswith("<svg")
+        assert svg.endswith("</svg>")
+        assert 'xmlns="http://www.w3.org/2000/svg"' in svg
+        assert 'width="400"' in svg
+
+        # Should contain the content
+        assert "Hello World" in svg
+
+    def test_to_svg_matches_render(self) -> None:
+        """Test that to_svg() produces same result as render()."""
+        markdown = "# Hello\n\nThis is a paragraph."
+        width = 400
+        padding = 20
+
+        result = render_content(markdown, width=width, padding=padding)
+        svg_from_result = result.to_svg()
+
+        svg_from_render = render(markdown, width=width, padding=padding)
+
+        # Both should produce valid SVGs with same dimensions
+        assert f'width="{width}"' in svg_from_result
+        assert f'width="{width}"' in svg_from_render
+        # Both should contain the content
+        assert "Hello" in svg_from_result
+        assert "Hello" in svg_from_render
+
+    def test_render_content_includes_style_block(self) -> None:
+        """Test that content includes the CSS style block."""
+        result = render_content("Hello")
+        assert "<style>" in result.content
+        assert ".md-text" in result.content
+
+    def test_render_content_with_custom_style(self) -> None:
+        """Test render_content with custom style."""
+        style = Style(text_color="#ff0000")
+        result = render_content("Hello", style=style)
+        assert "#ff0000" in result.content
+
+    def test_render_content_composability(self) -> None:
+        """Test that content can be composed into larger SVG."""
+        result1 = render_content("# Section 1", width=300)
+        result2 = render_content("# Section 2", width=300)
+
+        # Compose into a larger SVG
+        combined_svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="700" height="400">
+  <g transform="translate(0, 0)">
+    {result1.content}
+  </g>
+  <g transform="translate(350, 0)">
+    {result2.content}
+  </g>
+</svg>"""
+
+        # Should be valid SVG with both sections
+        assert 'xmlns="http://www.w3.org/2000/svg"' in combined_svg
+        assert "Section 1" in combined_svg
+        assert "Section 2" in combined_svg
+
+    def test_svg_renderer_render_content_method(self) -> None:
+        """Test SVGRenderer.render_content() method directly."""
+        renderer = SVGRenderer()
+        blocks = parse("# Hello\n\nWorld")
+        result = renderer.render_content(blocks, width=400)
+
+        assert isinstance(result, RenderResult)
+        assert result.width == 400
+        assert result.height > 0
+        assert "Hello" in result.content
+        assert "World" in result.content
+
+    def test_render_result_empty_input(self) -> None:
+        """Test render_content with empty input."""
+        result = render_content("")
+        assert isinstance(result, RenderResult)
+        assert result.width > 0
+        assert result.height >= 0
+        # to_svg() should still work
+        svg = result.to_svg()
+        assert "<svg" in svg

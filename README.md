@@ -73,6 +73,49 @@ size = measure("# Hello\n\nLong paragraph...", width=400)
 print(f"Height needed: {size.height}px")
 ```
 
+### Structured Result (for Composing SVGs)
+
+When you need to embed mdsvg output in larger SVG compositions, use `render_content()` to get the SVG elements without the wrapper, along with the actual dimensions:
+
+```python
+from mdsvg import render_content, RenderResult
+
+# Get structured result
+result: RenderResult = render_content("# Hello World", width=400)
+
+result.content  # SVG elements without <svg> wrapper (includes style block)
+result.width    # 400.0
+result.height   # Actual rendered height
+
+# Convert to full SVG when needed
+svg = result.to_svg()  # Full SVG with wrapper
+
+# Embed in a larger SVG composition
+large_svg = f"""
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  <rect fill="#f0f0f0" width="800" height="600"/>
+  <g transform="translate(50, 100)">
+    {result.content}
+  </g>
+</svg>
+"""
+```
+
+This eliminates the need for regex extraction when composing multiple mdsvg outputs:
+
+```python
+# Compose multiple sections side by side
+left = render_content("# Section 1\n\nLeft content", width=350)
+right = render_content("# Section 2\n\nRight content", width=350)
+
+combined = f"""
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="{max(left.height, right.height)}">
+  <g transform="translate(0, 0)">{left.content}</g>
+  <g transform="translate(400, 0)">{right.content}</g>
+</svg>
+"""
+```
+
 ### Custom Styling
 
 ```python
