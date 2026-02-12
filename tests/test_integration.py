@@ -154,7 +154,7 @@ class TestImports:
         """Test version is available."""
         from mdsvg import __version__
 
-        assert __version__ == "0.7.0"
+        assert __version__ == "1.0.0"
 
 
 class TestRealWorldExamples:
